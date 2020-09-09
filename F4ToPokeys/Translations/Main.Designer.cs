@@ -682,6 +682,24 @@ namespace F4ToPokeys.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to On/Off Pin.
+        /// </summary>
+        public static string SevenSegmentDisplayOnOffPinCaption {
+            get {
+                return ResourceManager.GetString("SevenSegmentDisplayOnOffPinCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to On/Off Pin Inverted.
+        /// </summary>
+        public static string SevenSegmentDisplayOnOffPinInvertedCaption {
+            get {
+                return ResourceManager.GetString("SevenSegmentDisplayOnOffPinInvertedCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Swap rows and columns of the matrix LED.
         /// </summary>
         public static string SevenSegmentInvertRowColumnOption {
