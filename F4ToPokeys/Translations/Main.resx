@@ -1,0 +1,318 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddDigitalOutputButton" xml:space="preserve">
+    <value>Add a digital output</value>
+  </data>
+  <data name="AddMatrixLedOutputButton" xml:space="preserve">
+    <value>Add a matrix LED output</value>
+  </data>
+  <data name="AddPoExtBusOutputButton" xml:space="preserve">
+    <value>Add a PoExtBus output</value>
+  </data>
+  <data name="AddPoKeysButton" xml:space="preserve">
+    <value>Add a PoKeys</value>
+  </data>
+  <data name="AddPololuMaestroButton" xml:space="preserve">
+    <value>Add a Pololu Maestro</value>
+  </data>
+  <data name="AddServoButton" xml:space="preserve">
+    <value>Add a servo</value>
+  </data>
+  <data name="AddServoPointButton" xml:space="preserve">
+    <value>Add a point</value>
+  </data>
+  <data name="AddSevenSegmentDisplayButton" xml:space="preserve">
+    <value>Add a 7 segment display</value>
+  </data>
+  <data name="ApplicationStartedBalloonTip" xml:space="preserve">
+    <value>F4ToPokeys started</value>
+  </data>
+  <data name="ApplicationTitle" xml:space="preserve">
+    <value>F4ToPokeys</value>
+  </data>
+  <data name="ConfigLoadErrorCaption" xml:space="preserve">
+    <value>Configuration load error</value>
+  </data>
+  <data name="ConfigSaveErrorCaption" xml:space="preserve">
+    <value>Configuration save error</value>
+  </data>
+  <data name="DecrementTotalSizeButton" xml:space="preserve">
+    <value>Remove a digit</value>
+  </data>
+  <data name="DigitalOutputConfigCaption" xml:space="preserve">
+    <value>Digital output</value>
+  </data>
+  <data name="DigitalOutputErrorBadIOType" xml:space="preserve">
+    <value>This pin is not a digital output</value>
+  </data>
+  <data name="DigitalOutputErrorGetIOType" xml:space="preserve">
+    <value>Pin IO type read error</value>
+  </data>
+  <data name="DigitalOutputErrorWrite" xml:space="preserve">
+    <value>Digital output write error</value>
+  </data>
+  <data name="FalconLightConsumerConfigOffButton" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="FalconLightConsumerConfigOnButton" xml:space="preserve">
+    <value>On</value>
+  </data>
+  <data name="FalconSamplingInterval" xml:space="preserve">
+    <value>Falcon data sampling interval:</value>
+  </data>
+  <data name="FalconSamplingUnit" xml:space="preserve">
+    <value>milliseconds</value>
+  </data>
+  <data name="FractionalPartSizeCaption" xml:space="preserve">
+    <value>Maximum digit number after decimal point</value>
+  </data>
+  <data name="IncrementTotalSizeButton" xml:space="preserve">
+    <value>Add a digit</value>
+  </data>
+  <data name="IntegralPartMinSizeCaption" xml:space="preserve">
+    <value>Minimum digit number before decimal point</value>
+  </data>
+  <data name="MatrixLedErrorNotEnabled" xml:space="preserve">
+    <value>This matrix LED display is not enabled</value>
+  </data>
+  <data name="MatrixLedErrorWrite" xml:space="preserve">
+    <value>Matrix LED display write error</value>
+  </data>
+  <data name="MatrixLedOutputConfigCaption" xml:space="preserve">
+    <value>Matrix LED output</value>
+  </data>
+  <data name="MatrixLedOutputConfigColumn" xml:space="preserve">
+    <value>Column</value>
+  </data>
+  <data name="MatrixLedOutputConfigRow" xml:space="preserve">
+    <value>Row</value>
+  </data>
+  <data name="MatrixLedPixelErrorNotEnabled" xml:space="preserve">
+    <value>This matrix LED output ({0}, {1}) is not enabled</value>
+  </data>
+  <data name="MenuItemConfigure" xml:space="preserve">
+    <value>Configure</value>
+  </data>
+  <data name="MenuItemQuit" xml:space="preserve">
+    <value>Quit</value>
+  </data>
+  <data name="PadFractionalPartWithZeroCaption" xml:space="preserve">
+    <value>Fixed size</value>
+  </data>
+  <data name="PoExtBusErrorNotEnabled" xml:space="preserve">
+    <value>The PoExtBus is not enabled</value>
+  </data>
+  <data name="PoExtBusErrorWrite" xml:space="preserve">
+    <value>PoExtBus write error</value>
+  </data>
+  <data name="PoExtBusOutputConfigCaption" xml:space="preserve">
+    <value>PoExtBus output</value>
+  </data>
+  <data name="PoExtBusOutputConfigDevice" xml:space="preserve">
+    <value>Device</value>
+  </data>
+  <data name="PoKeysConfigCaption" xml:space="preserve">
+    <value>PoKeys</value>
+  </data>
+  <data name="PokeysConnectError" xml:space="preserve">
+    <value>PoKeys connection error</value>
+  </data>
+  <data name="PokeysNotFoundError" xml:space="preserve">
+    <value>Not found</value>
+  </data>
+  <data name="PololuMaestroConfigCaption" xml:space="preserve">
+    <value>Pololu Maestro</value>
+  </data>
+  <data name="PololuMaestroNotFoundError" xml:space="preserve">
+    <value>Not found</value>
+  </data>
+  <data name="RemoveButton" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="RemoveDigitalOutputCaption" xml:space="preserve">
+    <value>Remove digital output</value>
+  </data>
+  <data name="RemoveDigitalOutputText" xml:space="preserve">
+    <value>Remove digital output {0} ?</value>
+  </data>
+  <data name="RemoveMatrixLedOutputCaption" xml:space="preserve">
+    <value>Remove matrix LED output</value>
+  </data>
+  <data name="RemoveMatrixLedOutputText" xml:space="preserve">
+    <value>Remove matrix LED output ({1}, {2}) of {0} ?</value>
+  </data>
+  <data name="RemovePoExtBusOutputCaption" xml:space="preserve">
+    <value>Remove PoExtBus output</value>
+  </data>
+  <data name="RemovePoExtBusOutputText" xml:space="preserve">
+    <value>Remove PoExtBus output {1} of device {0} ?</value>
+  </data>
+  <data name="RemovePoKeysCaption" xml:space="preserve">
+    <value>Remove PoKeys</value>
+  </data>
+  <data name="RemovePoKeysText" xml:space="preserve">
+    <value>Remove PoKeys {0} ?</value>
+  </data>
+  <data name="RemovePololuMaestroCaption" xml:space="preserve">
+    <value>Remove Pololu Maestro</value>
+  </data>
+  <data name="RemovePololuMaestroText" xml:space="preserve">
+    <value>Remove Pololu Maestro {0} ?</value>
+  </data>
+  <data name="RemoveServoCaption" xml:space="preserve">
+    <value>Remove Servo</value>
+  </data>
+  <data name="RemoveServoText" xml:space="preserve">
+    <value>Remove Servo {0} ?</value>
+  </data>
+  <data name="RemoveSevenSegmentDisplayCaption" xml:space="preserve">
+    <value>Remove 7 segment display</value>
+  </data>
+  <data name="RemoveSevenSegmentDisplayText" xml:space="preserve">
+    <value>Remove 7 segment display {0} ?</value>
+  </data>
+  <data name="ServoConfigCaption" xml:space="preserve">
+    <value>Servo</value>
+  </data>
+  <data name="ServoPointFalconValue" xml:space="preserve">
+    <value>Falcon value</value>
+  </data>
+  <data name="ServoPointServoValue" xml:space="preserve">
+    <value>Servo value</value>
+  </data>
+  <data name="SevenSegmentDigitColumnCaption" xml:space="preserve">
+    <value>Digit matrix LED column index</value>
+  </data>
+  <data name="SevenSegmentDigitRowCaption" xml:space="preserve">
+    <value>Digit matrix LED row index</value>
+  </data>
+  <data name="SevenSegmentDisplayConfigCaption" xml:space="preserve">
+    <value>7 segment display</value>
+  </data>
+  <data name="SevenSegmentInvertRowColumnOption" xml:space="preserve">
+    <value>Swap rows and columns of the matrix LED</value>
+  </data>
+  <data name="SevenSegmentSegmentColumnCaption" xml:space="preserve">
+    <value>Segment matrix LED column index :</value>
+  </data>
+  <data name="SevenSegmentSegmentRowCaption" xml:space="preserve">
+    <value>Segment matrix LED row index :</value>
+  </data>
+</root>

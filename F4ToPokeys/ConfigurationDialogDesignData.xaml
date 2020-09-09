@@ -1,0 +1,175 @@
+﻿<my:ConfigurationViewModel xmlns:my="clr-namespace:F4ToPokeys"
+                           xmlns:System="clr-namespace:System;assembly=mscorlib"
+                           Title="F4ToPokeys design">
+    <my:ConfigurationViewModel.ConfigHolder>
+        <my:ConfigHolder>
+            <my:ConfigHolder.Configuration>
+                <my:Configuration ReadFalconDataTimerIntervalMS="050">
+                    <my:Configuration.PoKeysList>
+                        <my:PoKeys Serial="0"
+                                   Error="My Error">
+                            <my:PoKeys.DigitalOutputList>
+                                <my:DigitalOutput PinId="1"
+                                                  Error="My DO Error"
+                                                  OutputState="False">
+                                </my:DigitalOutput>
+                                <my:DigitalOutput PinId="2"
+                                                  OutputState="True">
+                                </my:DigitalOutput>
+                            </my:PoKeys.DigitalOutputList>
+                            <my:PoKeys.MatrixLedOutputList>
+                                <my:MatrixLedOutput Row="1"
+                                                    Column="2"
+                                                    Error="My MatrixLed Error"
+                                                    OutputState="False">
+                                </my:MatrixLedOutput>
+                                <my:MatrixLedOutput Row="2"
+                                                    Column="8"
+                                                    OutputState="True">
+                                </my:MatrixLedOutput>
+                            </my:PoKeys.MatrixLedOutputList>
+                            <my:PoKeys.PoExtBusOutputList>
+                                <my:PoExtBusOutput DeviceId="1"
+                                                   PinId="A"
+                                                   Error="My PoExtBus Error"
+                                                   OutputState="False">
+                                </my:PoExtBusOutput>
+                                <my:PoExtBusOutput DeviceId="2"
+                                                   PinId="D"
+                                                   OutputState="True">
+                                </my:PoExtBusOutput>
+                            </my:PoKeys.PoExtBusOutputList>
+                            <my:PoKeys.SevenSegmentDisplayList>
+                                <my:SevenSegmentDisplay Error="My 7 Segments Error"
+                                                        FalconValue="42">
+                                    <my:SevenSegmentDisplay.FalconGaugeFormat>
+                                        <my:FalconGaugeFormat TotalSize="4"
+                                                              IntegralPartMinSize="3" />
+                                    </my:SevenSegmentDisplay.FalconGaugeFormat>
+                                    <my:SevenSegmentDisplay.FalconGaugeDigits>
+                                        <my:FalconGaugeDigit Value="2"
+                                                             SevenSegmentDigitIndex="7" />
+                                        <my:FalconGaugeDigit Value="4"
+                                                             DecimalPoint="True"
+                                                             SevenSegmentDigitIndex="8" />
+                                        <my:FalconGaugeDigit Value=" " />
+                                    </my:SevenSegmentDisplay.FalconGaugeDigits>
+                                    <my:SevenSegmentDisplay.MatrixLedConfig>
+                                        <my:SevenSegmentMatrixLedConfig DigitOnRow="True"
+                                                                        SegmentIndexA="1"
+                                                                        SegmentIndexB="2"
+                                                                        SegmentIndexC="3"
+                                                                        SegmentIndexD="4"
+                                                                        SegmentIndexE="5"
+                                                                        SegmentIndexF="6"
+                                                                        SegmentIndexG="7"
+                                                                        SegmentIndexDP="8" />
+                                    </my:SevenSegmentDisplay.MatrixLedConfig>
+                                    <my:SevenSegmentDisplay.SevenSegmentDigits>
+                                        <my:SevenSegmentDigit Index="7">
+                                            <my:SevenSegmentDigit.SegmentA>
+                                                <my:SevenSegmentDigitSegment Value="True" />
+                                            </my:SevenSegmentDigit.SegmentA>
+                                            <my:SevenSegmentDigit.SegmentB>
+                                                <my:SevenSegmentDigitSegment Value="True" />
+                                            </my:SevenSegmentDigit.SegmentB>
+                                            <my:SevenSegmentDigit.SegmentD>
+                                                <my:SevenSegmentDigitSegment Value="True" />
+                                            </my:SevenSegmentDigit.SegmentD>
+                                            <my:SevenSegmentDigit.SegmentE>
+                                                <my:SevenSegmentDigitSegment Value="True" />
+                                            </my:SevenSegmentDigit.SegmentE>
+                                            <my:SevenSegmentDigit.SegmentG>
+                                                <my:SevenSegmentDigitSegment Value="True" />
+                                            </my:SevenSegmentDigit.SegmentG>
+                                        </my:SevenSegmentDigit>
+                                        <my:SevenSegmentDigit Index="8">
+                                            <my:SevenSegmentDigit.SegmentB>
+                                                <my:SevenSegmentDigitSegment Value="True" />
+                                            </my:SevenSegmentDigit.SegmentB>
+                                            <my:SevenSegmentDigit.SegmentC>
+                                                <my:SevenSegmentDigitSegment Value="True" />
+                                            </my:SevenSegmentDigit.SegmentC>
+                                            <my:SevenSegmentDigit.SegmentF>
+                                                <my:SevenSegmentDigitSegment Value="True" />
+                                            </my:SevenSegmentDigit.SegmentF>
+                                            <my:SevenSegmentDigit.SegmentG>
+                                                <my:SevenSegmentDigitSegment Value="True" />
+                                            </my:SevenSegmentDigit.SegmentG>
+                                            <my:SevenSegmentDigit.SegmentDP>
+                                                <my:SevenSegmentDigitSegment Value="True" />
+                                            </my:SevenSegmentDigit.SegmentDP>
+                                        </my:SevenSegmentDigit>
+                                    </my:SevenSegmentDisplay.SevenSegmentDigits>
+                                </my:SevenSegmentDisplay>
+                            </my:PoKeys.SevenSegmentDisplayList>
+                        </my:PoKeys>
+                    </my:Configuration.PoKeysList>
+                    <my:Configuration.PololuMaestroList>
+                        <my:PololuMaestro SerialNumber="00033648"
+                                          Error="My Error">
+                            <my:PololuMaestro.SerialNumberList>
+                                <System:String>00033648</System:String>
+                            </my:PololuMaestro.SerialNumberList>
+                            <my:PololuMaestro.ServoList>
+                                <my:PololuMaestroServo ServoId="0"
+                                                       Error="My Servo Error"
+                                                       FalconValue="60"
+                                                       MinServoValue="4000"
+                                                       MaxServoValue="8000"
+                                                       TickFrequency="400"
+                                                       OutputTarget="6000">
+                                    <my:PololuMaestroServo.ServoIdList>
+                                        <System:Byte>0</System:Byte>
+                                        <System:Byte>1</System:Byte>
+                                    </my:PololuMaestroServo.ServoIdList>
+                                    <my:PololuMaestroServo.MinPoint>
+                                        <my:PololuMaestroPoint FalconValue="0"
+                                                               ServoValue="4000" />
+                                    </my:PololuMaestroServo.MinPoint>
+                                    <my:PololuMaestroServo.MaxPoint>
+                                        <my:PololuMaestroPoint FalconValue="103"
+                                                               ServoValue="8000" />
+                                    </my:PololuMaestroServo.MaxPoint>
+                                    <my:PololuMaestroServo.Points>
+                                        <my:PololuMaestroPoint FalconValue="0"
+                                                               ServoValue="4000" />
+                                        <my:PololuMaestroPoint FalconValue="60"
+                                                               ServoValue="6000" />
+                                        <my:PololuMaestroPoint FalconValue="103"
+                                                               ServoValue="8000" />
+                                    </my:PololuMaestroServo.Points>
+                                </my:PololuMaestroServo>
+                                <my:PololuMaestroServo ServoId="1"
+                                                       FalconValue="1"
+                                                       MinServoValue="4000"
+                                                       MaxServoValue="8000"
+                                                       TickFrequency="400"
+                                                       OutputTarget="8000">
+                                    <my:PololuMaestroServo.ServoIdList>
+                                        <System:Byte>0</System:Byte>
+                                        <System:Byte>1</System:Byte>
+                                    </my:PololuMaestroServo.ServoIdList>
+                                    <my:PololuMaestroServo.MinPoint>
+                                        <my:PololuMaestroPoint FalconValue="0"
+                                                               ServoValue="4000" />
+                                    </my:PololuMaestroServo.MinPoint>
+                                    <my:PololuMaestroServo.MaxPoint>
+                                        <my:PololuMaestroPoint FalconValue="1"
+                                                               ServoValue="8000" />
+                                    </my:PololuMaestroServo.MaxPoint>
+                                    <my:PololuMaestroServo.Points>
+                                        <my:PololuMaestroPoint FalconValue="0"
+                                                               ServoValue="4000" />
+                                        <my:PololuMaestroPoint FalconValue="1"
+                                                               ServoValue="8000" />
+                                    </my:PololuMaestroServo.Points>
+                                </my:PololuMaestroServo>
+                            </my:PololuMaestro.ServoList>
+                        </my:PololuMaestro>
+                    </my:Configuration.PololuMaestroList>
+                </my:Configuration>
+            </my:ConfigHolder.Configuration>
+        </my:ConfigHolder>
+    </my:ConfigurationViewModel.ConfigHolder>
+</my:ConfigurationViewModel>

@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<DrawingImage x:Key="image_light_on">
+		<DrawingImage.Drawing>
+			<DrawingGroup>
+				<DrawingGroup.Children>
+					<GeometryDrawing Brush="#FF00C800" Geometry="F1 M 128,-0.00012207C 198.692,-0.00012207 256,57.3074 256,128C 256,198.692 198.692,256 128,256C 57.3075,256 -5.80777e-006,198.692 -5.80777e-006,128C -5.80777e-006,57.3074 57.3076,-0.00012207 128,-0.00012207 Z "/>
+					<GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M 90.48,174.08C 77.5733,174.08 67.0533,169.927 58.92,161.62C 50.7866,153.313 46.72,142.487 46.72,129.14C 46.72,115.06 50.8466,103.67 59.1,94.97C 67.3533,86.27 78.2933,81.92 91.92,81.92C 104.787,81.92 115.19,86.0833 123.13,94.41C 131.07,102.737 135.04,113.713 135.04,127.34C 135.04,141.353 130.923,152.647 122.69,161.22C 114.457,169.793 103.72,174.08 90.48,174.08 Z M 91.34,99.84C 84.34,99.84 78.78,102.423 74.66,107.59C 70.54,112.757 68.48,119.6 68.48,128.12C 68.48,136.76 70.54,143.593 74.66,148.62C 78.78,153.647 84.1733,156.16 90.84,156.16C 97.72,156.16 103.18,153.717 107.22,148.83C 111.26,143.943 113.28,137.16 113.28,128.48C 113.28,119.44 111.323,112.407 107.41,107.38C 103.497,102.353 98.14,99.84 91.34,99.84 Z "/>
+					<GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M 209.28,172.8L 190.08,172.8L 190.08,137.6C 190.08,127.787 186.433,122.88 179.14,122.88C 175.62,122.88 172.723,124.18 170.45,126.78C 168.177,129.38 167.04,132.68 167.04,136.68L 167.04,172.8L 147.84,172.8L 147.84,108.8L 167.04,108.8L 167.04,119.44L 167.3,119.44C 172.02,111.493 178.9,107.52 187.94,107.52C 202.167,107.52 209.28,116.273 209.28,133.78L 209.28,172.8 Z "/>
+					<GeometryDrawing Geometry="F1 M 224.919,72.0995C 222.675,81.7155 209.447,86.8488 195.374,83.565C 192.589,82.9153 189.98,81.9848 187.604,80.8356L 187.573,80.8542C 164.523,68.2997 131.826,65.074 98.4406,73.9527C 51.4404,86.4524 17.8975,119.393 14.6567,152.798C 12.9167,144.809 12,136.511 12,128C 12,63.935 63.935,12 128,12C 166.165,12 199.973,30.4973 221.112,58.946C 224.447,62.9752 225.962,67.6283 224.919,72.0995 Z ">
+						<GeometryDrawing.Brush>
+							<LinearGradientBrush StartPoint="0.577464,0.705704" EndPoint="1.54574,0.705704">
+								<LinearGradientBrush.RelativeTransform>
+									<TransformGroup>
+										<SkewTransform CenterX="0.577464" CenterY="0.705704" AngleX="16.5262" AngleY="0"/>
+										<RotateTransform CenterX="0.577464" CenterY="0.705704" Angle="255.063"/>
+									</TransformGroup>
+								</LinearGradientBrush.RelativeTransform>
+								<LinearGradientBrush.GradientStops>
+									<GradientStop Color="#00FFFFFF" Offset="0"/>
+									<GradientStop Color="#FFFFFFFF" Offset="1"/>
+								</LinearGradientBrush.GradientStops>
+							</LinearGradientBrush>
+						</GeometryDrawing.Brush>
+					</GeometryDrawing>
+				</DrawingGroup.Children>
+			</DrawingGroup>
+		</DrawingImage.Drawing>
+	</DrawingImage>
+</ResourceDictionary>

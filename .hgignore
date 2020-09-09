@@ -1,0 +1,6 @@
+syntax: glob
+.vs
+*.suo
+*/Debug
+*/Release
+Setup/Output

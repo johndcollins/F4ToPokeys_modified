@@ -1,0 +1,26 @@
+﻿<Window x:Class="F4ToPokeys.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:taskbar="http://www.hardcodet.net/taskbar"
+        xmlns:lang="clr-namespace:F4ToPokeys.Translations"
+        Title="{x:Static lang:Main.ApplicationTitle}"
+        Height="100"
+        Width="100"
+        Visibility="Hidden">
+    <Grid>
+        <taskbar:TaskbarIcon Name="TaskbarIcon"
+                             ToolTipText="{x:Static lang:Main.ApplicationTitle}"
+                             IconSource="F4ToPokeys.ico">
+            <taskbar:TaskbarIcon.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Name="MenuItemConfigure"
+                              Header="{x:Static lang:Main.MenuItemConfigure}"
+                              Click="MenuItemConfigure_Click" />
+                    <MenuItem Name="MenuItemQuit"
+                              Header="{x:Static lang:Main.MenuItemQuit}"
+                              Click="MenuItemQuit_Click" />
+                </ContextMenu>
+            </taskbar:TaskbarIcon.ContextMenu>
+        </taskbar:TaskbarIcon>
+    </Grid>
+</Window>

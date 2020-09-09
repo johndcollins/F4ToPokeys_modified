@@ -1,0 +1,34 @@
+﻿<my:SevenSegmentDigitControl xmlns:my="clr-namespace:F4ToPokeys"
+                             FillOn="LightGreen"
+                             StrokeThickness="5"
+                             Stroke="Black"
+                             ShowLabel="True">
+    <my:SevenSegmentDigitControl.Digit>
+        <my:SevenSegmentDigit>
+            <my:SevenSegmentDigit.SegmentA>
+                <my:SevenSegmentDigitSegment Value="True" />
+            </my:SevenSegmentDigit.SegmentA>
+            <my:SevenSegmentDigit.SegmentB>
+                <my:SevenSegmentDigitSegment Value="True" />
+            </my:SevenSegmentDigit.SegmentB>
+            <my:SevenSegmentDigit.SegmentC>
+                <my:SevenSegmentDigitSegment Value="True" />
+            </my:SevenSegmentDigit.SegmentC>
+            <my:SevenSegmentDigit.SegmentD>
+                <my:SevenSegmentDigitSegment Value="True" />
+            </my:SevenSegmentDigit.SegmentD>
+            <my:SevenSegmentDigit.SegmentE>
+                <my:SevenSegmentDigitSegment Value="True" />
+            </my:SevenSegmentDigit.SegmentE>
+            <my:SevenSegmentDigit.SegmentF>
+                <my:SevenSegmentDigitSegment Value="True" />
+            </my:SevenSegmentDigit.SegmentF>
+            <my:SevenSegmentDigit.SegmentG>
+                <my:SevenSegmentDigitSegment Value="True" />
+            </my:SevenSegmentDigit.SegmentG>
+            <my:SevenSegmentDigit.SegmentDP>
+                <my:SevenSegmentDigitSegment Value="True" />
+            </my:SevenSegmentDigit.SegmentDP>
+        </my:SevenSegmentDigit>
+    </my:SevenSegmentDigitControl.Digit>
+</my:SevenSegmentDigitControl>

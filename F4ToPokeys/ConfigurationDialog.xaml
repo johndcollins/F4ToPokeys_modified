@@ -1,0 +1,799 @@
+﻿<Window x:Class="F4ToPokeys.ConfigurationDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ComponentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        xmlns:my="clr-namespace:F4ToPokeys"
+        xmlns:lang="clr-namespace:F4ToPokeys.Translations"
+        mc:Ignorable="d"
+        Title="{Binding Path=Title}"
+        Icon="F4ToPokeys.ico"
+        Width="900"
+        Height="900"
+        SizeToContent="Width"
+        Unloaded="Window_Unloaded"
+        d:DataContext="{d:DesignData Source=ConfigurationDialogDesignData.xaml}">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <my:SevenSegmentDigitIndexConverter x:Key="SevenSegmentDigitIndexConverter" />
+        <my:NullToVisibilityConverter x:Key="NullToHiddenConverter"
+                                      NullVisibility="Collapsed" />
+
+        <CollectionViewSource x:Key="FalconLightList"
+                              Source="{Binding Path=FalconLightList}">
+            <CollectionViewSource.SortDescriptions>
+                <ComponentModel:SortDescription PropertyName="Group"
+                                                Direction="Ascending" />
+                <ComponentModel:SortDescription PropertyName="Label"
+                                                Direction="Ascending" />
+            </CollectionViewSource.SortDescriptions>
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="Group" />
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
+
+        <CollectionViewSource x:Key="FalconGaugeList"
+                              Source="{Binding Path=FalconGaugeList}">
+            <CollectionViewSource.SortDescriptions>
+                <ComponentModel:SortDescription PropertyName="Label"
+                                                Direction="Ascending" />
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+
+        <DataTemplate x:Key="FalconLightGroupTemplate"
+                      DataType="{x:Type CollectionViewGroup}">
+            <TextBlock Text="{Binding Path=Name}"
+                       Margin="0,5,0,0"
+                       Padding="3"
+                       Background="LightGray" />
+        </DataTemplate>
+    </Window.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Auto">
+        <StackPanel Margin="5">
+            <StackPanel Orientation="Horizontal"
+                        Margin="0,0,0,10">
+                <Label Content="{x:Static lang:Main.FalconSamplingInterval}"
+                       VerticalAlignment="Center" />
+                <TextBox Width="50"
+                         Text="{Binding Path=ConfigHolder.Configuration.ReadFalconDataTimerIntervalMS, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                         VerticalAlignment="Center" />
+                <TextBlock Text="{x:Static lang:Main.FalconSamplingUnit}"
+                           VerticalAlignment="Center"
+                           Margin="5,0,0,0" />
+            </StackPanel>
+            <ItemsControl ItemsSource="{Binding Path=ConfigHolder.Configuration.PoKeysList}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <GroupBox Margin="0,5,0,5">
+                            <GroupBox.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{x:Static lang:Main.PoKeysConfigCaption}"
+                                               VerticalAlignment="Center" />
+                                    <ComboBox ItemsSource="{Binding Path=AvailablePokeysList}"
+                                              SelectedItem="{Binding Path=SelectedPokeys}"
+                                              DisplayMemberPath="PokeysId"
+                                              IsSynchronizedWithCurrentItem="False"
+                                              Margin="5,0,0,0"
+                                              Width="400"
+                                              VerticalAlignment="Center" />
+                                    <Image Name="PoKeysErrorIcon"
+                                           Source="{StaticResource image_erreur}"
+                                           Width="{StaticResource {x:Static SystemParameters.SmallIconWidthKey}}"
+                                           ToolTip="{Binding Path=Error}"
+                                           Margin="5,0,0,0"
+                                           VerticalAlignment="Center" />
+                                    <Button Content="{x:Static lang:Main.RemoveButton}"
+                                            Command="{Binding Path=RemovePoKeysCommand}"
+                                            Margin="10,0,0,0"
+                                            VerticalAlignment="Center" />
+                                </StackPanel>
+                            </GroupBox.Header>
+                            <GroupBox.Content>
+                                <StackPanel Margin="5">
+                                    <ItemsControl ItemsSource="{Binding Path=DigitalOutputList}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal"
+                                                            Margin="2">
+                                                    <TextBlock Text="{x:Static lang:Main.DigitalOutputConfigCaption}"
+                                                               VerticalAlignment="Center" />
+                                                    <ComboBox ItemsSource="{x:Static my:DigitalOutput.PinIdList}"
+                                                              SelectedItem="{Binding Path=PinId}"
+                                                              Margin="5,0,0,0"
+                                                              Width="50"
+                                                              VerticalAlignment="Center" />
+                                                    <Image Name="PinErrorIcon"
+                                                           Source="{StaticResource image_erreur}"
+                                                           Width="{StaticResource {x:Static SystemParameters.SmallIconWidthKey}}"
+                                                           ToolTip="{Binding Path=Error}"
+                                                           Margin="5,0,0,0"
+                                                           VerticalAlignment="Center" />
+                                                    <Image Name="PinOutputStateIcon"
+                                                           Source="{StaticResource image_light_off}"
+                                                           Width="{StaticResource {x:Static SystemParameters.SmallIconWidthKey}}"
+                                                           Margin="10,0,0,0"
+                                                           VerticalAlignment="Center" />
+                                                    <Button Content="{x:Static lang:Main.FalconLightConsumerConfigOnButton}"
+                                                            Command="{Binding Path=SetOutputStateToOnCommand}"
+                                                            Margin="5,0,0,0"
+                                                            VerticalAlignment="Center" />
+                                                    <Button Content="{x:Static lang:Main.FalconLightConsumerConfigOffButton}"
+                                                            Command="{Binding Path=SetOutputStateToOffCommand}"
+                                                            Margin="5,0,0,0"
+                                                            VerticalAlignment="Center" />
+                                                    <ComboBox ItemsSource="{Binding Source={StaticResource FalconLightList}}"
+                                                              SelectedItem="{Binding Path=FalconLight}"
+                                                              Margin="10,0,0,0"
+                                                              Width="250"
+                                                              DisplayMemberPath="Label"
+                                                              VerticalAlignment="Center"
+                                                              IsSynchronizedWithCurrentItem="False">
+                                                        <ComboBox.GroupStyle>
+                                                            <GroupStyle HeaderTemplate="{StaticResource FalconLightGroupTemplate}" />
+                                                        </ComboBox.GroupStyle>
+                                                    </ComboBox>
+                                                    <Button Content="{x:Static lang:Main.RemoveButton}"
+                                                            Command="{Binding Path=RemoveDigitalOutputCommand}"
+                                                            Margin="10,0,0,0"
+                                                            VerticalAlignment="Center" />
+                                                </StackPanel>
+                                                <DataTemplate.Triggers>
+                                                    <DataTrigger Binding="{Binding Path=Error}"
+                                                                 Value="{x:Null}">
+                                                        <Setter TargetName="PinErrorIcon"
+                                                                Property="Visibility"
+                                                                Value="Hidden" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Path=OutputState}"
+                                                                 Value="true">
+                                                        <Setter TargetName="PinOutputStateIcon"
+                                                                Property="Source"
+                                                                Value="{StaticResource image_light_on}" />
+                                                    </DataTrigger>
+                                                </DataTemplate.Triggers>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                    <Button Content="{x:Static lang:Main.AddDigitalOutputButton}"
+                                            HorizontalAlignment="Left"
+                                            Margin="0,10,0,0"
+                                            Command="{Binding Path=AddDigitalOutputCommand}" />
+                                    <ItemsControl ItemsSource="{Binding Path=MatrixLedOutputList}"
+                                                  Margin="0,10,0,0">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal"
+                                                            Margin="2">
+                                                    <TextBlock Text="{x:Static lang:Main.MatrixLedOutputConfigCaption}"
+                                                               VerticalAlignment="Center" />
+                                                    <ComboBox ItemsSource="{x:Static my:MatrixLed.AvailableMatrixLedList}"
+                                                              SelectedItem="{Binding Path=MatrixLed}"
+                                                              my:SelectorHelper.SelectIndexInDesignMode="0"
+                                                              Margin="5,0,0,0"
+                                                              Width="80"
+                                                              VerticalAlignment="Center"
+                                                              DisplayMemberPath="Name" />
+                                                    <TextBlock Text="{x:Static lang:Main.MatrixLedOutputConfigRow}"
+                                                               Margin="5,0,0,0"
+                                                               VerticalAlignment="Center" />
+                                                    <ComboBox ItemsSource="{x:Static my:MatrixLed.AvailableIndexList}"
+                                                              SelectedItem="{Binding Path=Row}"
+                                                              Margin="5,0,0,0"
+                                                              Width="40"
+                                                              VerticalAlignment="Center" />
+                                                    <TextBlock Text="{x:Static lang:Main.MatrixLedOutputConfigColumn}"
+                                                               Margin="5,0,0,0"
+                                                               VerticalAlignment="Center" />
+                                                    <ComboBox ItemsSource="{x:Static my:MatrixLed.AvailableIndexList}"
+                                                              SelectedItem="{Binding Path=Column}"
+                                                              Margin="5,0,0,0"
+                                                              Width="40"
+                                                              VerticalAlignment="Center" />
+                                                    <Image Name="MatrixLedErrorIcon"
+                                                           Source="{StaticResource image_erreur}"
+                                                           Width="{StaticResource {x:Static SystemParameters.SmallIconWidthKey}}"
+                                                           ToolTip="{Binding Path=Error}"
+                                                           Margin="5,0,0,0"
+                                                           VerticalAlignment="Center" />
+                                                    <Image Name="MatrixLedOutputStateIcon"
+                                                           Source="{StaticResource image_light_off}"
+                                                           Width="{StaticResource {x:Static SystemParameters.SmallIconWidthKey}}"
+                                                           Margin="10,0,0,0"
+                                                           VerticalAlignment="Center" />
+                                                    <Button Content="{x:Static lang:Main.FalconLightConsumerConfigOnButton}"
+                                                            Command="{Binding Path=SetOutputStateToOnCommand}"
+                                                            Margin="5,0,0,0"
+                                                            VerticalAlignment="Center" />
+                                                    <Button Content="{x:Static lang:Main.FalconLightConsumerConfigOffButton}"
+                                                            Command="{Binding Path=SetOutputStateToOffCommand}"
+                                                            Margin="5,0,0,0"
+                                                            VerticalAlignment="Center" />
+                                                    <ComboBox ItemsSource="{Binding Source={StaticResource FalconLightList}}"
+                                                              SelectedItem="{Binding Path=FalconLight}"
+                                                              Margin="10,0,0,0"
+                                                              Width="250"
+                                                              DisplayMemberPath="Label"
+                                                              VerticalAlignment="Center"
+                                                              IsSynchronizedWithCurrentItem="False">
+                                                        <ComboBox.GroupStyle>
+                                                            <GroupStyle HeaderTemplate="{StaticResource FalconLightGroupTemplate}" />
+                                                        </ComboBox.GroupStyle>
+                                                    </ComboBox>
+                                                    <Button Content="{x:Static lang:Main.RemoveButton}"
+                                                            Command="{Binding Path=RemoveMatrixLedOutputCommand}"
+                                                            Margin="10,0,0,0"
+                                                            VerticalAlignment="Center" />
+                                                </StackPanel>
+                                                <DataTemplate.Triggers>
+                                                    <DataTrigger Binding="{Binding Path=Error}"
+                                                                 Value="{x:Null}">
+                                                        <Setter TargetName="MatrixLedErrorIcon"
+                                                                Property="Visibility"
+                                                                Value="Hidden" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Path=OutputState}"
+                                                                 Value="true">
+                                                        <Setter TargetName="MatrixLedOutputStateIcon"
+                                                                Property="Source"
+                                                                Value="{StaticResource image_light_on}" />
+                                                    </DataTrigger>
+                                                </DataTemplate.Triggers>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                    <Button Content="{x:Static lang:Main.AddMatrixLedOutputButton}"
+                                            HorizontalAlignment="Left"
+                                            Margin="0,10,0,0"
+                                            Command="{Binding Path=AddMatrixLedOutputCommand}" />
+                                    <ItemsControl ItemsSource="{Binding Path=PoExtBusOutputList}"
+                                                  Margin="0,10,0,0">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal"
+                                                            Margin="2">
+                                                    <TextBlock Text="{x:Static lang:Main.PoExtBusOutputConfigCaption}"
+                                                               VerticalAlignment="Center" />
+                                                    <ComboBox ItemsSource="{x:Static my:PoExtBus.AvailablePinIdList}"
+                                                              SelectedItem="{Binding Path=PinId}"
+                                                              Margin="5,0,0,0"
+                                                              Width="40"
+                                                              VerticalAlignment="Center" />
+                                                    <TextBlock Text="{x:Static lang:Main.PoExtBusOutputConfigDevice}"
+                                                               Margin="5,0,0,0"
+                                                               VerticalAlignment="Center" />
+                                                    <ComboBox ItemsSource="{x:Static my:PoExtBus.AvailableDeviceIdList}"
+                                                              SelectedItem="{Binding Path=DeviceId}"
+                                                              Margin="5,0,0,0"
+                                                              Width="40"
+                                                              VerticalAlignment="Center" />
+                                                    <Image Name="PoExtBusErrorIcon"
+                                                           Source="{StaticResource image_erreur}"
+                                                           Width="{StaticResource {x:Static SystemParameters.SmallIconWidthKey}}"
+                                                           ToolTip="{Binding Path=Error}"
+                                                           Margin="5,0,0,0"
+                                                           VerticalAlignment="Center" />
+                                                    <Image Name="PoExtBusOutputStateIcon"
+                                                           Source="{StaticResource image_light_off}"
+                                                           Width="{StaticResource {x:Static SystemParameters.SmallIconWidthKey}}"
+                                                           Margin="10,0,0,0"
+                                                           VerticalAlignment="Center" />
+                                                    <Button Content="{x:Static lang:Main.FalconLightConsumerConfigOnButton}"
+                                                            Command="{Binding Path=SetOutputStateToOnCommand}"
+                                                            Margin="5,0,0,0"
+                                                            VerticalAlignment="Center" />
+                                                    <Button Content="{x:Static lang:Main.FalconLightConsumerConfigOffButton}"
+                                                            Command="{Binding Path=SetOutputStateToOffCommand}"
+                                                            Margin="5,0,0,0"
+                                                            VerticalAlignment="Center" />
+                                                    <ComboBox ItemsSource="{Binding Source={StaticResource FalconLightList}}"
+                                                              SelectedItem="{Binding Path=FalconLight}"
+                                                              Margin="10,0,0,0"
+                                                              Width="250"
+                                                              DisplayMemberPath="Label"
+                                                              VerticalAlignment="Center"
+                                                              IsSynchronizedWithCurrentItem="False">
+                                                        <ComboBox.GroupStyle>
+                                                            <GroupStyle HeaderTemplate="{StaticResource FalconLightGroupTemplate}" />
+                                                        </ComboBox.GroupStyle>
+                                                    </ComboBox>
+                                                    <Button Content="{x:Static lang:Main.RemoveButton}"
+                                                            Command="{Binding Path=RemovePoExtBusOutputCommand}"
+                                                            Margin="10,0,0,0"
+                                                            VerticalAlignment="Center" />
+                                                </StackPanel>
+                                                <DataTemplate.Triggers>
+                                                    <DataTrigger Binding="{Binding Path=Error}"
+                                                                 Value="{x:Null}">
+                                                        <Setter TargetName="PoExtBusErrorIcon"
+                                                                Property="Visibility"
+                                                                Value="Hidden" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Path=OutputState}"
+                                                                 Value="true">
+                                                        <Setter TargetName="PoExtBusOutputStateIcon"
+                                                                Property="Source"
+                                                                Value="{StaticResource image_light_on}" />
+                                                    </DataTrigger>
+                                                </DataTemplate.Triggers>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                    <Button Content="{x:Static lang:Main.AddPoExtBusOutputButton}"
+                                            HorizontalAlignment="Left"
+                                            Margin="0,10,0,0"
+                                            Command="{Binding Path=AddPoExtBusOutputCommand}" />
+                                    <ItemsControl ItemsSource="{Binding Path=SevenSegmentDisplayList}"
+                                                  Margin="0,10,0,0">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Expander Margin="2">
+                                                    <Expander.Header>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="{x:Static lang:Main.SevenSegmentDisplayConfigCaption}"
+                                                                       VerticalAlignment="Center" />
+                                                            <ComboBox ItemsSource="{x:Static my:MatrixLed.AvailableMatrixLedList}"
+                                                                      SelectedItem="{Binding Path=MatrixLed}"
+                                                                      my:SelectorHelper.SelectIndexInDesignMode="0"
+                                                                      Margin="5,0,0,0"
+                                                                      Width="80"
+                                                                      VerticalAlignment="Center"
+                                                                      DisplayMemberPath="Name" />
+                                                            <Image Name="SevenSegmentErrorIcon"
+                                                                   Source="{StaticResource image_erreur}"
+                                                                   Width="{StaticResource {x:Static SystemParameters.SmallIconWidthKey}}"
+                                                                   ToolTip="{Binding Path=Error}"
+                                                                   Margin="5,0,0,0"
+                                                                   VerticalAlignment="Center" />
+                                                            <ItemsControl ItemsSource="{Binding Path=SevenSegmentDigits}"
+                                                                          Margin="5,0,0,0">
+                                                                <ItemsControl.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <StackPanel>
+                                                                            <my:SevenSegmentDigitControl Digit="{Binding}"
+                                                                                                         Background="DarkSlateGray"
+                                                                                                         Margin="2,0,0,0"
+                                                                                                         Padding="3,3,1,3"
+                                                                                                         Width="24"
+                                                                                                         SnapsToDevicePixels="True"
+                                                                                                         FillOn="LightGreen"
+                                                                                                         FillOff="DarkViolet" />
+                                                                            <TextBlock Text="{Binding Path=Index}"
+                                                                                       HorizontalAlignment="Center"
+                                                                                       FontSize="8" />
+                                                                        </StackPanel>
+                                                                    </DataTemplate>
+                                                                </ItemsControl.ItemTemplate>
+                                                                <ItemsControl.ItemsPanel>
+                                                                    <ItemsPanelTemplate>
+                                                                        <DockPanel LastChildFill="False" />
+                                                                    </ItemsPanelTemplate>
+                                                                </ItemsControl.ItemsPanel>
+                                                                <ItemsControl.ItemContainerStyle>
+                                                                    <Style>
+                                                                        <Setter Property="DockPanel.Dock"
+                                                                                Value="Right" />
+                                                                    </Style>
+                                                                </ItemsControl.ItemContainerStyle>
+                                                            </ItemsControl>
+                                                            <ComboBox ItemsSource="{Binding Source={StaticResource FalconGaugeList}}"
+                                                                      SelectedItem="{Binding Path=FalconGauge}"
+                                                                      Margin="10,0,0,0"
+                                                                      Width="200"
+                                                                      DisplayMemberPath="Label"
+                                                                      VerticalAlignment="Center"
+                                                                      IsSynchronizedWithCurrentItem="False" />
+                                                            <TextBox Text="{Binding Path=FalconValue, UpdateSourceTrigger=PropertyChanged}"
+                                                                     Margin="5,0,0,0"
+                                                                     Width="75"
+                                                                     VerticalAlignment="Center" />
+                                                            <Button Content="{x:Static lang:Main.RemoveButton}"
+                                                                    Command="{Binding Path=RemoveSevenSegmentDisplayCommand}"
+                                                                    Margin="10,0,0,0"
+                                                                    VerticalAlignment="Center" />
+                                                        </StackPanel>
+                                                    </Expander.Header>
+                                                    <StackPanel Margin="20,5,0,5">
+                                                        <StackPanel Orientation="Horizontal"
+                                                                    Grid.IsSharedSizeScope="True">
+                                                            <ItemsControl ItemsSource="{Binding Path=FalconGaugeDigits}">
+                                                                <ItemsControl.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <Grid Margin="1,0,1,0"
+                                                                              Width="32">
+                                                                            <Grid.RowDefinitions>
+                                                                                <RowDefinition SharedSizeGroup="DigitRow" />
+                                                                                <RowDefinition Height="5" />
+                                                                                <RowDefinition SharedSizeGroup="DigitIndexRow" />
+                                                                            </Grid.RowDefinitions>
+                                                                            <Grid Background="Beige">
+                                                                                <StackPanel Orientation="Horizontal"
+                                                                                            HorizontalAlignment="Center"
+                                                                                            TextBlock.FontSize="36">
+                                                                                    <TextBlock Text="{Binding Path=Value}" />
+                                                                                    <TextBlock Text="."
+                                                                                               Visibility="{Binding Path=DecimalPoint, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                                                </StackPanel>
+                                                                            </Grid>
+                                                                            <ComboBox ItemsSource="{x:Static my:FalconGaugeDigit.AvailableIndexList}"
+                                                                                      SelectedItem="{Binding Path=SevenSegmentDigitIndex, Converter={StaticResource SevenSegmentDigitIndexConverter}}"
+                                                                                      Margin="1,0"
+                                                                                      FontSize="10"
+                                                                                      Grid.Row="2">
+                                                                            </ComboBox>
+                                                                        </Grid>
+                                                                    </DataTemplate>
+                                                                </ItemsControl.ItemTemplate>
+                                                                <ItemsControl.ItemsPanel>
+                                                                    <ItemsPanelTemplate>
+                                                                        <DockPanel LastChildFill="False" />
+                                                                    </ItemsPanelTemplate>
+                                                                </ItemsControl.ItemsPanel>
+                                                                <ItemsControl.ItemContainerStyle>
+                                                                    <Style>
+                                                                        <Setter Property="DockPanel.Dock"
+                                                                                Value="Right" />
+                                                                    </Style>
+                                                                </ItemsControl.ItemContainerStyle>
+                                                            </ItemsControl>
+                                                            <Grid Margin="10,0,0,0">
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition SharedSizeGroup="DigitRow" />
+                                                                    <RowDefinition Height="5" />
+                                                                    <RowDefinition SharedSizeGroup="DigitIndexRow" />
+                                                                </Grid.RowDefinitions>
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <StackPanel>
+                                                                        <Button Content="{x:Static lang:Main.IncrementTotalSizeButton}"
+                                                                                Command="{Binding Path=FalconGaugeFormat.IncrementTotalSizeCommand}" />
+                                                                        <Button Content="{x:Static lang:Main.DecrementTotalSizeButton}"
+                                                                                Command="{Binding Path=FalconGaugeFormat.DecrementTotalSizeCommand}"
+                                                                                Margin="0,3,0,0" />
+                                                                    </StackPanel>
+                                                                    <StackPanel Margin="10,0,0,0">
+                                                                        <Grid>
+                                                                            <Grid.RowDefinitions>
+                                                                                <RowDefinition />
+                                                                                <RowDefinition Height="5" />
+                                                                                <RowDefinition />
+                                                                            </Grid.RowDefinitions>
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition />
+                                                                                <ColumnDefinition />
+                                                                                <ColumnDefinition />
+                                                                            </Grid.ColumnDefinitions>
+                                                                            <TextBlock Text="{x:Static lang:Main.IntegralPartMinSizeCaption}"
+                                                                                       VerticalAlignment="Center"
+                                                                                       Grid.Row="0"
+                                                                                       Grid.Column="0" />
+                                                                            <TextBox Text="{Binding Path=FalconGaugeFormat.IntegralPartMinSize, UpdateSourceTrigger=PropertyChanged}"
+                                                                                     Margin="5,0,0,0"
+                                                                                     Width="50"
+                                                                                     VerticalAlignment="Center"
+                                                                                     Grid.Row="0"
+                                                                                     Grid.Column="1" />
+                                                                            <TextBlock Text="{x:Static lang:Main.FractionalPartSizeCaption}"
+                                                                                       Grid.Row="2"
+                                                                                       Grid.Column="0"
+                                                                                       VerticalAlignment="Center" />
+                                                                            <TextBox Text="{Binding Path=FalconGaugeFormat.FractionalPartSize, UpdateSourceTrigger=PropertyChanged}"
+                                                                                     Margin="5,0,0,0"
+                                                                                     Width="50"
+                                                                                     VerticalAlignment="Center"
+                                                                                     Grid.Row="2"
+                                                                                     Grid.Column="1" />
+                                                                            <CheckBox Content="{x:Static lang:Main.PadFractionalPartWithZeroCaption}"
+                                                                                      IsChecked="{Binding Path=FalconGaugeFormat.PadFractionalPartWithZero}"
+                                                                                      Margin="5,0,0,0"
+                                                                                      VerticalAlignment="Center"
+                                                                                      Grid.Row="2"
+                                                                                      Grid.Column="2" />
+                                                                        </Grid>
+                                                                    </StackPanel>
+                                                                </StackPanel>
+                                                                <Grid Grid.Row="2"
+                                                                      Visibility="{Binding Path=MatrixLedConfig, Converter={StaticResource NullToHiddenConverter}}">
+                                                                    <TextBlock Text="{x:Static lang:Main.SevenSegmentDigitRowCaption}"
+                                                                               VerticalAlignment="Center"
+                                                                               Visibility="{Binding Path=MatrixLedConfig.DigitOnRow, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                                    <TextBlock Text="{x:Static lang:Main.SevenSegmentDigitColumnCaption}"
+                                                                               VerticalAlignment="Center"
+                                                                               Visibility="{Binding Path=MatrixLedConfig.DigitOnColumn, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                                </Grid>
+                                                            </Grid>
+                                                        </StackPanel>
+                                                        <StackPanel Orientation="Horizontal"
+                                                                    Margin="0,10,0,0"
+                                                                    Visibility="{Binding Path=MatrixLedConfig, Converter={StaticResource NullToHiddenConverter}}">
+                                                            <my:SevenSegmentDigitControl Width="64"
+                                                                                         ShowLabel="True"
+                                                                                         FillOff="LightGreen"
+                                                                                         Stroke="Green" />
+                                                            <DockPanel Margin="10,0,0,0"
+                                                                       LastChildFill="False">
+                                                                <CheckBox Content="{x:Static lang:Main.SevenSegmentInvertRowColumnOption}"
+                                                                          IsChecked="{Binding Path=MatrixLedConfig.DigitOnRow}"
+                                                                          DockPanel.Dock="Top" />
+                                                                <Grid DockPanel.Dock="Bottom">
+                                                                    <Grid.Resources>
+                                                                        <Style x:Key="SegmentIndexTextBlockStyle"
+                                                                               TargetType="TextBlock">
+                                                                            <Setter Property="Margin"
+                                                                                    Value="0,0,4,0" />
+                                                                            <Setter Property="HorizontalAlignment"
+                                                                                    Value="Center" />
+                                                                        </Style>
+                                                                        <Style x:Key="SegmentIndexComboBoxStyle"
+                                                                               TargetType="ComboBox">
+                                                                            <Setter Property="Margin"
+                                                                                    Value="0,0,4,0" />
+                                                                            <Setter Property="Grid.Row"
+                                                                                    Value="1" />
+                                                                            <Setter Property="FontSize"
+                                                                                    Value="10" />
+                                                                            <Setter Property="ItemsSource"
+                                                                                    Value="{x:Static my:MatrixLed.AvailableIndexList}" />
+                                                                        </Style>
+                                                                    </Grid.Resources>
+                                                                    <Grid.RowDefinitions>
+                                                                        <RowDefinition />
+                                                                        <RowDefinition />
+                                                                    </Grid.RowDefinitions>
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="36" />
+                                                                        <ColumnDefinition Width="36" />
+                                                                        <ColumnDefinition Width="36" />
+                                                                        <ColumnDefinition Width="36" />
+                                                                        <ColumnDefinition Width="36" />
+                                                                        <ColumnDefinition Width="36" />
+                                                                        <ColumnDefinition Width="36" />
+                                                                        <ColumnDefinition Width="36" />
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <TextBlock Text="A"
+                                                                               Grid.Column="0"
+                                                                               Style="{StaticResource SegmentIndexTextBlockStyle}" />
+                                                                    <ComboBox SelectedItem="{Binding Path=MatrixLedConfig.SegmentIndexA}"
+                                                                              Grid.Column="0"
+                                                                              Style="{StaticResource SegmentIndexComboBoxStyle}" />
+                                                                    <TextBlock Text="B"
+                                                                               Grid.Column="1"
+                                                                               Style="{StaticResource SegmentIndexTextBlockStyle}" />
+                                                                    <ComboBox SelectedItem="{Binding Path=MatrixLedConfig.SegmentIndexB}"
+                                                                              Grid.Column="1"
+                                                                              Style="{StaticResource SegmentIndexComboBoxStyle}" />
+                                                                    <TextBlock Text="C"
+                                                                               Grid.Column="2"
+                                                                               Style="{StaticResource SegmentIndexTextBlockStyle}" />
+                                                                    <ComboBox SelectedItem="{Binding Path=MatrixLedConfig.SegmentIndexC}"
+                                                                              Grid.Column="2"
+                                                                              Style="{StaticResource SegmentIndexComboBoxStyle}" />
+                                                                    <TextBlock Text="D"
+                                                                               Grid.Column="3"
+                                                                               Style="{StaticResource SegmentIndexTextBlockStyle}" />
+                                                                    <ComboBox SelectedItem="{Binding Path=MatrixLedConfig.SegmentIndexD}"
+                                                                              Grid.Column="3"
+                                                                              Style="{StaticResource SegmentIndexComboBoxStyle}" />
+                                                                    <TextBlock Text="E"
+                                                                               Grid.Column="4"
+                                                                               Style="{StaticResource SegmentIndexTextBlockStyle}" />
+                                                                    <ComboBox SelectedItem="{Binding Path=MatrixLedConfig.SegmentIndexE}"
+                                                                              Grid.Column="4"
+                                                                              Style="{StaticResource SegmentIndexComboBoxStyle}" />
+                                                                    <TextBlock Text="F"
+                                                                               Grid.Column="5"
+                                                                               Style="{StaticResource SegmentIndexTextBlockStyle}" />
+                                                                    <ComboBox SelectedItem="{Binding Path=MatrixLedConfig.SegmentIndexF}"
+                                                                              Grid.Column="5"
+                                                                              Style="{StaticResource SegmentIndexComboBoxStyle}" />
+                                                                    <TextBlock Text="G"
+                                                                               Grid.Column="6"
+                                                                               Style="{StaticResource SegmentIndexTextBlockStyle}" />
+                                                                    <ComboBox SelectedItem="{Binding Path=MatrixLedConfig.SegmentIndexG}"
+                                                                              Grid.Column="6"
+                                                                              Style="{StaticResource SegmentIndexComboBoxStyle}" />
+                                                                    <TextBlock Text="DP"
+                                                                               Grid.Column="7"
+                                                                               Style="{StaticResource SegmentIndexTextBlockStyle}" />
+                                                                    <ComboBox SelectedItem="{Binding Path=MatrixLedConfig.SegmentIndexDP}"
+                                                                              Grid.Column="7"
+                                                                              Style="{StaticResource SegmentIndexComboBoxStyle}" />
+                                                                </Grid>
+                                                                <StackPanel DockPanel.Dock="Bottom">
+                                                                    <TextBlock Text="{x:Static lang:Main.SevenSegmentSegmentRowCaption}"
+                                                                               Visibility="{Binding Path=MatrixLedConfig.DigitOnColumn, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                                    <TextBlock Text="{x:Static lang:Main.SevenSegmentSegmentColumnCaption}"
+                                                                               Visibility="{Binding Path=MatrixLedConfig.DigitOnRow, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                                </StackPanel>
+                                                            </DockPanel>
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                </Expander>
+                                                <DataTemplate.Triggers>
+                                                    <DataTrigger Binding="{Binding Path=Error}"
+                                                                 Value="{x:Null}">
+                                                        <Setter TargetName="SevenSegmentErrorIcon"
+                                                                Property="Visibility"
+                                                                Value="Hidden" />
+                                                    </DataTrigger>
+                                                </DataTemplate.Triggers>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                    <Button Content="{x:Static lang:Main.AddSevenSegmentDisplayButton}"
+                                            HorizontalAlignment="Left"
+                                            Margin="0,10,0,0"
+                                            Command="{Binding Path=AddSevenSegmentDisplayCommand}" />
+                                </StackPanel>
+                            </GroupBox.Content>
+                        </GroupBox>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Path=Error}"
+                                         Value="{x:Null}">
+                                <Setter TargetName="PoKeysErrorIcon"
+                                        Property="Visibility"
+                                        Value="Hidden" />
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <Button Content="{x:Static lang:Main.AddPoKeysButton}"
+                    HorizontalAlignment="Left"
+                    Margin="0,10,0,0"
+                    Command="{Binding Path=ConfigHolder.Configuration.AddPoKeysCommand}" />
+            <ItemsControl ItemsSource="{Binding Path=ConfigHolder.Configuration.PololuMaestroList}"
+                          Margin="0,10,0,0">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <GroupBox Margin="0,5,0,5">
+                            <GroupBox.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{x:Static lang:Main.PololuMaestroConfigCaption}"
+                                               VerticalAlignment="Center" />
+                                    <ComboBox ItemsSource="{Binding Path=SerialNumberList}"
+                                              SelectedItem="{Binding Path=SerialNumber}"
+                                              Margin="5,0,0,0"
+                                              Width="100"
+                                              VerticalAlignment="Center" />
+                                    <Image Name="PololuMaestroErrorIcon"
+                                           Source="{StaticResource image_erreur}"
+                                           Width="{StaticResource {x:Static SystemParameters.SmallIconWidthKey}}"
+                                           ToolTip="{Binding Path=Error}"
+                                           Margin="5,0,0,0"
+                                           VerticalAlignment="Center" />
+                                    <Button Content="{x:Static lang:Main.RemoveButton}"
+                                            Command="{Binding Path=RemovePololuMaestroCommand}"
+                                            Margin="10,0,0,0"
+                                            VerticalAlignment="Center" />
+                                </StackPanel>
+                            </GroupBox.Header>
+                            <GroupBox.Content>
+                                <StackPanel Margin="5">
+                                    <ItemsControl ItemsSource="{Binding Path=ServoList}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Expander Margin="2">
+                                                    <Expander.Header>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="{x:Static lang:Main.ServoConfigCaption}"
+                                                                       VerticalAlignment="Center" />
+                                                            <ComboBox ItemsSource="{Binding Path=ServoIdList}"
+                                                                      SelectedItem="{Binding Path=ServoId}"
+                                                                      Margin="5,0,0,0"
+                                                                      Width="50"
+                                                                      VerticalAlignment="Center" />
+                                                            <Image Name="ServoErrorIcon"
+                                                                   Source="{StaticResource image_erreur}"
+                                                                   Width="{StaticResource {x:Static SystemParameters.SmallIconWidthKey}}"
+                                                                   ToolTip="{Binding Path=Error}"
+                                                                   Margin="5,0,0,0"
+                                                                   VerticalAlignment="Center" />
+                                                            <Slider Value="{Binding Path=OutputTarget}"
+                                                                    Minimum="{Binding Path=MinServoValue}"
+                                                                    Maximum="{Binding Path=MaxServoValue}"
+                                                                    SmallChange="10"
+                                                                    LargeChange="1000"
+                                                                    TickFrequency="{Binding Path=TickFrequency}"
+                                                                    TickPlacement="BottomRight"
+                                                                    Margin="10,0,0,0"
+                                                                    Width="200" />
+                                                            <TextBox Text="{Binding Path=OutputTarget, UpdateSourceTrigger=PropertyChanged}"
+                                                                     Margin="5,0,0,0"
+                                                                     Width="50" />
+                                                            <ComboBox ItemsSource="{Binding Source={StaticResource FalconGaugeList}}"
+                                                                      SelectedItem="{Binding Path=FalconGauge}"
+                                                                      Margin="10,0,0,0"
+                                                                      Width="200"
+                                                                      DisplayMemberPath="Label"
+                                                                      VerticalAlignment="Center"
+                                                                      IsSynchronizedWithCurrentItem="False" />
+                                                            <TextBox Text="{Binding Path=FalconValue, UpdateSourceTrigger=PropertyChanged}"
+                                                                     Margin="5,0,0,0"
+                                                                     Width="75"
+                                                                     VerticalAlignment="Center" />
+                                                            <Button Content="{x:Static lang:Main.RemoveButton}"
+                                                                    Command="{Binding Path=RemoveServoCommand}"
+                                                                    Margin="10,0,0,0"
+                                                                    VerticalAlignment="Center" />
+                                                        </StackPanel>
+                                                    </Expander.Header>
+                                                    <StackPanel Margin="20,5,0,5"
+                                                                Orientation="Horizontal">
+                                                        <ListView HorizontalAlignment="Left"
+                                                                  ItemsSource="{Binding Path=Points}">
+                                                            <ListView.View>
+                                                                <GridView>
+                                                                    <GridView.Columns>
+                                                                        <GridViewColumn Header="{x:Static lang:Main.ServoPointFalconValue}">
+                                                                            <GridViewColumn.CellTemplate>
+                                                                                <DataTemplate>
+                                                                                    <TextBox Text="{Binding Path=FalconValue, UpdateSourceTrigger=PropertyChanged}"
+                                                                                             Width="75" />
+                                                                                </DataTemplate>
+                                                                            </GridViewColumn.CellTemplate>
+                                                                        </GridViewColumn>
+                                                                        <GridViewColumn Header="{x:Static lang:Main.ServoPointServoValue}">
+                                                                            <GridViewColumn.CellTemplate>
+                                                                                <DataTemplate>
+                                                                                    <TextBox Text="{Binding Path=ServoValue, UpdateSourceTrigger=PropertyChanged}"
+                                                                                             Width="75" />
+                                                                                </DataTemplate>
+                                                                            </GridViewColumn.CellTemplate>
+                                                                        </GridViewColumn>
+                                                                        <GridViewColumn>
+                                                                            <GridViewColumn.CellTemplate>
+                                                                                <DataTemplate>
+                                                                                    <Button Content="{x:Static lang:Main.RemoveButton}"
+                                                                                            Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ListView, AncestorLevel=1}, Path=DataContext.RemoveAdditionalPointCommand}"
+                                                                                            CommandParameter="{Binding}" />
+                                                                                </DataTemplate>
+                                                                            </GridViewColumn.CellTemplate>
+                                                                        </GridViewColumn>
+                                                                    </GridView.Columns>
+                                                                </GridView>
+                                                            </ListView.View>
+                                                        </ListView>
+                                                        <Button Content="{x:Static lang:Main.AddServoPointButton}"
+                                                                VerticalAlignment="Center"
+                                                                Margin="10,0,0,0"
+                                                                Command="{Binding Path=AddAdditionalPointCommand}" />
+                                                    </StackPanel>
+                                                </Expander>
+                                                <DataTemplate.Triggers>
+                                                    <DataTrigger Binding="{Binding Path=Error}"
+                                                                 Value="{x:Null}">
+                                                        <Setter TargetName="ServoErrorIcon"
+                                                                Property="Visibility"
+                                                                Value="Hidden" />
+                                                    </DataTrigger>
+                                                </DataTemplate.Triggers>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                    <Button Content="{x:Static lang:Main.AddServoButton}"
+                                            HorizontalAlignment="Left"
+                                            Margin="0,10,0,0"
+                                            Command="{Binding Path=AddServoCommand}" />
+                                </StackPanel>
+                            </GroupBox.Content>
+                        </GroupBox>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Path=Error}"
+                                         Value="{x:Null}">
+                                <Setter TargetName="PololuMaestroErrorIcon"
+                                        Property="Visibility"
+                                        Value="Hidden" />
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <Button Content="{x:Static lang:Main.AddPololuMaestroButton}"
+                    HorizontalAlignment="Left"
+                    Margin="0,10,0,0"
+                    Command="{Binding Path=ConfigHolder.Configuration.AddPololuMaestroCommand}" />
+        </StackPanel>
+    </ScrollViewer>
+</Window>
