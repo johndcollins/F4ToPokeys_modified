@@ -84,6 +84,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="MemorySlot.cs" />
+    <Compile Include="MemorySlotConsumer.cs" />
+    <Compile Include="MemorySlotOutput.cs" />
     <Compile Include="NullToVisibilityConverter.cs" />
     <Compile Include="SevenSegmentDigitFillConverter.cs" />
     <Compile Include="Configuration.cs" />

@@ -168,6 +168,12 @@
   <data name="DigitalOutputErrorWrite" xml:space="preserve">
     <value>Digital output write error</value>
   </data>
+  <data name="DisableMemorySlotOutputButton" xml:space="preserve">
+    <value>Disable BMS Shared Memory Output</value>
+  </data>
+  <data name="EnableMemorySlotOutputButton" xml:space="preserve">
+    <value>Enable BMS Shared Memory Output</value>
+  </data>
   <data name="FalconLightConsumerConfigOffButton" xml:space="preserve">
     <value>Off</value>
   </data>
@@ -206,6 +212,18 @@
   </data>
   <data name="MatrixLedPixelErrorNotEnabled" xml:space="preserve">
     <value>This matrix LED output ({0}, {1}) is not enabled</value>
+  </data>
+  <data name="MemorySlotOutputFormatCaption" xml:space="preserve">
+    <value>Format :</value>
+  </data>
+  <data name="MemorySlotOutputShiftBitsCaption" xml:space="preserve">
+    <value>Bits :</value>
+  </data>
+  <data name="MemorySlotOutputSlotIdCaption" xml:space="preserve">
+    <value>PoKeys Memory Slot :</value>
+  </data>
+  <data name="MemorySlotOutputValueCaption" xml:space="preserve">
+    <value>Value :</value>
   </data>
   <data name="MenuItemConfigure" xml:space="preserve">
     <value>Configure</value>

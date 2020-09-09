@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 
 namespace F4SharedMem.Headers
 {
-    [ComVisible(true)]
-    [Flags]
     [Serializable]
     public enum CmdsModes : int
     {

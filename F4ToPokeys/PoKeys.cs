@@ -16,6 +16,8 @@ namespace F4ToPokeys
         {
             RemovePoKeysCommand = new RelayCommand(executeRemovePoKeys);
             AddDigitalOutputCommand = new RelayCommand(executeAddDigitalOutput);
+            EnableMemorySlotOutputCommand = new RelayCommand(executeEnableMemorySlotOutput);
+            DisableMemorySlotOutputCommand = new RelayCommand(executeDisableMemorySlotOutput);
             AddMatrixLedOutputCommand = new RelayCommand(executeAddMatrixLedOutput);
             AddPoExtBusOutputCommand = new RelayCommand(executeAddPoExtBusOutput);
             AddSevenSegmentDisplayCommand = new RelayCommand(executeAddSevenSegmentDisplay);
@@ -25,6 +27,9 @@ namespace F4ToPokeys
         {
             foreach (DigitalOutput digitalOutput in DigitalOutputList)
                 digitalOutput.Dispose();
+
+            foreach (MemorySlotOutput memorySlotOutput in MemorySlotOutputList)
+                memorySlotOutput.Dispose();
 
             foreach (MatrixLedOutput matrixLedOutput in MatrixLedOutputList)
                 matrixLedOutput.Dispose();
@@ -156,6 +161,70 @@ namespace F4ToPokeys
             DigitalOutputList.Add(digitalOutput);
         }
         #endregion // AddDigitalOutputCommand
+
+        #region MemorySlotOutputList
+        //
+        // Adding Pokeys Shared Memory Slot Support - Beau
+        //
+        [XmlIgnore]
+        public ObservableCollection<MemorySlotOutput> MemorySlotOutputList => FalconConnector.Singleton.MemorySlotOutputList;
+
+        public bool MemorySlotOutputEnabled
+        {
+            get { return memorySlotOutputEnabled; }
+            set
+            {
+                memorySlotOutputEnabled = value;
+
+                if (memorySlotOutputEnabled)
+                {
+                    FalconConnector.Singleton.InitMemorySlotList();
+
+                    foreach (MemorySlotOutput memorySlotOutput in MemorySlotOutputList)
+                        memorySlotOutput.setOwner(this);
+                }
+                else
+                    FalconConnector.Singleton.DeleteMemorySlotList();
+
+                RaisePropertyChanged("MemorySlotOutputEnabled");
+                RaisePropertyChanged("MemorySlotOutputList");
+            }
+        }
+
+        private bool memorySlotOutputEnabled = false;
+        #endregion // MemorySlotOutputList
+
+        #region EnableMemorySlotOutputCommand
+        [XmlIgnore]
+        public RelayCommand EnableMemorySlotOutputCommand { get; private set; }
+
+        private void executeEnableMemorySlotOutput(object o)
+        {
+            MemorySlotOutputEnabled = true;
+
+            RaisePropertyChanged("AllowEnableMemorySlotOutput");
+            RaisePropertyChanged("AllowDisableMemorySlotOutput");
+        }
+
+        [XmlIgnore]
+        public bool AllowEnableMemorySlotOutput => !MemorySlotOutputEnabled;
+        #endregion // AddMemorySlotOutputCommand
+
+        #region DisableMemorySlotOutputCommand
+        [XmlIgnore]
+        public RelayCommand DisableMemorySlotOutputCommand { get; private set; }
+
+        private void executeDisableMemorySlotOutput(object o)
+        {
+            MemorySlotOutputEnabled = false;
+
+            RaisePropertyChanged("AllowEnableMemorySlotOutput");
+            RaisePropertyChanged("AllowDisableMemorySlotOutput");
+        }
+
+        [XmlIgnore]
+        public bool AllowDisableMemorySlotOutput => MemorySlotOutputEnabled;
+        #endregion
 
         #region MatrixLedOutputList
         public ObservableCollection<MatrixLedOutput> MatrixLedOutputList
@@ -349,6 +418,9 @@ namespace F4ToPokeys
 
             foreach (DigitalOutput digitalOutput in DigitalOutputList)
                 digitalOutput.updateStatus();
+
+            foreach (MemorySlotOutput memorySlotOutput in MemorySlotOutputList)
+                memorySlotOutput.updateStatus();
 
             foreach (MatrixLedOutput matrixLedOutput in MatrixLedOutputList)
                 matrixLedOutput.updateStatus();

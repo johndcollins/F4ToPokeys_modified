@@ -3,7 +3,6 @@ using System.Runtime.InteropServices;
 
 namespace F4SharedMem.Headers
 {
-    [ComVisible(true)]
     [Serializable]
     [StructLayout(LayoutKind.Sequential, Pack = 8)]
     public struct FlightData2
@@ -18,9 +17,16 @@ namespace F4SharedMem.Headers
         // 7: bit fields are now unsigned instead of signed
         // 8: increased RwrInfo size to 512
         // 9: added human pilot names and their status in a session
+        // 10: added bump intensity while taxiing/rolling
+        // 11: added latitude/longitude
+        // 12: added RTT info
+        // 13: added IFF panel backup digits
+        // 14: added instrument backlight brightness
 
         public const int RWRINFO_SIZE = 512;
         public const int MAX_CALLSIGNS = 32;
+        public const int CALLSIGN_LEN = 12;
+
 
         // VERSION 1
         public float nozzlePos2;   // Ownship engine nozzle2 percent open (0-100)
@@ -34,9 +40,9 @@ namespace F4SharedMem.Headers
 
         // VERSION 2
         public int AltCalReading;	// barometric altitude calibration (depends on CalType)
-        public int altBits;		// various altimeter bits, see AltBits enum for details
-        public int powerBits;		// Ownship power bus / generator states, see PowerBits enum for details
-        public int blinkBits;		// Cockpit indicator lights blink status, see BlinkBits enum for details
+        public uint altBits;		// various altimeter bits, see AltBits enum for details
+        public uint powerBits;		// Ownship power bus / generator states, see PowerBits enum for details
+        public uint blinkBits;		// Cockpit indicator lights blink status, see BlinkBits enum for details
         // NOTE: these bits indicate only *if* a lamp is blinking, in addition to the
         // existing on/off bits. It's up to the external program to implement the
         // *actual* blinking.
@@ -72,6 +78,30 @@ namespace F4SharedMem.Headers
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = MAX_CALLSIGNS)]
         public byte[] pilotsStatus;                // [MAX_CALLSIGNS] Status of the MP pilots, see enum FlyStates
+
+
+        //VERSION 10
+        public float bumpIntensity; // Intensity of a "bump" while taxiing/rolling, 0..1
+
+        //VERSION 11
+        public float latitude;      // Ownship latitude in degrees (as known by avionics)
+        public float longitude;     // Ownship longitude in degrees (as known by avionics)
+
+        //VERSION 12
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
+        public ushort[] RTT_size;                 // RTT overall width and height
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)RTT_areas.RTT_noOfAreas * 4)]
+        public ushort[] RTT_area;  // For each area: left/top/right/bottom
+
+        // VERSION 13
+        public byte iffBackupMode1Digit1;                     // IFF panel backup Mode1 digit 1
+        public byte iffBackupMode1Digit2;                     // IFF panel backup Mode1 digit 2
+        public byte iffBackupMode3ADigit1;                    // IFF panel backup Mode3A digit 1
+        public byte iffBackupMode3ADigit2;                    // IFF panel backup Mode3A digit 2
+
+        // VERSION 14
+        public byte instrLight;  // (unsigned char) current instrument backlight brightness setting, see InstrLight enum for details
+
     }
 
 }
