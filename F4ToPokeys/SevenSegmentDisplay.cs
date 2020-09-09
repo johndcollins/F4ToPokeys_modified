@@ -241,8 +241,11 @@ namespace F4ToPokeys
             get { return falconValue; }
             set
             {
-                if (falconValue == value)
-                    return;
+                if (onOffPin == 0)
+                {
+                    if (falconValue == value)
+                        return;
+                }
                 falconValue = value;
                 RaisePropertyChanged("FalconValue");
 
