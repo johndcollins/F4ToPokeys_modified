@@ -324,12 +324,6 @@
   <data name="SevenSegmentDisplayConfigCaption" xml:space="preserve">
     <value>7 segment display</value>
   </data>
-  <data name="SevenSegmentDisplayOnOffPinCaption" xml:space="preserve">
-    <value>On/Off Pin</value>
-  </data>
-  <data name="SevenSegmentDisplayOnOffPinInvertedCaption" xml:space="preserve">
-    <value>On/Off Pin Inverted</value>
-  </data>
   <data name="SevenSegmentInvertRowColumnOption" xml:space="preserve">
     <value>Swap rows and columns of the matrix LED</value>
   </data>

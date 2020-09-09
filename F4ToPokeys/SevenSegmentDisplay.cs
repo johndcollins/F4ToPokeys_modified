@@ -74,40 +74,6 @@ namespace F4ToPokeys
         private string matrixLedName;
         #endregion
 
-        #region OnOffPin
-        private byte onOffPin = 0;
-        public byte OnOffPin
-        {
-            get { return onOffPin; }
-            set
-            {
-                if (onOffPin == value)
-                    return;
-                if (onOffPin < 0)
-                    return;
-
-                onOffPin = value;
-                RaisePropertyChanged("OnOffPin");
-            }
-        }
-        #endregion
-
-        #region OnOffPinInverted
-        private bool onOffPinInverted = false;
-        public bool OnOffPinInverted
-        {
-            get { return onOffPinInverted; }
-            set
-            {
-                if (onOffPinInverted == value)
-                    return;
-
-                onOffPinInverted = value;
-                RaisePropertyChanged("OnOffPinInverted");
-            }
-        }
-        #endregion
-
         #region MatrixLedConfig
         private SevenSegmentMatrixLedConfig matrixLedConfig;
 
@@ -241,11 +207,8 @@ namespace F4ToPokeys
             get { return falconValue; }
             set
             {
-                if (onOffPin == 0)
-                {
-                    if (falconValue == value)
-                        return;
-                }
+                if (falconValue == value)
+                    return;
                 falconValue = value;
                 RaisePropertyChanged("FalconValue");
 
@@ -501,59 +464,25 @@ namespace F4ToPokeys
                 }
                 else
                 {
-                    bool isOn = false;
-                    if ((OnOffPin > 0) && (OnOffPin < 56))
+                    foreach (SevenSegmentDigit digit in SevenSegmentDigits)
                     {
-                        if (onOffPinInverted)
-                            isOn = !poKeysDevice.GetInput(OnOffPin);
-                        else
-                            isOn = poKeysDevice.GetInput(OnOffPin);
-                    }
-                    else
-                        isOn = true;
-
-                    if (isOn)
-                    {
-                        foreach (SevenSegmentDigit digit in SevenSegmentDigits)
+                        for (int segmentPosition = 0; segmentPosition < 8; ++segmentPosition)
                         {
-                            for (int segmentPosition = 0; segmentPosition < 8; ++segmentPosition)
+                            SevenSegmentDigitSegment segment = digit.Segments[segmentPosition];
+
+                            if (segment.Dirty)
                             {
-                                SevenSegmentDigitSegment segment = digit.Segments[segmentPosition];
-
-                                if (segment.Dirty)
-                                {
-                                    bool setPixelOk;
-
-                                    if (MatrixLedConfig.DigitOnRow)
-                                        setPixelOk = MatrixLed.SetPixel((byte)(digit.Index - 1), (byte)(MatrixLedConfig.SegmentIndexes[segmentPosition] - 1), segment.Value);
-                                    else
-                                        setPixelOk = MatrixLed.SetPixel((byte)(MatrixLedConfig.SegmentIndexes[segmentPosition] - 1), (byte)(digit.Index - 1), segment.Value);
-
-                                    if (!setPixelOk)
-                                        Error = Translations.Main.MatrixLedErrorWrite;
-
-                                    segment.Dirty = false;
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        foreach (SevenSegmentDigit digit in SevenSegmentDigits)
-                        {
-                            for (int segmentPosition = 0; segmentPosition < 8; ++segmentPosition)
-                            {
-                                SevenSegmentDigitSegment segment = digit.Segments[segmentPosition];
-
                                 bool setPixelOk;
 
                                 if (MatrixLedConfig.DigitOnRow)
-                                    setPixelOk = MatrixLed.SetPixel((byte)(digit.Index - 1), (byte)(MatrixLedConfig.SegmentIndexes[segmentPosition] - 1), false);
+                                    setPixelOk = MatrixLed.SetPixel((byte)(digit.Index - 1), (byte)(MatrixLedConfig.SegmentIndexes[segmentPosition] - 1), segment.Value);
                                 else
-                                    setPixelOk = MatrixLed.SetPixel((byte)(MatrixLedConfig.SegmentIndexes[segmentPosition] - 1), (byte)(digit.Index - 1), false);
+                                    setPixelOk = MatrixLed.SetPixel((byte)(MatrixLedConfig.SegmentIndexes[segmentPosition] - 1), (byte)(digit.Index - 1), segment.Value);
 
                                 if (!setPixelOk)
                                     Error = Translations.Main.MatrixLedErrorWrite;
+
+                                segment.Dirty = false;
                             }
                         }
                     }

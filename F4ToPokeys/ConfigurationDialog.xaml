@@ -399,14 +399,6 @@
                                                                       Width="80"
                                                                       VerticalAlignment="Center"
                                                                       DisplayMemberPath="Name" />
-                                                            <StackPanel Orientation="Horizontal">
-                                                                <TextBlock Margin="5,0,0,0" Text="{x:Static lang:Main.SevenSegmentDisplayOnOffPinCaption}" />
-                                                                <TextBox Margin="5,0,0,0" VerticalAlignment="Center" Width="30"  Text="{Binding Path=OnOffPin }" />
-                                                            </StackPanel>
-                                                            <StackPanel Orientation="Horizontal">
-                                                                <TextBlock Margin="5,0,0,0" Text="{x:Static lang:Main.SevenSegmentDisplayOnOffPinInvertedCaption}" />
-                                                                <CheckBox Margin="5,0,0,0" VerticalAlignment="Center" IsChecked="{Binding Path=OnOffPinInverted }" />
-                                                            </StackPanel>
                                                             <Image Name="SevenSegmentErrorIcon"
                                                                    Source="{StaticResource image_erreur}"
                                                                    Width="{StaticResource {x:Static SystemParameters.SmallIconWidthKey}}"
