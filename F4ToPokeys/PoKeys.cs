@@ -221,12 +221,66 @@ namespace F4ToPokeys
         }
         #endregion // AddDigitalOutputCommand
 
-        #region MemorySlotOutputList
         //
-        // Adding Pokeys Shared Memory Slot Support - Beau
+        // Adding Pokeys Shared Memory Slot Support
         //
+        #region MemorySlotList
         [XmlIgnore]
-        public ObservableCollection<MemorySlotOutput> MemorySlotOutputList => FalconConnector.Singleton.MemorySlotOutputList;
+        public ObservableCollection<MemorySlotOutput> MemorySlotOutputList { get; } = new ObservableCollection<MemorySlotOutput>();
+
+        private void InitMemorySlotList()
+        {
+            MemorySlotOutput memorySlotOutput = new MemorySlotOutput(0);
+            memorySlotOutput.Slot = new MemorySlot("LightBits1", flightData => (uint)flightData.lightBits, 0xffffffff, 0, " 0 - 31", false, "bool bits");
+            addToSlotList(memorySlotOutput);
+
+            memorySlotOutput = new MemorySlotOutput(1);
+            memorySlotOutput.Slot = new MemorySlot("LightBits2", flightData => (uint)flightData.lightBits2, 0xffffffff, 0, " 0 - 31", false, "bool bits");
+            addToSlotList(memorySlotOutput);
+
+            memorySlotOutput = new MemorySlotOutput(2);
+            memorySlotOutput.Slot = new MemorySlot("LightBits3", flightData => (uint)flightData.lightBits3, 0xffffffff, 0, " 0 - 31", false, "bool bits");
+            addToSlotList(memorySlotOutput);
+
+            memorySlotOutput = new MemorySlotOutput(3);
+            memorySlotOutput.Slot = new MemorySlot("HsiBits", flightData => (uint)flightData.hsiBits, 0xffffffff, 0, " 0 - 31", false, "bool bits");
+            addToSlotList(memorySlotOutput);
+
+            memorySlotOutput = new MemorySlotOutput(4);
+            memorySlotOutput.Slot = new MemorySlot("BupUhfFreq", flightData => (uint)flightData.BupUhfFreq, 0xffffff, 0, "0 - 23", true, "6 BCD Digits");
+            addToSlotList(memorySlotOutput);
+
+            memorySlotOutput = new MemorySlotOutput(4);
+            memorySlotOutput.Slot = new MemorySlot("BupUhfPreset", flightData => (uint)flightData.BupUhfPreset, 0x1f, 24, "24 - 28", true, "int");
+            addToSlotList(memorySlotOutput);
+
+            memorySlotOutput = new MemorySlotOutput(5);
+            memorySlotOutput.Slot = new MemorySlot("AUXTBand", flightData => (uint)(flightData.AuxTacanIsX ? 1 : 0 & (flightData.AUXTChan << 4)), 0x1, 0, " 0 -  3", false, "1 BCD Digit");
+            addToSlotList(memorySlotOutput);
+
+            memorySlotOutput = new MemorySlotOutput(5);
+            memorySlotOutput.Slot = new MemorySlot("AUXTChan", flightData => (uint)flightData.AUXTChan, 0xfff, 4, " 4 - 15", true, "3 BCD Digits");
+            addToSlotList(memorySlotOutput);
+
+            memorySlotOutput = new MemorySlotOutput(6);
+            memorySlotOutput.Slot = new MemorySlot("IFFModes", flightData => (uint)flightData.iffBackupMode1Digit1, 0xffff, 0, " 0 - 15", true, "4 BCD Digits");
+            addToSlotList(memorySlotOutput);
+        }
+
+        private void DeleteMemorySlotList()
+        {
+            foreach (MemorySlotOutput output in MemorySlotOutputList)
+            {
+                output.Dispose();
+            }
+
+            MemorySlotOutputList.Clear();
+        }
+
+        private void addToSlotList(MemorySlotOutput memorySlotOutput)
+        {
+            MemorySlotOutputList.Add(memorySlotOutput);
+        }
 
         public bool MemorySlotOutputEnabled
         {
@@ -237,13 +291,13 @@ namespace F4ToPokeys
 
                 if (memorySlotOutputEnabled)
                 {
-                    FalconConnector.Singleton.InitMemorySlotList();
+                    InitMemorySlotList();
 
                     foreach (MemorySlotOutput memorySlotOutput in MemorySlotOutputList)
                         memorySlotOutput.setOwner(this);
                 }
                 else
-                    FalconConnector.Singleton.DeleteMemorySlotList();
+                    DeleteMemorySlotList();
 
                 RaisePropertyChanged("MemorySlotOutputEnabled");
                 RaisePropertyChanged("MemorySlotOutputList");
