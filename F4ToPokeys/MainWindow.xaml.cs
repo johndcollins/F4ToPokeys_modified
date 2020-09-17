@@ -57,6 +57,8 @@ namespace F4ToPokeys
 
         private void MenuItemQuit_Click(object sender, RoutedEventArgs e)
         {
+            ConfigHolder.Singleton.Configuration.Dispose();
+
             if (configurationDialog == null)
                 Close();
         }

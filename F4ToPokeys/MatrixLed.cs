@@ -56,17 +56,17 @@ namespace F4ToPokeys
         #endregion
 
         #region IsEnabled
-        public bool IsEnabled()
+        public bool IsEnabled(PoKeysDevice_DLL.PoKeysDevice poKeysDevice)
         {
-            return IsEnabled(null, null);
+            return IsEnabled(poKeysDevice, null, null);
         }
 
-        public bool IsPixelEnabled(byte row, byte column)
+        public bool IsPixelEnabled(PoKeysDevice_DLL.PoKeysDevice poKeysDevice, byte row, byte column)
         {
-            return IsEnabled(row, column);
+            return IsEnabled(poKeysDevice, row, column);
         }
 
-        private bool IsEnabled(byte? row, byte? column)
+        private bool IsEnabled(PoKeysDevice_DLL.PoKeysDevice poKeysDevice, byte? row, byte? column)
         {
             bool enabled1 = false;
             byte rows1 = 0;
@@ -74,7 +74,7 @@ namespace F4ToPokeys
             bool enabled2 = false;
             byte rows2 = 0;
             byte cols2 = 0;
-            if (!PoKeysEnumerator.Singleton.PoKeysDevice.MatrixLEDGetSettings(ref enabled1, ref rows1, ref cols1, ref enabled2, ref rows2, ref cols2))
+            if (!poKeysDevice.MatrixLEDGetSettings(ref enabled1, ref rows1, ref cols1, ref enabled2, ref rows2, ref cols2))
                 return false;
 
             switch (Id)
@@ -87,22 +87,22 @@ namespace F4ToPokeys
         #endregion
 
         #region SetPixel
-        public bool ClearAll(bool invert)
+        public bool ClearAll(PoKeysDevice_DLL.PoKeysDevice poKeysDevice, bool invert)
         {
             switch (Id)
             {
-                case Ids.MatrixLed1: return PoKeysEnumerator.Singleton.PoKeysDevice.MatrixLED1ClearAll(invert);
-                case Ids.MatrixLed2: return PoKeysEnumerator.Singleton.PoKeysDevice.MatrixLED2ClearAll(invert);
+                case Ids.MatrixLed1: return poKeysDevice.MatrixLED1ClearAll(invert);
+                case Ids.MatrixLed2: return poKeysDevice.MatrixLED2ClearAll(invert);
                 default: return false;
             }
         }
 
-        public bool SetPixel(byte row, byte column, bool value)
+        public bool SetPixel(PoKeysDevice_DLL.PoKeysDevice poKeysDevice, byte row, byte column, bool value)
         {
             switch (Id)
             {
-                case Ids.MatrixLed1: return PoKeysEnumerator.Singleton.PoKeysDevice.MatrixLED1SetPixel(row, column, value);
-                case Ids.MatrixLed2: return PoKeysEnumerator.Singleton.PoKeysDevice.MatrixLED2SetPixel(row, column, value);
+                case Ids.MatrixLed1: return poKeysDevice.MatrixLED1SetPixel(row, column, value);
+                case Ids.MatrixLed2: return poKeysDevice.MatrixLED2SetPixel(row, column, value);
                 default: return false;
             }
         }

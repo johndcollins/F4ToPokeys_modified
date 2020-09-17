@@ -25,6 +25,8 @@ namespace F4ToPokeys
 
         public void Dispose()
         {
+            Disconnect();
+
             foreach (DigitalOutput digitalOutput in DigitalOutputList)
                 digitalOutput.Dispose();
 
@@ -61,6 +63,17 @@ namespace F4ToPokeys
         private List<AvailablePoKeys> availablePokeysList;
         #endregion
 
+        #region PokeysDevice
+        [XmlIgnore]
+        public PoKeysDevice_DLL.PoKeysDevice PokeysDevice { get; } = new PoKeysDevice_DLL.PoKeysDevice();
+        #endregion
+
+        #region PokeysConnected
+        private bool connected = false;
+        [XmlIgnore]
+        public bool Connected { get { return connected; } }
+        #endregion
+
         #region SelectedPokeys
         [XmlIgnore]
         public AvailablePoKeys SelectedPokeys
@@ -70,8 +83,14 @@ namespace F4ToPokeys
             {
                 if (selectedPokeys == value)
                     return;
+
+                if (selectedPokeys != null)
+                    Disconnect();
+
                 selectedPokeys = value;
                 RaisePropertyChanged(nameof(SelectedPokeys));
+
+                Connect();
 
                 updateStatus();
                 updateChildrenStatus();
@@ -83,6 +102,44 @@ namespace F4ToPokeys
             }
         }
         private AvailablePoKeys selectedPokeys;
+        #endregion
+
+        #region Connect
+        private void Connect()
+        {
+            if (selectedPokeys == null)
+            {
+                Error = Translations.Main.PokeysNotFoundError;
+                return;
+            }
+
+            if (selectedPokeys.PokeysIndex == null)
+            {
+                Error = Translations.Main.PokeysNotFoundError;
+                return;
+            }
+
+            if (!PokeysDevice.ConnectToDevice(selectedPokeys.PokeysIndex.Value))
+                Error = Translations.Main.PokeysConnectError;
+
+            connected = true;
+            RaisePropertyChanged("Connected");
+
+            updateStatus();
+        }
+        #endregion
+
+        #region Disconnect
+        private void Disconnect()
+        {
+            PokeysDevice.DisconnectDevice();
+
+            connected = false;
+            RaisePropertyChanged("Connected");
+
+            selectedPokeys = null;
+            updateStatus();
+        }
         #endregion
 
         #region Serial
@@ -125,6 +182,8 @@ namespace F4ToPokeys
 
         private void executeRemovePoKeys(object o)
         {
+            Disconnect();
+
             MessageBoxResult result = MessageBox.Show(
                 string.Format(Translations.Main.RemovePoKeysText, SelectedPokeys?.PokeysId),
                 Translations.Main.RemovePoKeysCaption,
@@ -389,7 +448,7 @@ namespace F4ToPokeys
 
         #region PokeysIndex
         [XmlIgnore]
-        public int? PokeysIndex { get; private set; }
+        private int? pokeysIndex { get; set; }
         #endregion // PokeysIndex
 
         #region updateStatus
@@ -402,12 +461,12 @@ namespace F4ToPokeys
             if (SelectedPokeys == null)
             {
                 Error = null;
-                PokeysIndex = null;
+                pokeysIndex = null;
             }
             else
             {
                 Error = SelectedPokeys.Error;
-                PokeysIndex = SelectedPokeys.PokeysIndex;
+                pokeysIndex = SelectedPokeys.PokeysIndex;
             }
         }
 

@@ -31,16 +31,16 @@ namespace F4ToPokeys
         }
         #endregion
 
-        public bool IsEnabled()
+        public bool IsEnabled(PoKeysDevice_DLL.PoKeysDevice poKeysDevice)
         {
             byte auxilaryBusEnabled = 0;
-            if (!PoKeysEnumerator.Singleton.PoKeysDevice.AuxilaryBusGetData(ref auxilaryBusEnabled))
+            if (!poKeysDevice.AuxilaryBusGetData(ref auxilaryBusEnabled))
                 return false;
 
             return auxilaryBusEnabled == 1;
         }
 
-        public bool IsOutputEnabled(int deviceId, char pinId)
+        public bool IsOutputEnabled(PoKeysDevice_DLL.PoKeysDevice poKeysDevice, int deviceId, char pinId)
         {
             if (deviceId < 1 || deviceId > 10)
                 return false;
@@ -48,10 +48,10 @@ namespace F4ToPokeys
             if (pinId < 'A' || pinId > 'H')
                 return false;
 
-            return IsEnabled();
+            return IsEnabled(poKeysDevice);
         }
 
-        public bool SetOutput(int deviceId, char pinId, bool outputState)
+        public bool SetOutput(PoKeysDevice_DLL.PoKeysDevice poKeysDevice, int deviceId, char pinId, bool outputState)
         {
             int pinMask = 1 << ('H' - pinId);
 
@@ -60,7 +60,7 @@ namespace F4ToPokeys
             else
                 dataBytes[10 - deviceId] &= (byte)~pinMask;
 
-            return PoKeysEnumerator.Singleton.PoKeysDevice.AuxilaryBusSetData(1, dataBytes);
+            return poKeysDevice.AuxilaryBusSetData(1, dataBytes);
         }
 
         private byte[] dataBytes = new byte[10];

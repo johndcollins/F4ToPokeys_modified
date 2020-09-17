@@ -101,42 +101,30 @@ namespace F4ToPokeys
             if (owner == null)
                 return;
 
+            if (!owner.Connected)
+                return;
+
             if (!PinId.HasValue)
-            {
-                Error = null;
-            }
-            else if (!owner.PokeysIndex.HasValue)
             {
                 Error = null;
             }
             else
             {
-                PoKeysDevice_DLL.PoKeysDevice poKeysDevice = PoKeysEnumerator.Singleton.PoKeysDevice;
-
-                if (!poKeysDevice.ConnectToDevice(owner.PokeysIndex.Value))
+                byte pinFunction = 0;
+                if (!owner.PokeysDevice.GetPinData((byte)(PinId.Value - 1), ref pinFunction))
                 {
-                    Error = Translations.Main.PokeysConnectError;
+                    Error = Translations.Main.DigitalOutputErrorGetIOType;
                 }
                 else
                 {
-                    byte pinFunction = 0;
-                    if (!poKeysDevice.GetPinData((byte)(PinId.Value - 1), ref pinFunction))
+                    if ((pinFunction & 0x4) == 0)
                     {
-                        Error = Translations.Main.DigitalOutputErrorGetIOType;
+                        Error = Translations.Main.DigitalOutputErrorBadIOType;
                     }
                     else
                     {
-                        if ((pinFunction & 0x4) == 0)
-                        {
-                            Error = Translations.Main.DigitalOutputErrorBadIOType;
-                        }
-                        else
-                        {
-                            Error = null;
-                        }
+                        Error = null;
                     }
-
-                    poKeysDevice.DisconnectDevice();
                 }
             }
 
@@ -147,22 +135,11 @@ namespace F4ToPokeys
         #region writeOutputState
         protected override void writeOutputState()
         {
-            if (string.IsNullOrEmpty(Error) && owner != null && owner.PokeysIndex.HasValue && PinId.HasValue)
+            if (string.IsNullOrEmpty(Error) && owner != null && owner.Connected && PinId.HasValue)
             {
-                PoKeysDevice_DLL.PoKeysDevice poKeysDevice = PoKeysEnumerator.Singleton.PoKeysDevice;
-
-                if (!poKeysDevice.ConnectToDevice(owner.PokeysIndex.Value))
+                if (!owner.PokeysDevice.SetOutput((byte)(PinId.Value - 1), OutputState))
                 {
-                    Error = Translations.Main.PokeysConnectError;
-                }
-                else
-                {
-                    if (!poKeysDevice.SetOutput((byte)(PinId.Value - 1), OutputState))
-                    {
-                        Error = Translations.Main.DigitalOutputErrorWrite;
-                    }
-
-                    poKeysDevice.DisconnectDevice();
+                    Error = Translations.Main.DigitalOutputErrorWrite;
                 }
             }
         }

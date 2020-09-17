@@ -100,34 +100,22 @@ namespace F4ToPokeys
             if (owner == null)
                 return;
 
+            if (!owner.Connected)
+                return;
+
             if (!DeviceId.HasValue || !PinId.HasValue)
-            {
-                Error = null;
-            }
-            else if (!owner.PokeysIndex.HasValue)
             {
                 Error = null;
             }
             else
             {
-                PoKeysDevice_DLL.PoKeysDevice poKeysDevice = PoKeysEnumerator.Singleton.PoKeysDevice;
-
-                if (!poKeysDevice.ConnectToDevice(owner.PokeysIndex.Value))
+                if (!owner.PoExtBus.IsOutputEnabled(owner.PokeysDevice, DeviceId.Value, PinId.Value))
                 {
-                    Error = Translations.Main.PokeysConnectError;
+                    Error = Translations.Main.PoExtBusErrorNotEnabled;
                 }
                 else
                 {
-                    if (!owner.PoExtBus.IsOutputEnabled(DeviceId.Value, PinId.Value))
-                    {
-                        Error = Translations.Main.PoExtBusErrorNotEnabled;
-                    }
-                    else
-                    {
-                        Error = null;
-                    }
-
-                    poKeysDevice.DisconnectDevice();
+                    Error = null;
                 }
             }
 
@@ -138,22 +126,11 @@ namespace F4ToPokeys
         #region writeOutputState
         protected override void writeOutputState()
         {
-            if (string.IsNullOrEmpty(Error) && owner != null && owner.PokeysIndex.HasValue && DeviceId.HasValue && PinId.HasValue)
+            if (string.IsNullOrEmpty(Error) && owner != null && owner.Connected && DeviceId.HasValue && PinId.HasValue)
             {
-                PoKeysDevice_DLL.PoKeysDevice poKeysDevice = PoKeysEnumerator.Singleton.PoKeysDevice;
-
-                if (!poKeysDevice.ConnectToDevice(owner.PokeysIndex.Value))
+                if (!owner.PoExtBus.SetOutput(owner.PokeysDevice, DeviceId.Value, PinId.Value, OutputState))
                 {
-                    Error = Translations.Main.PokeysConnectError;
-                }
-                else
-                {
-                    if (!owner.PoExtBus.SetOutput(DeviceId.Value, PinId.Value, OutputState))
-                    {
-                        Error = Translations.Main.PoExtBusErrorWrite;
-                    }
-
-                    poKeysDevice.DisconnectDevice();
+                    Error = Translations.Main.PoExtBusErrorWrite;
                 }
             }
         }

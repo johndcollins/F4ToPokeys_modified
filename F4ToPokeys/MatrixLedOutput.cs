@@ -144,34 +144,22 @@ namespace F4ToPokeys
             if (owner == null)
                 return;
 
+            if (!owner.Connected)
+                return;
+
             if (MatrixLed == null || !Row.HasValue || !Column.HasValue)
-            {
-                Error = null;
-            }
-            else if (!owner.PokeysIndex.HasValue)
             {
                 Error = null;
             }
             else
             {
-                PoKeysDevice_DLL.PoKeysDevice poKeysDevice = PoKeysEnumerator.Singleton.PoKeysDevice;
-
-                if (!poKeysDevice.ConnectToDevice(owner.PokeysIndex.Value))
+                if (!MatrixLed.IsPixelEnabled(owner.PokeysDevice, (byte)(Row.Value - 1), (byte)(Column.Value - 1)))
                 {
-                    Error = Translations.Main.PokeysConnectError;
+                    Error = string.Format(Translations.Main.MatrixLedPixelErrorNotEnabled, Row, Column);
                 }
                 else
                 {
-                    if (!MatrixLed.IsPixelEnabled((byte)(Row.Value - 1), (byte)(Column.Value - 1)))
-                    {
-                        Error = string.Format(Translations.Main.MatrixLedPixelErrorNotEnabled, Row, Column);
-                    }
-                    else
-                    {
-                        Error = null;
-                    }
-
-                    poKeysDevice.DisconnectDevice();
+                    Error = null;
                 }
             }
 
@@ -182,22 +170,11 @@ namespace F4ToPokeys
         #region writeOutputState
         protected override void writeOutputState()
         {
-            if (string.IsNullOrEmpty(Error) && owner != null && owner.PokeysIndex.HasValue && MatrixLed != null && Row.HasValue && Column.HasValue)
+            if (string.IsNullOrEmpty(Error) && owner != null && owner.Connected && MatrixLed != null && Row.HasValue && Column.HasValue)
             {
-                PoKeysDevice_DLL.PoKeysDevice poKeysDevice = PoKeysEnumerator.Singleton.PoKeysDevice;
-
-                if (!poKeysDevice.ConnectToDevice(owner.PokeysIndex.Value))
+                if (!MatrixLed.SetPixel(owner.PokeysDevice, (byte)(Row.Value - 1), (byte)(Column.Value - 1), OutputState))
                 {
-                    Error = Translations.Main.PokeysConnectError;
-                }
-                else
-                {
-                    if (!MatrixLed.SetPixel((byte)(Row.Value - 1), (byte)(Column.Value - 1), OutputState))
-                    {
-                        Error = Translations.Main.MatrixLedErrorWrite;
-                    }
-
-                    poKeysDevice.DisconnectDevice();
+                    Error = Translations.Main.MatrixLedErrorWrite;
                 }
             }
         }

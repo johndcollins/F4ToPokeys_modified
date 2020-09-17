@@ -123,21 +123,10 @@ namespace F4ToPokeys
         #region writeMemorySlot
         private void writeMemorySlot(int slot)
         {
-            if (string.IsNullOrEmpty(Error) && owner != null && owner.PokeysIndex.HasValue && SlotId.HasValue)
+            if (string.IsNullOrEmpty(Error) && owner != null && owner.Connected && SlotId.HasValue)
             {
-                PoKeysDevice_DLL.PoKeysDevice poKeysDevice = PoKeysEnumerator.Singleton.PoKeysDevice;
-
-                if (!poKeysDevice.ConnectToDevice(owner.PokeysIndex.Value))
-                {
-                    Error = Translations.Main.PokeysConnectError;
-                }
-                else
-                {
-                    byte[] data = BitConverter.GetBytes(memorySlots[slot]);
-                    poKeysDevice.PoILWriteMemory(4, (ushort)(slot * 4), 4, ref data);
-
-                    poKeysDevice.DisconnectDevice();
-                }
+                byte[] data = BitConverter.GetBytes(memorySlots[slot]);
+                owner.PokeysDevice.PoILWriteMemory(4, (ushort)(slot * 4), 4, ref data);
             }
         }
         #endregion // writeOutputState

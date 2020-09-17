@@ -407,34 +407,22 @@ namespace F4ToPokeys
             if (owner == null)
                 return;
 
+            if (!owner.Connected)
+                return;
+
             if (MatrixLedConfig == null)
-            {
-                Error = null;
-            }
-            else if (!owner.PokeysIndex.HasValue)
             {
                 Error = null;
             }
             else
             {
-                PoKeysDevice_DLL.PoKeysDevice poKeysDevice = PoKeysEnumerator.Singleton.PoKeysDevice;
-
-                if (!poKeysDevice.ConnectToDevice(owner.PokeysIndex.Value))
+                if (!MatrixLed.IsEnabled(owner.PokeysDevice))
                 {
-                    Error = Translations.Main.PokeysConnectError;
+                    Error = Translations.Main.MatrixLedErrorNotEnabled;
                 }
                 else
                 {
-                    if (!MatrixLed.IsEnabled())
-                    {
-                        Error = Translations.Main.MatrixLedErrorNotEnabled;
-                    }
-                    else
-                    {
-                        Error = null;
-                    }
-
-                    poKeysDevice.DisconnectDevice();
+                    Error = null;
                 }
             }
 
@@ -454,40 +442,29 @@ namespace F4ToPokeys
 
         private void writeOutputState()
         {
-            if (string.IsNullOrEmpty(Error) && owner != null && owner.PokeysIndex.HasValue && MatrixLedConfig != null)
+            if (string.IsNullOrEmpty(Error) && owner != null && owner.Connected && MatrixLedConfig != null)
             {
-                PoKeysDevice_DLL.PoKeysDevice poKeysDevice = PoKeysEnumerator.Singleton.PoKeysDevice;
-
-                if (!poKeysDevice.ConnectToDevice(owner.PokeysIndex.Value))
+                foreach (SevenSegmentDigit digit in SevenSegmentDigits)
                 {
-                    Error = Translations.Main.PokeysConnectError;
-                }
-                else
-                {
-                    foreach (SevenSegmentDigit digit in SevenSegmentDigits)
+                    for (int segmentPosition = 0; segmentPosition < 8; ++segmentPosition)
                     {
-                        for (int segmentPosition = 0; segmentPosition < 8; ++segmentPosition)
+                        SevenSegmentDigitSegment segment = digit.Segments[segmentPosition];
+
+                        if (segment.Dirty)
                         {
-                            SevenSegmentDigitSegment segment = digit.Segments[segmentPosition];
+                            bool setPixelOk;
 
-                            if (segment.Dirty)
-                            {
-                                bool setPixelOk;
+                            if (MatrixLedConfig.DigitOnRow)
+                                setPixelOk = MatrixLed.SetPixel(owner.PokeysDevice, (byte)(digit.Index - 1), (byte)(MatrixLedConfig.SegmentIndexes[segmentPosition] - 1), segment.Value);
+                            else
+                                setPixelOk = MatrixLed.SetPixel(owner.PokeysDevice, (byte)(MatrixLedConfig.SegmentIndexes[segmentPosition] - 1), (byte)(digit.Index - 1), segment.Value);
 
-                                if (MatrixLedConfig.DigitOnRow)
-                                    setPixelOk = MatrixLed.SetPixel((byte)(digit.Index - 1), (byte)(MatrixLedConfig.SegmentIndexes[segmentPosition] - 1), segment.Value);
-                                else
-                                    setPixelOk = MatrixLed.SetPixel((byte)(MatrixLedConfig.SegmentIndexes[segmentPosition] - 1), (byte)(digit.Index - 1), segment.Value);
+                            if (!setPixelOk)
+                                Error = Translations.Main.MatrixLedErrorWrite;
 
-                                if (!setPixelOk)
-                                    Error = Translations.Main.MatrixLedErrorWrite;
-
-                                segment.Dirty = false;
-                            }
+                            segment.Dirty = false;
                         }
                     }
-
-                    poKeysDevice.DisconnectDevice();
                 }
             }
         }
