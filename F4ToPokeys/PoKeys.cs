@@ -61,9 +61,7 @@ namespace F4ToPokeys
             }
         }
         private List<AvailablePoKeys> availablePokeysList;
-        #endregion
 
-        #region PokeysDevice
         [XmlIgnore]
         public PoKeysDevice_DLL.PoKeysDevice PokeysDevice { get; } = new PoKeysDevice_DLL.PoKeysDevice();
         #endregion
@@ -119,6 +117,7 @@ namespace F4ToPokeys
                 return;
             }
 
+            PokeysDevice.EnumerateDevices();
             if (!PokeysDevice.ConnectToDevice(selectedPokeys.PokeysIndex.Value))
                 Error = Translations.Main.PokeysConnectError;
 

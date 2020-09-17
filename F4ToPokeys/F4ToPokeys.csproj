@@ -54,8 +54,9 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PoKeysDevice_DLL">
-      <HintPath>..\PoKeysDevice\PoKeysDevice_DLL.dll</HintPath>
+    <Reference Include="PoKeysDevice_DLL, Version=1.1.0.2518, Culture=neutral, PublicKeyToken=b8cc0985acb6f071, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files\PoLabs\PoKeys\PoKeysDevice_DLL.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
