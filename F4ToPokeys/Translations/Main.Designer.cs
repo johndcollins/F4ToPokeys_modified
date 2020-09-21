@@ -133,6 +133,24 @@ namespace F4ToPokeys.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add a stepper motor.
+        /// </summary>
+        public static string AddStepperButton {
+            get {
+                return ResourceManager.GetString("AddStepperButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add a point.
+        /// </summary>
+        public static string AddStepperPointButton {
+            get {
+                return ResourceManager.GetString("AddStepperPointButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to F4ToPokeys started.
         /// </summary>
         public static string ApplicationStartedBalloonTip {
@@ -628,6 +646,24 @@ namespace F4ToPokeys.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove Stepper.
+        /// </summary>
+        public static string RemoveStepperCaption {
+            get {
+                return ResourceManager.GetString("RemoveStepperCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove Stepper {0} ?.
+        /// </summary>
+        public static string RemoveStepperText {
+            get {
+                return ResourceManager.GetString("RemoveStepperText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Servo.
         /// </summary>
         public static string ServoConfigCaption {
@@ -705,6 +741,195 @@ namespace F4ToPokeys.Translations {
         public static string SevenSegmentSegmentRowCaption {
             get {
                 return ResourceManager.GetString("SevenSegmentSegmentRowCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stepper Motor.
+        /// </summary>
+        public static string StepperConfigCaption {
+            get {
+                return ResourceManager.GetString("StepperConfigCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error occured during homing..
+        /// </summary>
+        public static string StepperErrorDuringHomingError {
+            get {
+                return ResourceManager.GetString("StepperErrorDuringHomingError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Has Home Switch.
+        /// </summary>
+        public static string StepperHasHomeSwitchCaption {
+            get {
+                return ResourceManager.GetString("StepperHasHomeSwitchCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Home Inverted.
+        /// </summary>
+        public static string StepperHomeInvertedCaption {
+            get {
+                return ResourceManager.GetString("StepperHomeInvertedCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Homing Reduced Speed.
+        /// </summary>
+        public static string StepperHomingReducedSpeedCaption {
+            get {
+                return ResourceManager.GetString("StepperHomingReducedSpeedCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Homing Speed.
+        /// </summary>
+        public static string StepperHomingSpeedCaption {
+            get {
+                return ResourceManager.GetString("StepperHomingSpeedCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Idle.
+        /// </summary>
+        public static string StepperHomingStatusIdle {
+            get {
+                return ResourceManager.GetString("StepperHomingStatusIdle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Homing....
+        /// </summary>
+        public static string StepperHomingStatusProcessing {
+            get {
+                return ResourceManager.GetString("StepperHomingStatusProcessing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Homing timeout.
+        /// </summary>
+        public static string StepperHomingTimeoutError {
+            get {
+                return ResourceManager.GetString("StepperHomingTimeoutError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stepper Id {0} is already used..
+        /// </summary>
+        public static string StepperIdIsAlreadyUsed {
+            get {
+                return ResourceManager.GetString("StepperIdIsAlreadyUsed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reverse Direction.
+        /// </summary>
+        public static string StepperInverted {
+            get {
+                return ResourceManager.GetString("StepperInverted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Max Acceleration.
+        /// </summary>
+        public static string StepperMaxAccelerationCaption {
+            get {
+                return ResourceManager.GetString("StepperMaxAccelerationCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Max Movement Tolerance.
+        /// </summary>
+        public static string StepperMaxMovementToleranceCaption {
+            get {
+                return ResourceManager.GetString("StepperMaxMovementToleranceCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Max Speed.
+        /// </summary>
+        public static string StepperMaxSpeedCaption {
+            get {
+                return ResourceManager.GetString("StepperMaxSpeedCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pin number must be between 1 and 53 or 55.
+        /// </summary>
+        public static string StepperPinHomeSwitchOutOfRange {
+            get {
+                return ResourceManager.GetString("StepperPinHomeSwitchOutOfRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zero Sensor Input Pin.
+        /// </summary>
+        public static string StepperPinHomingSwitchCaption {
+            get {
+                return ResourceManager.GetString("StepperPinHomingSwitchCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Falcon value.
+        /// </summary>
+        public static string StepperPointFalconValue {
+            get {
+                return ResourceManager.GetString("StepperPointFalconValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stepper value.
+        /// </summary>
+        public static string StepperPointStepperValue {
+            get {
+                return ResourceManager.GetString("StepperPointStepperValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error state of the Pulse engine - check limit and emergency switches.
+        /// </summary>
+        public static string StepperPositioningError {
+            get {
+                return ResourceManager.GetString("StepperPositioningError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Steps Per Unit.
+        /// </summary>
+        public static string StepperStepsPerUnit {
+            get {
+                return ResourceManager.GetString("StepperStepsPerUnit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update Interval MS.
+        /// </summary>
+        public static string StepperUpdateIntervalMsCaption {
+            get {
+                return ResourceManager.GetString("StepperUpdateIntervalMsCaption", resourceCulture);
             }
         }
     }

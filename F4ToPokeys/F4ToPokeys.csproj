@@ -89,6 +89,13 @@
     <Compile Include="MemorySlotConsumer.cs" />
     <Compile Include="MemorySlotOutput.cs" />
     <Compile Include="NullToVisibilityConverter.cs" />
+    <Compile Include="PoKeysStepper.cs" />
+    <Compile Include="PoKeysStepperBoardConfiguration.cs" />
+    <Compile Include="PoKeysStepperPoint.cs" />
+    <Compile Include="PoKeysStepperPositioningAxisConfig.cs" />
+    <Compile Include="PoKeysStepperPositioningState.cs" />
+    <Compile Include="PoKeysStepperPositioningSystem.cs" />
+    <Compile Include="PoKeysStepperVID6066.cs" />
     <Compile Include="SevenSegmentDigitFillConverter.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="ConfigurationDialog.xaml.cs">

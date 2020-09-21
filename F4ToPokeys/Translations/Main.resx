@@ -141,6 +141,12 @@
   <data name="AddSevenSegmentDisplayButton" xml:space="preserve">
     <value>Add a 7 segment display</value>
   </data>
+  <data name="AddStepperButton" xml:space="preserve">
+    <value>Add a stepper motor</value>
+  </data>
+  <data name="AddStepperPointButton" xml:space="preserve">
+    <value>Add a point</value>
+  </data>
   <data name="ApplicationStartedBalloonTip" xml:space="preserve">
     <value>F4ToPokeys started</value>
   </data>
@@ -306,6 +312,12 @@
   <data name="RemoveSevenSegmentDisplayText" xml:space="preserve">
     <value>Remove 7 segment display {0} ?</value>
   </data>
+  <data name="RemoveStepperCaption" xml:space="preserve">
+    <value>Remove Stepper</value>
+  </data>
+  <data name="RemoveStepperText" xml:space="preserve">
+    <value>Remove Stepper {0} ?</value>
+  </data>
   <data name="ServoConfigCaption" xml:space="preserve">
     <value>Servo</value>
   </data>
@@ -332,5 +344,68 @@
   </data>
   <data name="SevenSegmentSegmentRowCaption" xml:space="preserve">
     <value>Segment matrix LED row index :</value>
+  </data>
+  <data name="StepperConfigCaption" xml:space="preserve">
+    <value>Stepper Motor</value>
+  </data>
+  <data name="StepperErrorDuringHomingError" xml:space="preserve">
+    <value>Error occured during homing.</value>
+  </data>
+  <data name="StepperHasHomeSwitchCaption" xml:space="preserve">
+    <value>Has Home Switch</value>
+  </data>
+  <data name="StepperHomeInvertedCaption" xml:space="preserve">
+    <value>Home Inverted</value>
+  </data>
+  <data name="StepperHomingReducedSpeedCaption" xml:space="preserve">
+    <value>Homing Reduced Speed</value>
+  </data>
+  <data name="StepperHomingSpeedCaption" xml:space="preserve">
+    <value>Homing Speed</value>
+  </data>
+  <data name="StepperHomingStatusIdle" xml:space="preserve">
+    <value>Idle</value>
+  </data>
+  <data name="StepperHomingStatusProcessing" xml:space="preserve">
+    <value>Homing...</value>
+  </data>
+  <data name="StepperHomingTimeoutError" xml:space="preserve">
+    <value>Homing timeout</value>
+  </data>
+  <data name="StepperIdIsAlreadyUsed" xml:space="preserve">
+    <value>Stepper Id {0} is already used.</value>
+  </data>
+  <data name="StepperInverted" xml:space="preserve">
+    <value>Reverse Direction</value>
+  </data>
+  <data name="StepperMaxAccelerationCaption" xml:space="preserve">
+    <value>Max Acceleration</value>
+  </data>
+  <data name="StepperMaxMovementToleranceCaption" xml:space="preserve">
+    <value>Max Movement Tolerance</value>
+  </data>
+  <data name="StepperMaxSpeedCaption" xml:space="preserve">
+    <value>Max Speed</value>
+  </data>
+  <data name="StepperPinHomeSwitchOutOfRange" xml:space="preserve">
+    <value>Pin number must be between 1 and 53 or 55</value>
+  </data>
+  <data name="StepperPinHomingSwitchCaption" xml:space="preserve">
+    <value>Zero Sensor Input Pin</value>
+  </data>
+  <data name="StepperPointFalconValue" xml:space="preserve">
+    <value>Falcon value</value>
+  </data>
+  <data name="StepperPointStepperValue" xml:space="preserve">
+    <value>Stepper value</value>
+  </data>
+  <data name="StepperPositioningError" xml:space="preserve">
+    <value>Error state of the Pulse engine - check limit and emergency switches</value>
+  </data>
+  <data name="StepperStepsPerUnit" xml:space="preserve">
+    <value>Steps Per Unit</value>
+  </data>
+  <data name="StepperUpdateIntervalMsCaption" xml:space="preserve">
+    <value>Update Interval MS</value>
   </data>
 </root>

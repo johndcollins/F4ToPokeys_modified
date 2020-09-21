@@ -471,6 +471,25 @@ namespace F4ToPokeys
         }
         #endregion
 
+        #region PoKeysVID6066
+        public PoKeysStepperVID6066 PoVID6066
+        {
+            get
+            {
+                if (poVID6066 == null)
+                    poVID6066 = new PoKeysStepperVID6066();
+
+                return poVID6066;
+            }
+            set
+            {
+                poVID6066 = value;
+            }
+        }
+
+        private PoKeysStepperVID6066 poVID6066;
+        #endregion
+
         #region Error
         [XmlIgnore]
         public string Error
@@ -505,6 +524,9 @@ namespace F4ToPokeys
 
             foreach (SevenSegmentDisplay sevenSegmentDisplay in SevenSegmentDisplayList)
                 sevenSegmentDisplay.setOwner(this);
+
+            if (PoVID6066 != null)
+                PoVID6066.setOwner(this);
         }
 
         private Configuration owner;
