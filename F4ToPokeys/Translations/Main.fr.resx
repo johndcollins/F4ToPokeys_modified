@@ -153,6 +153,12 @@
   <data name="ApplicationTitle" xml:space="preserve">
     <value>F4ToPokeys</value>
   </data>
+  <data name="COMPortCaption" xml:space="preserve">
+    <value>COMPort</value>
+  </data>
+  <data name="COMPortNotFoundError" xml:space="preserve">
+    <value>COMPort {0} not found.</value>
+  </data>
   <data name="ConfigLoadErrorCaption" xml:space="preserve">
     <value>Erreur de lecture de la configuration</value>
   </data>
@@ -161,6 +167,42 @@
   </data>
   <data name="DecrementTotalSizeButton" xml:space="preserve">
     <value>Supprimer un chiffre</value>
+  </data>
+  <data name="DEDuinoBMS432Caption" xml:space="preserve">
+    <value>BMS432</value>
+  </data>
+  <data name="DEDuinoCautionPanelCaption" xml:space="preserve">
+    <value>Caution Panel</value>
+  </data>
+  <data name="DEDuinoCMDSCaption" xml:space="preserve">
+    <value>CMDS</value>
+  </data>
+  <data name="DEDuinoConfigCaption" xml:space="preserve">
+    <value>DEDuino</value>
+  </data>
+  <data name="DEDuinoDEDCaption" xml:space="preserve">
+    <value>DED</value>
+  </data>
+  <data name="DEDuinoEngineCaption" xml:space="preserve">
+    <value>Engine</value>
+  </data>
+  <data name="DEDuinoFFICaption" xml:space="preserve">
+    <value>FFI</value>
+  </data>
+  <data name="DEDuinoGlareShieldCaption" xml:space="preserve">
+    <value>Glare Shield</value>
+  </data>
+  <data name="DEDuinoIndexersCaption" xml:space="preserve">
+    <value>Indexers</value>
+  </data>
+  <data name="DEDuinoJshepCPCaption" xml:space="preserve">
+    <value>Jshep Caution Panel</value>
+  </data>
+  <data name="DEDuinoPFLCaption" xml:space="preserve">
+    <value>PFL</value>
+  </data>
+  <data name="DEDuinoSpeedBrakesCaption" xml:space="preserve">
+    <value>Speed Brakes</value>
   </data>
   <data name="DigitalOutputConfigCaption" xml:space="preserve">
     <value>Sortie digitale</value>
@@ -407,5 +449,14 @@
   </data>
   <data name="StepperUpdateIntervalMsCaption" xml:space="preserve">
     <value>Update Interval MS</value>
+  </data>
+  <data name="RemoveDEDuinoCaption" xml:space="preserve">
+    <value>Remove DEDuino</value>
+  </data>
+  <data name="RemoveDEDuinoText" xml:space="preserve">
+    <value>Remove DEDuino?</value>
+  </data>
+  <data name="AddDEDuinoButton" xml:space="preserve">
+    <value>Add DEDuino</value>
   </data>
 </root>

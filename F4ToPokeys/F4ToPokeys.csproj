@@ -85,6 +85,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DEDuino.cs" />
     <Compile Include="MemorySlot.cs" />
     <Compile Include="MemorySlotConsumer.cs" />
     <Compile Include="MemorySlotOutput.cs" />

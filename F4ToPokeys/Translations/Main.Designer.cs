@@ -61,6 +61,15 @@ namespace F4ToPokeys.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add DEDuino.
+        /// </summary>
+        public static string AddDEDuinoButton {
+            get {
+                return ResourceManager.GetString("AddDEDuinoButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add a digital output.
         /// </summary>
         public static string AddDigitalOutputButton {
@@ -169,6 +178,24 @@ namespace F4ToPokeys.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to COMPort.
+        /// </summary>
+        public static string COMPortCaption {
+            get {
+                return ResourceManager.GetString("COMPortCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to COMPort {0} not found..
+        /// </summary>
+        public static string COMPortNotFoundError {
+            get {
+                return ResourceManager.GetString("COMPortNotFoundError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Configuration load error.
         /// </summary>
         public static string ConfigLoadErrorCaption {
@@ -192,6 +219,114 @@ namespace F4ToPokeys.Translations {
         public static string DecrementTotalSizeButton {
             get {
                 return ResourceManager.GetString("DecrementTotalSizeButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to BMS432.
+        /// </summary>
+        public static string DEDuinoBMS432Caption {
+            get {
+                return ResourceManager.GetString("DEDuinoBMS432Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Caution Panel.
+        /// </summary>
+        public static string DEDuinoCautionPanelCaption {
+            get {
+                return ResourceManager.GetString("DEDuinoCautionPanelCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CMDS.
+        /// </summary>
+        public static string DEDuinoCMDSCaption {
+            get {
+                return ResourceManager.GetString("DEDuinoCMDSCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DEDuino.
+        /// </summary>
+        public static string DEDuinoConfigCaption {
+            get {
+                return ResourceManager.GetString("DEDuinoConfigCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DED.
+        /// </summary>
+        public static string DEDuinoDEDCaption {
+            get {
+                return ResourceManager.GetString("DEDuinoDEDCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Engine.
+        /// </summary>
+        public static string DEDuinoEngineCaption {
+            get {
+                return ResourceManager.GetString("DEDuinoEngineCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FFI.
+        /// </summary>
+        public static string DEDuinoFFICaption {
+            get {
+                return ResourceManager.GetString("DEDuinoFFICaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Glare Shield.
+        /// </summary>
+        public static string DEDuinoGlareShieldCaption {
+            get {
+                return ResourceManager.GetString("DEDuinoGlareShieldCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Indexers.
+        /// </summary>
+        public static string DEDuinoIndexersCaption {
+            get {
+                return ResourceManager.GetString("DEDuinoIndexersCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Jshep Caution Panel.
+        /// </summary>
+        public static string DEDuinoJshepCPCaption {
+            get {
+                return ResourceManager.GetString("DEDuinoJshepCPCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PFL.
+        /// </summary>
+        public static string DEDuinoPFLCaption {
+            get {
+                return ResourceManager.GetString("DEDuinoPFLCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Speed Brakes.
+        /// </summary>
+        public static string DEDuinoSpeedBrakesCaption {
+            get {
+                return ResourceManager.GetString("DEDuinoSpeedBrakesCaption", resourceCulture);
             }
         }
         
@@ -516,6 +651,24 @@ namespace F4ToPokeys.Translations {
         public static string RemoveButton {
             get {
                 return ResourceManager.GetString("RemoveButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove DEDuino.
+        /// </summary>
+        public static string RemoveDEDuinoCaption {
+            get {
+                return ResourceManager.GetString("RemoveDEDuinoCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove DEDuino?.
+        /// </summary>
+        public static string RemoveDEDuinoText {
+            get {
+                return ResourceManager.GetString("RemoveDEDuinoText", resourceCulture);
             }
         }
         

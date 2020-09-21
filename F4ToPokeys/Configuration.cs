@@ -181,6 +181,7 @@ namespace F4ToPokeys
         {
             AddPoKeysCommand = new RelayCommand(executeAddPoKeys);
             AddPololuMaestroCommand = new RelayCommand(executeAddPololuMaestro);
+            AddDEDuinoCommand = new RelayCommand(executeAddDEDuino);
         }
 
         public void setOwner()
@@ -190,6 +191,9 @@ namespace F4ToPokeys
 
             foreach (PololuMaestro pololuMaestro in PololuMaestroList)
                 pololuMaestro.setOwner(this);
+
+            foreach (DEDuino deduino in DEDuinoList)
+                deduino.setOwner(this);
         }
 
         public void Dispose()
@@ -199,6 +203,9 @@ namespace F4ToPokeys
 
             foreach (PololuMaestro pololuMaestro in PololuMaestroList)
                 pololuMaestro.Dispose();
+
+            foreach (DEDuino deduino in DEDuinoList)
+                deduino.Dispose();
         }
 
         #endregion // Construction/Destruction
@@ -268,5 +275,31 @@ namespace F4ToPokeys
             PololuMaestroList.Add(pololuMaestro);
         }
         #endregion // AddPoKeysCommand
+
+        #region DEDuinoList
+        public ObservableCollection<DEDuino> DEDuinoList
+        {
+            get { return deduinoList; }
+            set
+            {
+                deduinoList = value;
+                RaisePropertyChanged("DEDuinoList");
+            }
+        }
+
+        private ObservableCollection<DEDuino> deduinoList = new ObservableCollection<DEDuino>();
+        #endregion
+
+        #region AddDEDuinoCommand
+        [XmlIgnore]
+        public RelayCommand AddDEDuinoCommand { get; private set; }
+
+        private void executeAddDEDuino(object o)
+        {
+            DEDuino deduino = new DEDuino();
+            deduino.setOwner(this);
+            DEDuinoList.Add(deduino);
+        }
+        #endregion
     }
 }
