@@ -262,18 +262,30 @@ namespace F4ToPokeys
             addToSlotList(memorySlotOutput);
 
             memorySlotOutput = new MemorySlotOutput(6);
-            memorySlotOutput.Slot = new MemorySlot("IFFModes", flightData => (uint)flightData.iffBackupMode1Digit1, 0xffff, 0, " 0 - 15", true, "4 BCD Digits");
+            memorySlotOutput.Slot = new MemorySlot("IFFMode1Digit1", flightData => (uint)flightData.iffBackupMode1Digit1, 0xffff, 0, " 0 - 15", true, "4 BCD Digits");
             addToSlotList(memorySlotOutput);
 
             memorySlotOutput = new MemorySlotOutput(7);
-            memorySlotOutput.Slot = new MemorySlot("Powerbits", flightData => (uint)flightData.powerBits, 0xffffffff, 0, " 0 - 31", false, "bool bits");
+            memorySlotOutput.Slot = new MemorySlot("IFFMode1Digit2", flightData => (uint)flightData.iffBackupMode1Digit2, 0xffff, 0, " 0 - 15", true, "4 BCD Digits");
             addToSlotList(memorySlotOutput);
 
             memorySlotOutput = new MemorySlotOutput(8);
-            memorySlotOutput.Slot = new MemorySlot("Blinkbits", flightData => (uint)flightData.blinkBits, 0xffffffff, 0, " 0 - 31", false, "bool bits");
+            memorySlotOutput.Slot = new MemorySlot("IFFMode3ADigit1", flightData => (uint)flightData.iffBackupMode3ADigit1, 0xffff, 0, " 0 - 15", true, "4 BCD Digits");
             addToSlotList(memorySlotOutput);
 
             memorySlotOutput = new MemorySlotOutput(9);
+            memorySlotOutput.Slot = new MemorySlot("IFFMode3ADigit2", flightData => (uint)flightData.iffBackupMode3ADigit2, 0xffff, 0, " 0 - 15", true, "4 BCD Digits");
+            addToSlotList(memorySlotOutput);
+
+            memorySlotOutput = new MemorySlotOutput(10);
+            memorySlotOutput.Slot = new MemorySlot("Powerbits", flightData => (uint)flightData.powerBits, 0xffffffff, 0, " 0 - 31", false, "bool bits");
+            addToSlotList(memorySlotOutput);
+
+            memorySlotOutput = new MemorySlotOutput(11);
+            memorySlotOutput.Slot = new MemorySlot("Blinkbits", flightData => (uint)flightData.blinkBits, 0xffffffff, 0, " 0 - 31", false, "bool bits");
+            addToSlotList(memorySlotOutput);
+
+            memorySlotOutput = new MemorySlotOutput(12);
             memorySlotOutput.Slot = new MemorySlot("Altbits", flightData => (uint)flightData.altBits, 0xffffffff, 0, " 0 - 31", false, "bool bits");
             addToSlotList(memorySlotOutput);
         }
