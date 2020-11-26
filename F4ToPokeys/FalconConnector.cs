@@ -479,6 +479,8 @@ namespace F4ToPokeys
             addToGaugeList(new FalconGauge("FUEL TOTAL", flightData => flightData.total, 0.0F, 20000.0F, 5, 0, 0));
             addToGaugeList(new FalconGauge("FUEL FLOW", flightData => flightData.fuelFlow, 0.0F, 80000.0F, 5, 5, 0));
             addToGaugeList(new FalconGauge("ALT", flightData => -flightData.aauz, 0.0F, 60000.0F, 5, 0, 0));
+            addToGaugeList(new FalconGauge("ALT100", flightData => (-flightData.aauz % 1000) - (-flightData.aauz % 100) + (-flightData.aauz % 100) - (-flightData.aauz % 10) + (-flightData.aauz % 10) - (-flightData.aauz % 1), 0.0F, 100.0F, 3, 0, 0));
+            addToGaugeList(new FalconGauge("ALT1000", flightData => (-flightData.aauz % (100000)) - (-flightData.aauz % 10000) + (-flightData.aauz % (10000)) - (-flightData.aauz % 1000), 0.0F, 60000.0F, 5, 0, 0));
             addToGaugeList(new FalconGauge("CURRENT HEADING", flightData => flightData.currentHeading, 0.0F, 360.0F, 3, 0, 0));
             addToGaugeList(new FalconGauge("HSI COURSE", flightData => flightData.desiredCourse, 0.0F, 360.0F, 3, 3, 0));
             addToGaugeList(new FalconGauge("HSI MILES", flightData => flightData.distanceToBeacon, 0.0F, 999.0F, 3, 3, 0));
