@@ -459,4 +459,7 @@
   <data name="AddDEDuinoButton" xml:space="preserve">
     <value>Add DEDuino</value>
   </data>
+  <data name="StepperFullTurnValue" xml:space="preserve">
+    <value>Full Turn Value</value>
+  </data>
 </root>

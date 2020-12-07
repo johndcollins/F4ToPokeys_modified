@@ -215,6 +215,25 @@ namespace F4ToPokeys
         public List<int> HomePinSwitchList { get; private set; }
         #endregion
 
+        #region Full Turn Value
+        public int FullTurnValue
+        {
+            get { return fullTurnValue; }
+            set
+            {
+                if (value <= 0)
+                    return;
+
+                if (fullTurnValue == value)
+                    return;
+
+                fullTurnValue = value;
+                RaisePropertyChanged("FullTurnValue");
+            }
+        }
+        private int fullTurnValue = 360;
+        #endregion
+
         #region StepperTypeList
         [XmlIgnore]
         public List<string> StepperTypeList => new List<string>() { "X27 315 degrees", "X27 360 degrees", "X27 Cont. Rotation" };
@@ -748,7 +767,7 @@ namespace F4ToPokeys
                 //int currentStepperPos = owner.ReadStepper(StepperId.GetValueOrDefault() - 1);
                 int stepsPerRotation = MaxPoint.StepperValue;
                 
-                int newStepPosition = (int)(falconValue.Value * (stepsPerRotation / 360));  // Convert desired position in degrees to steps
+                int newStepPosition = (int)(falconValue.Value * (stepsPerRotation / fullTurnValue));  // Convert desired position in degrees to steps
 
                 //
                 // Convert current step position (which could be quite large) to a Modulo 4320 step value.

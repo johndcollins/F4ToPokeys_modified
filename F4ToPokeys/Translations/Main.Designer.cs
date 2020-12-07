@@ -916,6 +916,15 @@ namespace F4ToPokeys.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Full Turn Value.
+        /// </summary>
+        public static string StepperFullTurnValue {
+            get {
+                return ResourceManager.GetString("StepperFullTurnValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Has Home Switch.
         /// </summary>
         public static string StepperHasHomeSwitchCaption {
