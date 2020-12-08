@@ -767,7 +767,7 @@ namespace F4ToPokeys
                 //int currentStepperPos = owner.ReadStepper(StepperId.GetValueOrDefault() - 1);
                 int stepsPerRotation = MaxPoint.StepperValue;
                 
-                int newStepPosition = (int)(falconValue.Value * (stepsPerRotation / fullTurnValue));  // Convert desired position in degrees to steps
+                int newStepPosition = (int)(falconValue.Value * (stepsPerRotation / (float)fullTurnValue));  // Convert desired position in degrees to steps
 
                 //
                 // Convert current step position (which could be quite large) to a Modulo 4320 step value.
