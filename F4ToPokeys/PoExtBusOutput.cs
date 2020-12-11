@@ -64,6 +64,10 @@ namespace F4ToPokeys
             if (result != MessageBoxResult.Yes)
                 return;
             owner.PoExtBusOutputList.Remove(this);
+
+            //if (owner.PoExtBusOutputList.Count == 0)
+            //    owner.PoVID6066.InitializeVID6066();
+
             Dispose();
         }
         #endregion

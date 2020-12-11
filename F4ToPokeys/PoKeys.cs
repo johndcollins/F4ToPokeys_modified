@@ -25,8 +25,6 @@ namespace F4ToPokeys
 
         public void Dispose()
         {
-            Disconnect();
-
             foreach (DigitalOutput digitalOutput in DigitalOutputList)
                 digitalOutput.Dispose();
 
@@ -41,6 +39,10 @@ namespace F4ToPokeys
 
             foreach (SevenSegmentDisplay sevenSegmentDisplay in SevenSegmentDisplayList)
                 sevenSegmentDisplay.Dispose();
+
+            PoVID6066.Dispose();
+
+            Disconnect();
         }
 
         #endregion // Construction/Destruction
@@ -181,6 +183,8 @@ namespace F4ToPokeys
 
         private void executeRemovePoKeys(object o)
         {
+            PoVID6066.DisablePulseEngine();
+
             Disconnect();
 
             MessageBoxResult result = MessageBox.Show(
@@ -191,6 +195,8 @@ namespace F4ToPokeys
             if (result != MessageBoxResult.Yes)
                 return;
             owner.PoKeysList.Remove(this);
+
+
             Dispose();
         }
         #endregion // RemovePoKeysCommand
@@ -409,6 +415,8 @@ namespace F4ToPokeys
             PoExtBusOutput poExtBusOutput = new PoExtBusOutput();
             poExtBusOutput.setOwner(this);
             PoExtBusOutputList.Add(poExtBusOutput);
+
+            PoVID6066.DisablePulseEngine();
         }
         #endregion
 

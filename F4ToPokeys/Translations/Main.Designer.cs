@@ -385,6 +385,24 @@ namespace F4ToPokeys.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This will enable the Pulse Engine on the Pokeys and will configure several pins automatically. The pins 23, 25, 26 and pins 35-38 should not used for anything else. Do you want to continue?.
+        /// </summary>
+        public static string EnablePulseEngineWarning {
+            get {
+                return ResourceManager.GetString("EnablePulseEngineWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enable Pulse Engine.
+        /// </summary>
+        public static string EnablePulseEngineWarningCaption {
+            get {
+                return ResourceManager.GetString("EnablePulseEngineWarningCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Off.
         /// </summary>
         public static string FalconLightConsumerConfigOffButton {
@@ -903,6 +921,15 @@ namespace F4ToPokeys.Translations {
         public static string StepperConfigCaption {
             get {
                 return ResourceManager.GetString("StepperConfigCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enable VID6066 Stepper Board.
+        /// </summary>
+        public static string StepperEnableVID6066 {
+            get {
+                return ResourceManager.GetString("StepperEnableVID6066", resourceCulture);
             }
         }
         

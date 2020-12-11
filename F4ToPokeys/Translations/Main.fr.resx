@@ -462,4 +462,13 @@
   <data name="StepperFullTurnValue" xml:space="preserve">
     <value>Full Turn Value</value>
   </data>
+  <data name="StepperEnableVID6066" xml:space="preserve">
+    <value>Enable VID6066 Stepper Board</value>
+  </data>
+  <data name="EnablePulseEngineWarning" xml:space="preserve">
+    <value>This will enable the Pulse Engine on the Pokeys and will configure several pins automatically. The pins 23, 25, 26 and pins 35-38 should not used for anything else. Do you want to continue?</value>
+  </data>
+  <data name="EnablePulseEngineWarningCaption" xml:space="preserve">
+    <value>Enable Pulse Engine</value>
+  </data>
 </root>
