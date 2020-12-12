@@ -828,7 +828,7 @@
                                     </ItemsControl>
                                     <Button Content="{x:Static lang:Main.AddStepperButton}"
                                             HorizontalAlignment="Left"
-                                            Margin="10,10,0,0"
+                                            Margin="0,10,0,0"
                                             Command="{Binding Path=PoVID6066.AddStepperCommand}" 
                                             Visibility="{Binding Path=PoVID6066.StepperSlotsAvailable, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                 </StackPanel>

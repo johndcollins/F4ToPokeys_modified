@@ -140,7 +140,7 @@ namespace F4ToPokeys
         public void ResetPulseEngine()
         {
             _PEconfig.PulseEngineEnabled = 8;  // Enable 8 axes
-            _PEconfig.PulseGeneratorType = (byte)(0 | (1 << 7));  // Using external pulse generator with IO
+            _PEconfig.PulseGeneratorType = (byte)(0);  // Using external pulse generator with IO
             owner.PokeysDevice.PEv2_SetupPulseEngine(ref _PEconfig);  // Now Setup the Pulse Engine with the above info
             owner.PokeysDevice.PEv2_RebootEngine(ref _PEconfig); //Reboot the Pulse Engine
             owner.PokeysDevice.SaveConfiguration(); //Save the configuration
@@ -400,6 +400,9 @@ namespace F4ToPokeys
 
         public void StepperRemoved()
         {
+            if (StepperList.Count == 0)
+                DisablePulseEngine();
+
             RaisePropertyChanged("StepperSlotsAvailable");
         }
         #endregion
