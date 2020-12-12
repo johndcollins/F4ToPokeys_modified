@@ -385,7 +385,7 @@ namespace F4ToPokeys.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This will enable the Pulse Engine on the Pokeys and will configure several pins automatically. The pins 23, 25, 26 and pins 35-38 should not used for anything else. Do you want to continue?.
+        ///   Looks up a localized string similar to This will enable the Pulse Engine on the Pokeys and will configure several pins automatically. The pins 23, 25 and 26 should not used for anything else. Do you want to continue?.
         /// </summary>
         public static string EnablePulseEngineWarning {
             get {
