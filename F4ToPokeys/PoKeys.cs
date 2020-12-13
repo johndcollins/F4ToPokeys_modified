@@ -415,8 +415,6 @@ namespace F4ToPokeys
             PoExtBusOutput poExtBusOutput = new PoExtBusOutput();
             poExtBusOutput.setOwner(this);
             PoExtBusOutputList.Add(poExtBusOutput);
-
-            PoVID6066.DisablePulseEngine();
         }
         #endregion
 

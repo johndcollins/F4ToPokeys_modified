@@ -65,14 +65,6 @@ namespace F4ToPokeys
             if ((owner == null) || (!owner.Connected))
                 return false;
 
-            //byte[] pinFunctions = new byte[4];
-            //int j = 0;
-            //for (int i = 34; i < 38; i++)
-            //{
-            //    byte pinId = (byte)i;
-            //    owner.PokeysDevice.GetPinData(pinId, ref pinFunctions[j++]);
-            //}
-
             // Check to see if Pulse Engine is Operating.  If not Reset Pulse Engine.
             owner.PokeysDevice.PEv2_GetStatus(ref _PEconfig);    // Check status
             if (_PEconfig.PulseEngineEnabled == 0)   // Is PulseEngineEnabled?
@@ -84,7 +76,7 @@ namespace F4ToPokeys
             //   - Activate and configure Pulse Engine
             //
             _PEconfig.PulseEngineEnabled = 8;  // Enable 8 axes
-            _PEconfig.PulseGeneratorType = (byte)(0);// | (1 << 7));  // Using external pulse generator with IO
+            _PEconfig.PulseGeneratorType = (byte)(0 | (1 << 7));  // Using external pulse generator with IO
             _PEconfig.ChargePumpEnabled = 0;   // Don't use charge pump output
                                                //config.EmergencySwitchPin = 0;  // No Emergency Switch Pin
                                                //                                // 0 - disabled i.e. none
@@ -93,14 +85,7 @@ namespace F4ToPokeys
             _PEconfig.EmergencySwitchPolarity = 1; // 1 = Invert sensing
             owner.PokeysDevice.PEv2_SetupPulseEngine(ref _PEconfig);  // Now Setup the Pulse Engine with the above info
 
-            //j = 0;
-            //for (int i = 34; i < 38; i++)
-            //{
-            //    byte pinId = (byte)i;
-            //    owner.PokeysDevice.SetPinData(pinId, pinFunctions[j++]);
-            //}
-
-            //owner.PokeysDevice.SaveConfiguration(); //Save the configuration
+            owner.PokeysDevice.SaveConfiguration(); //Save the configuration
 
             return true;
         }
@@ -140,7 +125,7 @@ namespace F4ToPokeys
         public void ResetPulseEngine()
         {
             _PEconfig.PulseEngineEnabled = 8;  // Enable 8 axes
-            _PEconfig.PulseGeneratorType = (byte)(0);  // Using external pulse generator with IO
+            _PEconfig.PulseGeneratorType = (byte)(0 | (1 << 7));  // Using external pulse generator with IO
             owner.PokeysDevice.PEv2_SetupPulseEngine(ref _PEconfig);  // Now Setup the Pulse Engine with the above info
             owner.PokeysDevice.PEv2_RebootEngine(ref _PEconfig); //Reboot the Pulse Engine
             owner.PokeysDevice.SaveConfiguration(); //Save the configuration
@@ -388,7 +373,7 @@ namespace F4ToPokeys
                 if (result != MessageBoxResult.Yes)
                     return;
 
-                InitializeVID6066();
+                InitPulseEngine();
             }
 
             PoKeysStepper poStepper = new PoKeysStepper();
