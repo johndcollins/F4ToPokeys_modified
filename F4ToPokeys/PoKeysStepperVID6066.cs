@@ -16,10 +16,10 @@ namespace F4ToPokeys
     public class PoKeysStepperVID6066 : BindableObject, IDisposable
     {
         #region Contructor/Destructor
-        private sPoKeysPEv2 _PEconfig = null;
         private volatile bool _isHoming = false;
         private Stopwatch _homingTimeoutTimer = null;
         private int _homingTimeout = 2000;
+        private byte _homingAxis = 0xFF;
         private DispatcherTimer _homingTimer = null;
         private readonly TimeSpan _homingTimerInterval = TimeSpan.FromMilliseconds(500);
         private bool _isFlying = false;
@@ -27,8 +27,6 @@ namespace F4ToPokeys
         public PoKeysStepperVID6066()
         {
             AddStepperCommand = new RelayCommand(executeAddStepper);
-
-            _PEconfig = new sPoKeysPEv2();
 
             FalconConnector.Singleton.FalconStarted += OnFalconFlyingStarted;
             FalconConnector.Singleton.FalconStopped += OnFalconFlyingStopped;
@@ -55,7 +53,7 @@ namespace F4ToPokeys
         private void OnFalconFlyingStarted(object sender, EventArgs e)
         {
             _isFlying = true;
-            StartHoming();
+            StartHomingAll();
         }
         #endregion
 
@@ -65,9 +63,10 @@ namespace F4ToPokeys
             if ((owner == null) || (!owner.Connected))
                 return false;
 
+            sPoKeysPEv2 peConfig = new sPoKeysPEv2();
             // Check to see if Pulse Engine is Operating.  If not Reset Pulse Engine.
-            owner.PokeysDevice.PEv2_GetStatus(ref _PEconfig);    // Check status
-            if (_PEconfig.PulseEngineEnabled == 0)   // Is PulseEngineEnabled?
+            owner.PokeysDevice.PEv2_GetStatus(ref peConfig);    // Check status
+            if (peConfig.PulseEngineEnabled == 0)   // Is PulseEngineEnabled?
                 ResetPulseEngine();  // Hard Reset Pulse Engine and Save Config
 
             //
@@ -75,15 +74,15 @@ namespace F4ToPokeys
             //
             //   - Activate and configure Pulse Engine
             //
-            _PEconfig.PulseEngineEnabled = 8;  // Enable 8 axes
-            _PEconfig.PulseGeneratorType = (byte)(0);  // Using external pulse generator without IO
-            _PEconfig.ChargePumpEnabled = 0;   // Don't use charge pump output
+            peConfig.PulseEngineEnabled = 8;  // Enable 8 axes
+            peConfig.PulseGeneratorType = (byte)(0);  // Using external pulse generator without IO
+            peConfig.ChargePumpEnabled = 0;   // Don't use charge pump output
                                                //config.EmergencySwitchPin = 0;  // No Emergency Switch Pin
                                                //                                // 0 - disabled i.e. none
                                                //                                // 1 - default input Pin 55
                                                //                                // 10 + 10-based pin ID
-            _PEconfig.EmergencySwitchPolarity = 1; // 1 = Invert sensing
-            owner.PokeysDevice.PEv2_SetupPulseEngine(ref _PEconfig);  // Now Setup the Pulse Engine with the above info
+            peConfig.EmergencySwitchPolarity = 1; // 1 = Invert sensing
+            owner.PokeysDevice.PEv2_SetupPulseEngine(ref peConfig);  // Now Setup the Pulse Engine with the above info
 
             owner.PokeysDevice.SaveConfiguration(); //Save the configuration
 
@@ -97,10 +96,11 @@ namespace F4ToPokeys
             if ((owner == null) || (!owner.Connected))
                 return false;
 
-            _PEconfig.PulseEngineEnabled = 0;  // Disable
-            _PEconfig.PulseGeneratorType = (byte)(0);  // Using external pulse generator without IO
-            owner.PokeysDevice.PEv2_SetupPulseEngine(ref _PEconfig);  // Now Setup the Pulse Engine with the above info
-            owner.PokeysDevice.PEv2_RebootEngine(ref _PEconfig); //Reboot the Pulse Engine
+            sPoKeysPEv2 peConfig = new sPoKeysPEv2();
+            peConfig.PulseEngineEnabled = 0;  // Disable
+            peConfig.PulseGeneratorType = (byte)(0);  // Using external pulse generator without IO
+            owner.PokeysDevice.PEv2_SetupPulseEngine(ref peConfig);  // Now Setup the Pulse Engine with the above info
+            owner.PokeysDevice.PEv2_RebootEngine(ref peConfig); //Reboot the Pulse Engine
             owner.PokeysDevice.SaveConfiguration(); //Save the configuration
             //owner.PokeysDevice.RebootDevice();
 
@@ -124,10 +124,11 @@ namespace F4ToPokeys
 
         public void ResetPulseEngine()
         {
-            _PEconfig.PulseEngineEnabled = 8;  // Enable 8 axes
-            _PEconfig.PulseGeneratorType = (byte)(0);  // Using external pulse generator without IO
-            owner.PokeysDevice.PEv2_SetupPulseEngine(ref _PEconfig);  // Now Setup the Pulse Engine with the above info
-            owner.PokeysDevice.PEv2_RebootEngine(ref _PEconfig); //Reboot the Pulse Engine
+            sPoKeysPEv2 peConfig = new sPoKeysPEv2();
+            peConfig.PulseEngineEnabled = 8;  // Enable 8 axes
+            peConfig.PulseGeneratorType = (byte)(0);  // Using external pulse generator without IO
+            owner.PokeysDevice.PEv2_SetupPulseEngine(ref peConfig);  // Now Setup the Pulse Engine with the above info
+            owner.PokeysDevice.PEv2_RebootEngine(ref peConfig); //Reboot the Pulse Engine
             owner.PokeysDevice.SaveConfiguration(); //Save the configuration
         }
         #endregion
@@ -140,50 +141,44 @@ namespace F4ToPokeys
 
             int i = stepper.StepperId.GetValueOrDefault() - 1;
 
-            _PEconfig.AxisEnabledInvertMask[i] = 1; // Use inverted axis enabled signal for PoStep drivers ???
-            _PEconfig.AxesConfig[i] = (int)(ePEv2_AxisConfig.aoENABLED |
+            sPoKeysPEv2 peConfig = new sPoKeysPEv2();
+            peConfig.AxisEnabledInvertMask[i] = 1; // Use inverted axis enabled signal for PoStep drivers
+            peConfig.AxesConfig[i] = (int)(ePEv2_AxisConfig.aoENABLED |
                 ePEv2_AxisConfig.aoINTERNAL_PLANNER |
                 ePEv2_AxisConfig.aoPOSITION_MODE);  // Use Position mode
 
-            if (!stepper.StepperType.Equals("X27 Cont. Rotation"))
-            {
-                _PEconfig.AxesConfig[i] |= (int)ePEv2_AxisConfig.aoSOFT_LIMIT_ENABLED;
-            }
-
-            // CHANGED
-            //if (stepper.Inverted)
-            //{
-            //    _PEconfig.AxesConfig[i] |= (int)ePEv2_AxisConfig.aoINVERTED;
-            //    _PEconfig.AxesSwitchConfig[i] = (int)(ePEv2_AxisSwitchOptions.aoSWITCH_HOME |
-            //        ePEv2_AxisSwitchOptions.aoSWITCH_INVERT_HOME);
-            //}
+            if (stepper.SoftLimitEnabled)
+                peConfig.AxesConfig[i] |= (int)ePEv2_AxisConfig.aoSOFT_LIMIT_ENABLED;
 
             if (stepper.Inverted)
-                _PEconfig.AxesConfig[i] |= (int)ePEv2_AxisConfig.aoINVERTED;
+                peConfig.AxesConfig[i] |= (int)ePEv2_AxisConfig.aoINVERTED;
 
-            _PEconfig.AxesSwitchConfig[i] = (int)(ePEv2_AxisSwitchOptions.aoSWITCH_HOME |
-                ePEv2_AxisSwitchOptions.aoSWITCH_INVERT_HOME);
+            if (stepper.HasHomeSwitch)
+                peConfig.AxesSwitchConfig[i] |= (int)ePEv2_AxisSwitchOptions.aoSWITCH_HOME;
 
-            if (stepper.PinHomeSwitch > 0)
-                _PEconfig.PinHomeSwitch[i] = (byte)stepper.PinHomeSwitch;
+            if (stepper.HomeInverted)
+                peConfig.AxesSwitchConfig[i] |= (int)ePEv2_AxisSwitchOptions.aoSWITCH_INVERT_HOME;
 
-            _PEconfig.HomingSpeed[i] = (byte)stepper.HomingSpeed;
-            _PEconfig.HomingReturnSpeed[i] = (byte)stepper.HomingReturnSpeed;
-            _PEconfig.MaxSpeed[i] = stepper.MaxSpeed;
-            _PEconfig.MaxAcceleration[i] = stepper.MaxAcceleration;
-            _PEconfig.MaxDecceleration[i] = stepper.MaxDecceleration;
-            _PEconfig.SoftLimitMaximum[i] = stepper.MaxPoint.StepperValue;
-            _PEconfig.SoftLimitMinimum[i] = stepper.MinPoint.StepperValue;
-            _PEconfig.param1 = (byte)i; // Set parameter param1 to the bit mask to indicate what have the above Axis Configs set
+            if ((stepper.PinHomeSwitch > 0) && stepper.HasHomeSwitch)
+                peConfig.PinHomeSwitch[i] = (byte)stepper.PinHomeSwitch;
+
+            peConfig.HomingSpeed[i] = (byte)stepper.HomingSpeed;
+            peConfig.HomingReturnSpeed[i] = (byte)stepper.HomingReturnSpeed;
+            peConfig.MaxSpeed[i] = stepper.MaxSpeed;
+            peConfig.MaxAcceleration[i] = stepper.MaxAcceleration;
+            peConfig.MaxDecceleration[i] = stepper.MaxDecceleration;
+            peConfig.SoftLimitMaximum[i] = stepper.MaxPoint.StepperValue;
+            peConfig.SoftLimitMinimum[i] = stepper.MinPoint.StepperValue;
+            peConfig.param1 = (byte)i; // Set parameter param1 to the bit mask to indicate what have the above Axis Configs set
 
             // Write (Set) above Axis Configuration
             //
-            owner.PokeysDevice.PEv2_SetAxisConfiguration(ref _PEconfig); // Configure the axis
+            owner.PokeysDevice.PEv2_SetAxisConfiguration(ref peConfig); // Configure the axis
         }
         #endregion
 
         #region Homing
-        private void StartHoming()
+        private void StartHomingAll()
         {
             if ((owner == null) || (!owner.Connected))
                 return;
@@ -195,15 +190,45 @@ namespace F4ToPokeys
             //
             // Home all 8 axis (stepper motors)
             //
-            _PEconfig.HomingStartMaskSetup = 0xFF;  // Select all Axis for Homing
+            sPoKeysPEv2 peConfig = new sPoKeysPEv2();
+            peConfig.HomingStartMaskSetup = 0xFF;  // Select all Axis for Homing
+            _homingAxis = 0xFF;
 
-            owner.PokeysDevice.PEv2_StartHoming(ref _PEconfig);  // Initiate the HOMING 
+            owner.PokeysDevice.PEv2_StartHoming(ref peConfig);  // Initiate the HOMING 
 
             _homingTimeoutTimer = new Stopwatch();
             _isHoming = true;
             _homingTimeoutTimer.Start();
             _homingTimer.Start();
         }
+
+        internal void StartHomingSingle(PoKeysStepper stepper)
+        {
+            if (_isHoming)
+                return;
+
+            if (!stepper.StepperId.HasValue)
+                return;
+
+            if ((owner == null) || (!owner.Connected))
+                return;
+
+            _homingTimer = new DispatcherTimer();
+            _homingTimer.Tick += _homingTimer_Tick;
+            _homingTimer.Interval = _homingTimerInterval;
+
+            sPoKeysPEv2 peConfig = new sPoKeysPEv2();
+            peConfig.HomingStartMaskSetup = stepper.StepperId.Value;  // Select Axis for Homing
+            _homingAxis = stepper.StepperId.Value;
+
+            owner.PokeysDevice.PEv2_StartHoming(ref peConfig);  // Initiate the HOMING 
+
+            _homingTimeoutTimer = new Stopwatch();
+            _isHoming = true;
+            _homingTimeoutTimer.Start();
+            _homingTimer.Start();
+        }
+
 
         private void _homingTimer_Tick(object sender, EventArgs e)
         {
@@ -215,35 +240,28 @@ namespace F4ToPokeys
             if (!owner.Connected)
                 return;
 
-            owner.PokeysDevice.PEv2_GetStatus(ref _PEconfig);
+            sPoKeysPEv2 peConfig = new sPoKeysPEv2();
+            owner.PokeysDevice.PEv2_GetStatus(ref peConfig);
 
-            if (_PEconfig.PulseEngineState != (byte)ePoKeysPEState.peHOMING)
+            if (peConfig.PulseEngineState != (byte)ePoKeysPEState.peHOMING)
             {
-                if (_PEconfig.PulseEngineState == (byte)ePoKeysPEState.peHOME)
+                if (peConfig.PulseEngineState == (byte)ePoKeysPEState.peHOME)
                 {
                     EndHoming();
                     return;
                 }
-                //else
-                //{
-                //_PEconfig.PulseEngineStateSetup = (byte)ePoKeysPEState.peSTOPPED;
-                //_homingDevice.PEv2_SetState(ref _PEconfig);
-                //EndHoming();
-                //return;
-                //}
             }
 
             if (_homingTimeoutTimer.ElapsedMilliseconds >= _homingTimeout)
             {
-                _PEconfig.PulseEngineStateSetup = (byte)ePoKeysPEState.peSTOPPED;
-                _PEconfig.PulseEngineStateSetup = (byte)ePoKeysPEState.peRUNNING;
-                owner.PokeysDevice.PEv2_SetState(ref _PEconfig);
+                peConfig.PulseEngineStateSetup = (byte)ePoKeysPEState.peSTOPPED;
+                peConfig.PulseEngineStateSetup = (byte)ePoKeysPEState.peRUNNING;
+                owner.PokeysDevice.PEv2_SetState(ref peConfig);
                 EndHoming();
                 return;
             }
         }
 
-        //private void EndHoming(ref PoKeysDevice device)
         private void EndHoming()
         {
             _homingTimer.Stop();
@@ -252,41 +270,48 @@ namespace F4ToPokeys
             _homingTimeoutTimer = null;
             _isHoming = false;
 
+            sPoKeysPEv2 peConfig = new sPoKeysPEv2();
+
             //
             // Stop the Pulse Engine so we can set each axis (stepper) postion to zero since we are HOMED
             //
-            _PEconfig.PulseEngineStateSetup = (byte)ePoKeysPEState.peSTOPPED;
-            owner.PokeysDevice.PEv2_SetState(ref _PEconfig);
+            peConfig.PulseEngineStateSetup = (byte)ePoKeysPEState.peSTOPPED;
+            owner.PokeysDevice.PEv2_SetState(ref peConfig);
 
-            //
-            // Set each stepper position to zero
-            //
-            {
-                foreach (PoKeysStepper stepper in StepperList)
-                {
-                    if ((!stepper.StepperId.HasValue) || (stepper.StepperId.GetValueOrDefault() <= 0))
-                        continue;
+            //if (_homingAxis == 0xFF)
+            //{
+                //foreach (PoKeysStepper stepper in StepperList)
+                //{
+                //    if ((!stepper.StepperId.HasValue) || (stepper.StepperId.GetValueOrDefault() <= 0))
+                //        continue;
 
-                    int i = stepper.StepperId.GetValueOrDefault() - 1;
+                //    int i = stepper.StepperId.GetValueOrDefault() - 1;
 
-                    _PEconfig.param2 |= (byte)(1 << i); // Set param2 bit to indicate which stepper    
-                    _PEconfig.PositionSetup[i] = 0;     // Set axis (stepper) position to Zero
-                    owner.PokeysDevice.PEv2_SetPositions(ref _PEconfig);
-                    _PEconfig.param1 = (byte)i; // Set parameter param1 to the bit mask to indicate what have the above Axis Configs set
-                    owner.PokeysDevice.PEv2_SetAxisConfiguration(ref _PEconfig); // Configure the axis
-                }
-            }
+                    //peConfig.param2 |= (byte)(1 << i); // Set param2 bit to indicate which stepper    
+                    //peConfig.PositionSetup[i] = 0;     // Set axis (stepper) position to Zero
+                    //owner.PokeysDevice.PEv2_SetPositions(ref peConfig);
+                    //peConfig.param1 = (byte)i; // Set parameter param1 to the bit mask to indicate what have the above Axis Configs set
+                    //owner.PokeysDevice.PEv2_SetAxisConfiguration(ref peConfig); // Configure the axis
+                //}
+            //}
+
+            peConfig.param2 |= _homingAxis; // Set param2 bit to indicate which stepper    
+            for (int i = 0; i <= 8; i++)
+                peConfig.PositionSetup[i] = 0;     // Set axis (stepper) position to Zero
+            owner.PokeysDevice.PEv2_SetPositions(ref peConfig);
+            peConfig.param1 = _homingAxis; // Set parameter param1 to the bit mask to indicate what have the above Axis Configs set
+            owner.PokeysDevice.PEv2_SetAxisConfiguration(ref peConfig); // Configure the axis
 
             //
             // Set Pulse Engine back to RUNNING
-            _PEconfig.PulseEngineStateSetup = (byte)ePoKeysPEState.peRUNNING;
-            owner.PokeysDevice.PEv2_SetState(ref _PEconfig);
+            peConfig.PulseEngineStateSetup = (byte)ePoKeysPEState.peRUNNING;
+            owner.PokeysDevice.PEv2_SetState(ref peConfig);
 
             //
             // Get Pulse Engine Statue and Check to confirm we are RUNNING
             //
-            owner.PokeysDevice.PEv2_GetStatus(ref _PEconfig);
-            if (_PEconfig.PulseEngineState != (byte)ePoKeysPEState.peRUNNING)
+            owner.PokeysDevice.PEv2_GetStatus(ref peConfig);
+            if (peConfig.PulseEngineState != (byte)ePoKeysPEState.peRUNNING)
             {
                 //
                 // Not sure what we do in F4toPokeys if this happens
@@ -308,9 +333,10 @@ namespace F4ToPokeys
 
             try
             {
-                _PEconfig.ReferencePositionSpeed[stepper] = position;
-                owner.PokeysDevice.PEv2_Move(ref _PEconfig);
-                owner.PokeysDevice.PEv2_GetStatus(ref _PEconfig);    // Check status
+                sPoKeysPEv2 peConfig = new sPoKeysPEv2();
+                peConfig.ReferencePositionSpeed[stepper] = position;
+                owner.PokeysDevice.PEv2_Move(ref peConfig);
+                owner.PokeysDevice.PEv2_GetStatus(ref peConfig);    // Check status
 
                 return true;
             }
@@ -329,8 +355,8 @@ namespace F4ToPokeys
 
         //    try
         //    {
-        //        owner.PokeysDevice.PEv2_GetStatus(ref _PEconfig);    // Check status
-        //        return _PEconfig.CurrentPosition[stepper];
+        //        owner.PokeysDevice.PEv2_GetStatus(ref peConfig);    // Check status
+        //        return peConfig.CurrentPosition[stepper];
         //    }
         //    catch { return 0; }
         //}

@@ -433,7 +433,7 @@
     <value>Pin number must be between 1 and 53 or 55</value>
   </data>
   <data name="StepperPinHomingSwitchCaption" xml:space="preserve">
-    <value>Zero Sensor Input Pin</value>
+    <value>Homing Switch Pin</value>
   </data>
   <data name="StepperPointFalconValue" xml:space="preserve">
     <value>Falcon value</value>
@@ -470,5 +470,35 @@
   </data>
   <data name="EnablePulseEngineWarningCaption" xml:space="preserve">
     <value>Enable Pulse Engine</value>
+  </data>
+  <data name="StepperHomeInverted" xml:space="preserve">
+    <value>Home Inverted</value>
+  </data>
+  <data name="StepperHomeCaption" xml:space="preserve">
+    <value>Home Stepper</value>
+  </data>
+  <data name="StepperHomeText" xml:space="preserve">
+    <value>Do you want to home stepper {0}?</value>
+  </data>
+  <data name="HomeStepperButton" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="StepperHomingReturnSpeedCaption" xml:space="preserve">
+    <value>Homing Return Speed</value>
+  </data>
+  <data name="StepperMaxDeccelerationCaption" xml:space="preserve">
+    <value>Max Decceleration</value>
+  </data>
+  <data name="StepperSoftLimitMaximumCaption" xml:space="preserve">
+    <value>Soft Limit Maximum</value>
+  </data>
+  <data name="StepperSoftLimitMinimumCaption" xml:space="preserve">
+    <value>Soft Limit Minimum</value>
+  </data>
+  <data name="StepperContinuesCaption" xml:space="preserve">
+    <value>Continues Rotation</value>
+  </data>
+  <data name="StepperSoftLimitEnabledCaption" xml:space="preserve">
+    <value>Soft Limit Enabled</value>
   </data>
 </root>

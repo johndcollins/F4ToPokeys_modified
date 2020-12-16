@@ -448,6 +448,15 @@ namespace F4ToPokeys.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Home.
+        /// </summary>
+        public static string HomeStepperButton {
+            get {
+                return ResourceManager.GetString("HomeStepperButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add a digit.
         /// </summary>
         public static string IncrementTotalSizeButton {
@@ -925,6 +934,15 @@ namespace F4ToPokeys.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Continues Rotation.
+        /// </summary>
+        public static string StepperContinuesCaption {
+            get {
+                return ResourceManager.GetString("StepperContinuesCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enable VID6066 Stepper Board.
         /// </summary>
         public static string StepperEnableVID6066 {
@@ -961,6 +979,24 @@ namespace F4ToPokeys.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Home Stepper.
+        /// </summary>
+        public static string StepperHomeCaption {
+            get {
+                return ResourceManager.GetString("StepperHomeCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Home Inverted.
+        /// </summary>
+        public static string StepperHomeInverted {
+            get {
+                return ResourceManager.GetString("StepperHomeInverted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Home Inverted.
         /// </summary>
         public static string StepperHomeInvertedCaption {
@@ -970,11 +1006,29 @@ namespace F4ToPokeys.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Do you want to home stepper {0}?.
+        /// </summary>
+        public static string StepperHomeText {
+            get {
+                return ResourceManager.GetString("StepperHomeText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Homing Reduced Speed.
         /// </summary>
         public static string StepperHomingReducedSpeedCaption {
             get {
                 return ResourceManager.GetString("StepperHomingReducedSpeedCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Homing Return Speed.
+        /// </summary>
+        public static string StepperHomingReturnSpeedCaption {
+            get {
+                return ResourceManager.GetString("StepperHomingReturnSpeedCaption", resourceCulture);
             }
         }
         
@@ -1042,6 +1096,15 @@ namespace F4ToPokeys.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Max Decceleration.
+        /// </summary>
+        public static string StepperMaxDeccelerationCaption {
+            get {
+                return ResourceManager.GetString("StepperMaxDeccelerationCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Max Movement Tolerance.
         /// </summary>
         public static string StepperMaxMovementToleranceCaption {
@@ -1069,7 +1132,7 @@ namespace F4ToPokeys.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Zero Sensor Input Pin.
+        ///   Looks up a localized string similar to Homing Switch Pin.
         /// </summary>
         public static string StepperPinHomingSwitchCaption {
             get {
@@ -1101,6 +1164,33 @@ namespace F4ToPokeys.Translations {
         public static string StepperPositioningError {
             get {
                 return ResourceManager.GetString("StepperPositioningError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Soft Limit Enabled.
+        /// </summary>
+        public static string StepperSoftLimitEnabledCaption {
+            get {
+                return ResourceManager.GetString("StepperSoftLimitEnabledCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Soft Limit Maximum.
+        /// </summary>
+        public static string StepperSoftLimitMaximumCaption {
+            get {
+                return ResourceManager.GetString("StepperSoftLimitMaximumCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Soft Limit Minimum.
+        /// </summary>
+        public static string StepperSoftLimitMinimumCaption {
+            get {
+                return ResourceManager.GetString("StepperSoftLimitMinimumCaption", resourceCulture);
             }
         }
         

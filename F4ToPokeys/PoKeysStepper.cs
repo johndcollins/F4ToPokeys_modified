@@ -22,6 +22,7 @@ namespace F4ToPokeys
             RemoveStepperCommand = new RelayCommand(executeRemoveStepper);
             AddAdditionalPointCommand = new RelayCommand(executeAddAdditionalPoint);
             RemoveAdditionalPointCommand = new RelayCommand(executeRemoveAdditionalPoint, canExecuteRemoveAdditionalPoint);
+            HomeStepperCommand = new RelayCommand(executeHomeStepper);
 
             HomePinSwitchList = new List<int>();
             for (int i = 0; i < 54; i++)
@@ -31,6 +32,13 @@ namespace F4ToPokeys
             minPoint = DefaultMinPoint();
             maxPoint = DefaultMaxPoint();
             AdditionalPointList = new ObservableCollection<PoKeysStepperPoint>();
+
+            HasHomeSwitch = true;
+            SoftLimitEnabled = false;
+            SoftLimitMaximum = 0;
+            PinHomeSwitch = 55;
+
+            HomeInverted = true;
         }
 
         public void Dispose()
@@ -41,6 +49,28 @@ namespace F4ToPokeys
         #endregion
 
         #region Public Properties
+        private bool continuesRotation;
+        public bool ContinuesRotation
+        {
+            get { return continuesRotation; }
+            set
+            {
+                continuesRotation = value;
+                RaisePropertyChanged("ContinuesRotation");
+            }
+        }
+
+        private bool softLimitEnabled;
+        public bool SoftLimitEnabled
+        {
+            get { return softLimitEnabled; }
+            set
+            {
+                softLimitEnabled = value;
+                RaisePropertyChanged("SoftLimitEnabled");
+            }
+        }
+
         private bool inverted;
         public bool Inverted
         {
@@ -49,10 +79,9 @@ namespace F4ToPokeys
             {
                 inverted = value;
                 RaisePropertyChanged("Inverted");
-
-                HomeInverted = true;
             }
         }
+
         private bool homeInverted = false;
         public bool HomeInverted
         {
@@ -162,11 +191,11 @@ namespace F4ToPokeys
 
         #region StepperIdList
         [XmlIgnore]
-        public List<int> StepperIdList => new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8 };
+        public List<byte> StepperIdList => new List<byte>() { 1, 2, 3, 4, 5, 6, 7, 8 };
         #endregion
 
         #region StepperId
-        public int? StepperId
+        public byte? StepperId
         {
             get { return stepperId; }
             set
@@ -180,7 +209,7 @@ namespace F4ToPokeys
                 ResetStepperIdErrors();
             }
         }
-        private int? stepperId;
+        private byte? stepperId;
 
         private void ResetStepperIdErrors()
         {
@@ -234,66 +263,6 @@ namespace F4ToPokeys
         private int fullTurnValue = 360;
         #endregion
 
-        #region StepperTypeList
-        [XmlIgnore]
-        public List<string> StepperTypeList => new List<string>() { "X27 315 degrees", "X27 360 degrees", "X27 Cont. Rotation" };
-        #endregion
-
-        #region StepperType
-        public string StepperType
-        {
-            get { return stepperType; }
-            set
-            {
-                if (stepperType == value)
-                    return;
-
-                stepperType = value;
-
-                if (stepperType == "X27 315 degrees")
-                {
-                    HasHomeSwitch = false;
-                    SoftLimitMaximum = 3780;
-                }
-
-                if (stepperType == "X27 360 degrees")
-                {
-                    HasHomeSwitch = true;
-                    SoftLimitMaximum = 4320;
-                    if (PinHomeSwitch == 0)
-                        PinHomeSwitch = 0;
-                }
-
-                if (stepperType == "X27 Cont. Rotation")
-                {
-                    HasHomeSwitch = true;
-                    SoftLimitMaximum = 0;
-                    if (PinHomeSwitch == 0)
-                        PinHomeSwitch = 0;
-                }
-
-                maxPoint = DefaultMaxPoint();
-                AdditionalPointList.Clear();
-
-                RaisePropertyChanged("StepperType");
-                RaisePropertyChanged("SoftLimitMaximum");
-                RaisePropertyChanged("PinHomeSwitch");
-                RaisePropertyChanged("ShowZeroSensorInput");
-            }
-        }
-        private string stepperType = "X27 315 degrees";
-        #endregion
-
-        #region ShowZeroSensorInput
-        public bool ShowZeroSensorInput
-        {
-            get
-            {
-                return (StepperType != "X27 315 degrees");
-            }
-        }
-        #endregion
-
         #region RemoveStepperCommand
         [XmlIgnore]
         public RelayCommand RemoveStepperCommand { get; private set; }
@@ -310,6 +279,24 @@ namespace F4ToPokeys
             owner.StepperList.Remove(this);
             owner.StepperRemoved();
             Dispose();
+        }
+        #endregion
+
+        #region HomeStepperCommand
+        [XmlIgnore]
+        public RelayCommand HomeStepperCommand { get; private set; }
+
+        private void executeHomeStepper(object o)
+        {
+            MessageBoxResult result = MessageBox.Show(
+                string.Format(Translations.Main.StepperHomeText, StepperId),
+                Translations.Main.StepperHomeCaption,
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+            if (result != MessageBoxResult.Yes)
+                return;
+
+            owner.StartHomingSingle(this);
         }
         #endregion
 
@@ -479,33 +466,9 @@ namespace F4ToPokeys
             if (falconGauge != null)
                 falconMaxValue = falconGauge.MaxValue;
 
-            switch (stepperType)
-            {
-                case "X27 315 degrees":
-                    {
-                        PoKeysStepperPoint point = new PoKeysStepperPoint() { FalconValue = falconMaxValue, StepperValue = 3780 };
-                        point.PropertyChanged += OnPointChanged;
-                        return point;
-                    }
-                case "X27 360 degrees":
-                    {
-                        PoKeysStepperPoint point = new PoKeysStepperPoint() { FalconValue = falconMaxValue, StepperValue = 4320 };
-                        point.PropertyChanged += OnPointChanged;
-                        return point;
-                    }
-                case "X27 Cont. Rotation":
-                    {
-                        PoKeysStepperPoint point = new PoKeysStepperPoint() { FalconValue = falconMaxValue, StepperValue = 4320 };
-                        point.PropertyChanged += OnPointChanged;
-                        return point;
-                    }
-                default:
-                    {
-                        PoKeysStepperPoint point = new PoKeysStepperPoint() { FalconValue = falconMaxValue, StepperValue = 3780 };
-                        point.PropertyChanged += OnPointChanged;
-                        return point;
-                    }
-            }
+            PoKeysStepperPoint point = new PoKeysStepperPoint() { FalconValue = falconMaxValue, StepperValue = 4320 };
+            point.PropertyChanged += OnPointChanged;
+            return point;
         }
         #endregion
 
@@ -654,18 +617,13 @@ namespace F4ToPokeys
         {
             get
             { 
-                if (stepperType != "X27 Cont. Rotation")
-                    return stepperPosition;
-                else
-                {
-                    return stepperPosition;
-                    //Actually Read Stepper Position value from PE2 
-                }
+                return stepperPosition;
             }
             set
             {
                 if (stepperPosition == value)
                     return;
+
                 stepperPosition = value;
                 RaisePropertyChanged("StepperPosition");
 
@@ -726,7 +684,7 @@ namespace F4ToPokeys
             if (!falconValue.HasValue)
                 return 0;
 
-            if (stepperType != "X27 Cont. Rotation")
+            if (!ContinuesRotation)
             {
                 // Clamp value to [Min, Max]
                 if (falconValue.Value <= MinPoint.FalconValue)
@@ -761,7 +719,7 @@ namespace F4ToPokeys
                     normalizedValue = (falconValue.Value - previousPoint.FalconValue) / (nextPoint.FalconValue - previousPoint.FalconValue);
                 return (int)(normalizedValue * (nextPoint.StepperValue - previousPoint.StepperValue) + previousPoint.StepperValue);
             }
-            else  // Working with "X27 Cont. Rotation" stepper
+            else  // Working with Cont. Rotation stepper
             {
                 int currentStepperPos = stepperPosition;
                 //int currentStepperPos = owner.ReadStepper(StepperId.GetValueOrDefault() - 1);
