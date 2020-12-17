@@ -195,7 +195,7 @@ namespace F4ToPokeys
                 if ((!stepper.StepperId.HasValue) || (stepper.StepperId.GetValueOrDefault() <= 0))
                     continue;
 
-                homingMask |= (byte)(stepper.StepperId.GetValueOrDefault() - 1);
+                homingMask |= (byte)(1 << (stepper.StepperId.GetValueOrDefault() - 1));
             }
 
             _PEconfig.HomingStartMaskSetup = homingMask;  // Select all Axis for Homing

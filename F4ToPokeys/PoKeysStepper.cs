@@ -110,7 +110,7 @@ namespace F4ToPokeys
                 RaisePropertyChanged("MaxSpeed");
             }
         }
-        private float maxAcceleration = 0.01f;
+        private float maxAcceleration = 0.5f;
         public float MaxAcceleration
         {
             get { return maxAcceleration; }
@@ -122,7 +122,7 @@ namespace F4ToPokeys
                 RaisePropertyChanged("MaxAcceleration");
             }
         }
-        private float maxDecceleration = 0.01f;
+        private float maxDecceleration = 0.5f;
         public float MaxDecceleration
         {
             get { return maxDecceleration; }
