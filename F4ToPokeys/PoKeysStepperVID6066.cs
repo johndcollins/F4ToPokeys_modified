@@ -296,7 +296,7 @@ namespace F4ToPokeys
             //}
 
             peConfig.param2 |= _homingAxis; // Set param2 bit to indicate which stepper    
-            for (int i = 0; i <= 8; i++)
+            for (int i = 0; i < peConfig.PositionSetup.values.Length; i++)
                 peConfig.PositionSetup[i] = 0;     // Set axis (stepper) position to Zero
             owner.PokeysDevice.PEv2_SetPositions(ref peConfig);
             peConfig.param1 = _homingAxis; // Set parameter param1 to the bit mask to indicate what have the above Axis Configs set

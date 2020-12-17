@@ -36,9 +36,9 @@ namespace F4ToPokeys
             HasHomeSwitch = true;
             SoftLimitEnabled = false;
             SoftLimitMaximum = 0;
-            PinHomeSwitch = 55;
+            PinHomeSwitch = 0;
 
-            HomeInverted = true;
+            HomeInverted = false;
         }
 
         public void Dispose()
@@ -49,14 +49,14 @@ namespace F4ToPokeys
         #endregion
 
         #region Public Properties
-        private bool continuesRotation;
-        public bool ContinuesRotation
+        private bool continuousRotation;
+        public bool ContinuousRotation
         {
-            get { return continuesRotation; }
+            get { return continuousRotation; }
             set
             {
-                continuesRotation = value;
-                RaisePropertyChanged("ContinuesRotation");
+                continuousRotation = value;
+                RaisePropertyChanged("ContinuousRotation");
             }
         }
 
@@ -684,7 +684,7 @@ namespace F4ToPokeys
             if (!falconValue.HasValue)
                 return 0;
 
-            if (!ContinuesRotation)
+            if (!ContinuousRotation)
             {
                 // Clamp value to [Min, Max]
                 if (falconValue.Value <= MinPoint.FalconValue)

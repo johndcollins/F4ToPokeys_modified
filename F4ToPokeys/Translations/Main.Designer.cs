@@ -934,11 +934,11 @@ namespace F4ToPokeys.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Continues Rotation.
+        ///   Looks up a localized string similar to Continuous Rotation.
         /// </summary>
-        public static string StepperContinuesCaption {
+        public static string StepperContinuousCaption {
             get {
-                return ResourceManager.GetString("StepperContinuesCaption", resourceCulture);
+                return ResourceManager.GetString("StepperContinuousCaption", resourceCulture);
             }
         }
         

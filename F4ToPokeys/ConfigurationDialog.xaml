@@ -710,13 +710,6 @@
                                                                       DisplayMemberPath="Label"
                                                                       VerticalAlignment="Center"
                                                                       IsSynchronizedWithCurrentItem="False" />
-                                                            <TextBlock Text="{x:Static lang:Main.StepperFullTurnValue}"
-                                                                       Margin="10,0,0,0"
-                                                                       VerticalAlignment="Center" />
-                                                            <TextBox Text="{Binding Path=FullTurnValue, UpdateSourceTrigger=PropertyChanged}"
-                                                                     Margin="5,0,0,0"
-                                                                     Width="75"
-                                                                     VerticalAlignment="Center" />
                                                             <TextBox Text="{Binding Path=FalconValue, UpdateSourceTrigger=PropertyChanged}"
                                                                      Margin="10,0,0,0"
                                                                      Width="75"
@@ -795,77 +788,89 @@
                                                                     <RowDefinition />
                                                                     <RowDefinition />
                                                                     <RowDefinition />
+                                                                    <RowDefinition />
                                                                 </Grid.RowDefinitions>
                                                                 <Grid.ColumnDefinitions>
                                                                     <ColumnDefinition Width="*" />
                                                                     <ColumnDefinition Width="*" />
                                                                 </Grid.ColumnDefinitions>
-                                                                <CheckBox Content="{x:Static lang:Main.StepperContinuesCaption}"
-                                                                    IsChecked="{Binding Path=ContinuesRotation}"
+                                                                <CheckBox Content="{x:Static lang:Main.StepperContinuousCaption}"
+                                                                    IsChecked="{Binding Path=ContinuousRotation}"
                                                                     Margin="5,0,0,0"
                                                                     VerticalAlignment="Center" HorizontalAlignment="Left" Grid.ColumnSpan="2" />
+                                                                <TextBlock Text="{x:Static lang:Main.StepperFullTurnValue}"
+                                                                       Margin="5,0,0,0"
+                                                                       VerticalAlignment="Center" 
+                                                                           Grid.Row="1" 
+                                                                       Visibility="{Binding Path=ContinuousRotation, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                                <TextBox Text="{Binding Path=FullTurnValue, UpdateSourceTrigger=PropertyChanged}"
+                                                                     Margin="5,0,0,0"
+                                                                     Width="75"
+                                                                     VerticalAlignment="Center" 
+                                                                     Grid.Row="1" 
+                                                                     Visibility="{Binding Path=ContinuousRotation, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                                                 <CheckBox Content="{x:Static lang:Main.StepperInverted}"
                                                                     IsChecked="{Binding Path=Inverted}"
                                                                     Margin="5,0,0,0"
                                                                     VerticalAlignment="Center" HorizontalAlignment="Left" Grid.ColumnSpan="2" 
-                                                                    Grid.Row="1" />
+                                                                    Grid.Row="2" />
                                                                 <TextBlock Text="{x:Static lang:Main.StepperMaxSpeedCaption}"
                                                                       VerticalAlignment="Center" Margin="5,0,0,0"  
-                                                                      Grid.Row="2" />
+                                                                      Grid.Row="3" />
                                                                 <TextBox Text="{Binding Path=MaxSpeed, UpdateSourceTrigger=PropertyChanged}"
                                                                      Margin="5,0,0,0"
                                                                      Width="75"
                                                                      VerticalAlignment="Center" 
-                                                                     Grid.Row="2" Grid.Column="1" />
+                                                                     Grid.Row="3" Grid.Column="1" />
                                                                 <TextBlock Text="{x:Static lang:Main.StepperMaxAccelerationCaption}"
                                                                       VerticalAlignment="Center" Margin="5,0,0,0"  
-                                                                      Grid.Row="3" />
-                                                                <TextBox Text="{Binding Path=MaxAcceleration, UpdateSourceTrigger=PropertyChanged}"
-                                                                     Margin="5,0,0,0"
-                                                                     Width="75"
-                                                                     VerticalAlignment="Center" 
-                                                                     Grid.Row="3" Grid.Column="1" />
-                                                                <TextBlock Text="{x:Static lang:Main.StepperMaxDeccelerationCaption}"
-                                                                      VerticalAlignment="Center" Margin="5,0,0,0"  
                                                                       Grid.Row="4" />
-                                                                <TextBox Text="{Binding Path=MaxDecceleration, UpdateSourceTrigger=PropertyChanged}"
+                                                                <my:FloatingPointTextBox Text="{Binding Path=MaxAcceleration, UpdateSourceTrigger=PropertyChanged, StringFormat=F2}"
                                                                      Margin="5,0,0,0"
                                                                      Width="75"
                                                                      VerticalAlignment="Center" 
                                                                      Grid.Row="4" Grid.Column="1" />
+                                                                <TextBlock Text="{x:Static lang:Main.StepperMaxDeccelerationCaption}"
+                                                                      VerticalAlignment="Center" Margin="5,0,0,0"  
+                                                                      Grid.Row="5" />
+                                                                <my:FloatingPointTextBox Text="{Binding Path=MaxDecceleration, UpdateSourceTrigger=PropertyChanged, StringFormat=F2}"
+                                                                     Margin="5,0,0,0"
+                                                                     Width="75"
+                                                                     VerticalAlignment="Center" 
+                                                                     Grid.Row="5" Grid.Column="1" />
                                                                 <CheckBox Content="{x:Static lang:Main.StepperSoftLimitEnabledCaption}"
                                                                     IsChecked="{Binding Path=SoftLimitEnabled}"
                                                                     Margin="5,0,0,0"
                                                                     VerticalAlignment="Center" HorizontalAlignment="Left" Grid.ColumnSpan="2" 
-                                                                    Grid.Row="5" />
+                                                                    Grid.Row="6" />
                                                                 <TextBlock Text="{x:Static lang:Main.StepperSoftLimitMinimumCaption}"
                                                                       VerticalAlignment="Center" Margin="5,0,0,0"  
-                                                                      Grid.Row="6" 
+                                                                      Grid.Row="7" 
                                                                       Visibility="{Binding Path=SoftLimitEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                                                 <TextBox Text="{Binding Path=SoftLimitMinimum, UpdateSourceTrigger=PropertyChanged}"
                                                                      Margin="5,0,0,0"
                                                                      Width="75"
                                                                      VerticalAlignment="Center" 
-                                                                     Grid.Row="6" Grid.Column="1" 
+                                                                     Grid.Row="7" Grid.Column="1" 
                                                                      Visibility="{Binding Path=SoftLimitEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                                                 <TextBlock Text="{x:Static lang:Main.StepperSoftLimitMaximumCaption}"
                                                                       VerticalAlignment="Center" Margin="5,0,0,0"  
-                                                                      Grid.Row="7" 
+                                                                      Grid.Row="8" 
                                                                       Visibility="{Binding Path=SoftLimitEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                                                 <TextBox Text="{Binding Path=SoftLimitMaximum, UpdateSourceTrigger=PropertyChanged}"
                                                                      Margin="5,0,0,0"
                                                                      Width="75"
                                                                      VerticalAlignment="Center" 
-                                                                     Grid.Row="7" Grid.Column="1" 
+                                                                     Grid.Row="8" Grid.Column="1" 
                                                                      Visibility="{Binding Path=SoftLimitEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                                                 <CheckBox Content="{x:Static lang:Main.StepperHasHomeSwitchCaption}"
                                                                     IsChecked="{Binding Path=HasHomeSwitch}"
                                                                     Margin="5,0,0,0"
                                                                     VerticalAlignment="Center" HorizontalAlignment="Left" Grid.ColumnSpan="2" 
-                                                                    Grid.Row="8" />
+                                                                    Grid.Row="9" />
                                                                 <TextBlock Text="{x:Static lang:Main.StepperPinHomingSwitchCaption}"
                                                                       VerticalAlignment="Center" Margin="5,0,0,0"  
-                                                                      Grid.Row="9" 
+                                                                      Grid.Row="10" 
                                                                       Visibility="{Binding Path=HasHomeSwitch, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                                                 <ComboBox ItemsSource="{Binding Path=HomePinSwitchList}"
                                                                       SelectedItem="{Binding Path=PinHomeSwitch}"
@@ -873,29 +878,29 @@
                                                                       Width="50"
                                                                       HorizontalAlignment="Left"
                                                                       VerticalAlignment="Center" 
-                                                                      Grid.Row="9" Grid.Column="1" 
+                                                                      Grid.Row="10" Grid.Column="1" 
                                                                       Visibility="{Binding Path=HasHomeSwitch, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                                                 <CheckBox Content="{x:Static lang:Main.StepperHomeInverted}"
                                                                     IsChecked="{Binding Path=HomeInverted}"
                                                                     Margin="5,0,0,0"
                                                                     VerticalAlignment="Center" HorizontalAlignment="Left" Grid.ColumnSpan="2" 
-                                                                    Grid.Row="10" />
+                                                                    Grid.Row="11" />
                                                                 <TextBlock Text="{x:Static lang:Main.StepperHomingSpeedCaption}"
                                                                       VerticalAlignment="Center" Margin="5,0,0,0"  
-                                                                      Grid.Row="11" />
+                                                                      Grid.Row="12" />
                                                                 <TextBox Text="{Binding Path=HomingSpeed, UpdateSourceTrigger=PropertyChanged}"
                                                                      Margin="5,0,0,0"
                                                                      Width="75"
                                                                      VerticalAlignment="Center" 
-                                                                     Grid.Row="11" Grid.Column="1" />
+                                                                     Grid.Row="12" Grid.Column="1" />
                                                                 <TextBlock Text="{x:Static lang:Main.StepperHomingReturnSpeedCaption}"
                                                                       VerticalAlignment="Center" Margin="5,0,0,0"  
-                                                                      Grid.Row="12" />
+                                                                      Grid.Row="13" />
                                                                 <TextBox Text="{Binding Path=HomingReturnSpeed, UpdateSourceTrigger=PropertyChanged}"
                                                                      Margin="5,0,0,0"
                                                                      Width="75"
                                                                      VerticalAlignment="Center" 
-                                                                     Grid.Row="12" Grid.Column="1" />
+                                                                     Grid.Row="13" Grid.Column="1" />
                                                             </Grid>
                                                         </StackPanel>
                                                     </StackPanel>

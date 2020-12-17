@@ -495,8 +495,8 @@
   <data name="StepperSoftLimitMinimumCaption" xml:space="preserve">
     <value>Soft Limit Minimum</value>
   </data>
-  <data name="StepperContinuesCaption" xml:space="preserve">
-    <value>Continues Rotation</value>
+  <data name="StepperContinuousCaption" xml:space="preserve">
+    <value>Continuous Rotation</value>
   </data>
   <data name="StepperSoftLimitEnabledCaption" xml:space="preserve">
     <value>Soft Limit Enabled</value>

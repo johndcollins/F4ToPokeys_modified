@@ -86,6 +86,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DEDuino.cs" />
+    <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="FloatingPointTextBox.cs" />
     <Compile Include="MemorySlot.cs" />
     <Compile Include="MemorySlotConsumer.cs" />
     <Compile Include="MemorySlotOutput.cs" />
