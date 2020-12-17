@@ -34,8 +34,8 @@ namespace F4ToPokeys
             AdditionalPointList = new ObservableCollection<PoKeysStepperPoint>();
 
             HasHomeSwitch = true;
-            SoftLimitEnabled = false;
-            SoftLimitMaximum = 0;
+            SoftLimitEnabled = true;
+            SoftLimitMaximum = 3820;
             PinHomeSwitch = 0;
 
             HomeInverted = false;
@@ -67,6 +67,8 @@ namespace F4ToPokeys
             set
             {
                 softLimitEnabled = value;
+                if (owner != null)
+                    owner.SetAxisParameters(this);
                 RaisePropertyChanged("SoftLimitEnabled");
             }
         }
@@ -78,6 +80,8 @@ namespace F4ToPokeys
             set
             {
                 inverted = value;
+                if (owner != null)
+                    owner.SetAxisParameters(this);
                 RaisePropertyChanged("Inverted");
             }
         }
@@ -89,6 +93,8 @@ namespace F4ToPokeys
             set
             {
                 homeInverted = value;
+                if (owner != null)
+                    owner.SetAxisParameters(this);
                 RaisePropertyChanged("HomeInverted");
             }
         }
@@ -99,6 +105,8 @@ namespace F4ToPokeys
             set
             {
                 maxSpeed = value;
+                if (owner != null)
+                    owner.SetAxisParameters(this);
                 RaisePropertyChanged("MaxSpeed");
             }
         }
@@ -109,6 +117,8 @@ namespace F4ToPokeys
             set
             {
                 maxAcceleration = value;
+                if (owner != null)
+                    owner.SetAxisParameters(this);
                 RaisePropertyChanged("MaxAcceleration");
             }
         }
@@ -119,6 +129,8 @@ namespace F4ToPokeys
             set
             {
                 maxDecceleration = value;
+                if (owner != null)
+                    owner.SetAxisParameters(this);
                 RaisePropertyChanged("MaxDecceleration");
             }
         }
@@ -129,6 +141,8 @@ namespace F4ToPokeys
             set
             {
                 softLimitMaximum = value;
+                if (owner != null)
+                    owner.SetAxisParameters(this);
                 RaisePropertyChanged("SoftLimitMaximum");
             }
         }
@@ -139,6 +153,8 @@ namespace F4ToPokeys
             set
             {
                 softLimitMinimum = value;
+                if (owner != null)
+                    owner.SetAxisParameters(this);
                 RaisePropertyChanged("SoftLimitMinimum");
             }
         }
@@ -149,6 +165,8 @@ namespace F4ToPokeys
             set
             {
                 homingSpeed = value;
+                if (owner != null)
+                    owner.SetAxisParameters(this);
                 RaisePropertyChanged("HomingSpeed");
             }
         }
@@ -159,6 +177,8 @@ namespace F4ToPokeys
             set
             {
                 homingReturnSpeed = value;
+                if (owner != null)
+                    owner.SetAxisParameters(this);
                 RaisePropertyChanged("HomingReturnSpeed");
             }
         }
@@ -174,6 +194,8 @@ namespace F4ToPokeys
                     Error = Translations.Main.StepperPinHomeSwitchOutOfRange;
 
                 pinHomeSwitch = value;
+                if (owner != null)
+                    owner.SetAxisParameters(this);
                 RaisePropertyChanged("PinHomeSwitch");
             }
         }
@@ -184,6 +206,8 @@ namespace F4ToPokeys
             set
             {
                 hasHomeSwitch = value;
+                if (owner != null)
+                    owner.SetAxisParameters(this);
                 RaisePropertyChanged("HasHomeSwitch");
             }
         }
@@ -191,11 +215,11 @@ namespace F4ToPokeys
 
         #region StepperIdList
         [XmlIgnore]
-        public List<byte> StepperIdList => new List<byte>() { 1, 2, 3, 4, 5, 6, 7, 8 };
+        public List<int> StepperIdList => new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8 };
         #endregion
 
         #region StepperId
-        public byte? StepperId
+        public int? StepperId
         {
             get { return stepperId; }
             set
@@ -204,12 +228,14 @@ namespace F4ToPokeys
                     return;
 
                 stepperId = value;
+                if (owner != null)
+                    owner.SetAxisParameters(this);
                 RaisePropertyChanged("StepperId");
 
                 ResetStepperIdErrors();
             }
         }
-        private byte? stepperId;
+        private int? stepperId;
 
         private void ResetStepperIdErrors()
         {

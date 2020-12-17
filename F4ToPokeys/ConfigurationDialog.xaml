@@ -716,6 +716,12 @@
                                                                      IsReadOnly="True"
                                                                      IsEnabled="False"
                                                                      VerticalAlignment="Center" />
+                                                            <TextBox Text="{Binding Path=StepperPosition, UpdateSourceTrigger=PropertyChanged}"
+                                                                     Margin="10,0,0,0"
+                                                                     Width="75"
+                                                                     IsReadOnly="True"
+                                                                     IsEnabled="False"
+                                                                     VerticalAlignment="Center" />
                                                             <Image Name="StepperErrorIcon"
                                                                    Source="{StaticResource image_erreur}"
                                                                    Width="{StaticResource {x:Static SystemParameters.SmallIconWidthKey}}"
