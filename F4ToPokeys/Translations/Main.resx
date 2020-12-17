@@ -501,4 +501,10 @@
   <data name="StepperSoftLimitEnabledCaption" xml:space="preserve">
     <value>Soft Limit Enabled</value>
   </data>
+  <data name="FalconValueCaption" xml:space="preserve">
+    <value>Falcon Value</value>
+  </data>
+  <data name="StepperValueCaption" xml:space="preserve">
+    <value>Stepper Value</value>
+  </data>
 </root>

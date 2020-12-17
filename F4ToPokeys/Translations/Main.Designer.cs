@@ -439,6 +439,15 @@ namespace F4ToPokeys.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Falcon Value.
+        /// </summary>
+        public static string FalconValueCaption {
+            get {
+                return ResourceManager.GetString("FalconValueCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Maximum digit number after decimal point.
         /// </summary>
         public static string FractionalPartSizeCaption {
@@ -1209,6 +1218,15 @@ namespace F4ToPokeys.Translations {
         public static string StepperUpdateIntervalMsCaption {
             get {
                 return ResourceManager.GetString("StepperUpdateIntervalMsCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stepper Value.
+        /// </summary>
+        public static string StepperValueCaption {
+            get {
+                return ResourceManager.GetString("StepperValueCaption", resourceCulture);
             }
         }
     }

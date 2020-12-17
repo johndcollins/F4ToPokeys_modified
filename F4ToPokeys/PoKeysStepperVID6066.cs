@@ -189,7 +189,16 @@ namespace F4ToPokeys
             //
             // Home all 8 axis (stepper motors)
             //
-            _PEconfig.HomingStartMaskSetup = 0xFF;  // Select all Axis for Homing
+            byte homingMask = 0;
+            foreach (PoKeysStepper stepper in StepperList)
+            {
+                if ((!stepper.StepperId.HasValue) || (stepper.StepperId.GetValueOrDefault() <= 0))
+                    continue;
+
+                homingMask |= (byte)(stepper.StepperId.GetValueOrDefault() - 1);
+            }
+
+            _PEconfig.HomingStartMaskSetup = homingMask;  // Select all Axis for Homing
             _homingAxis = -1;
 
             owner.PokeysDevice.PEv2_StartHoming(ref _PEconfig);  // Initiate the HOMING 
