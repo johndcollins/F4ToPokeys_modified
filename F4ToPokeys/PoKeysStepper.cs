@@ -98,7 +98,7 @@ namespace F4ToPokeys
                 RaisePropertyChanged("HomeInverted");
             }
         }
-        private float maxSpeed = 10;
+        private float maxSpeed = 10.0f;
         public float MaxSpeed
         {
             get { return maxSpeed; }

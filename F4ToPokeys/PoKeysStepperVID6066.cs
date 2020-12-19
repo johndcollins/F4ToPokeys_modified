@@ -163,9 +163,9 @@ namespace F4ToPokeys
 
             _PEconfig.HomingSpeed[i] = (byte)stepper.HomingSpeed;
             _PEconfig.HomingReturnSpeed[i] = (byte)stepper.HomingReturnSpeed;
-            _PEconfig.MaxSpeed[i] = stepper.MaxSpeed;
-            _PEconfig.MaxAcceleration[i] = stepper.MaxAcceleration;
-            _PEconfig.MaxDecceleration[i] = stepper.MaxDecceleration;
+            _PEconfig.MaxSpeed[i] = stepper.MaxSpeed / 10000;
+            _PEconfig.MaxAcceleration[i] = stepper.MaxAcceleration / 10000;
+            _PEconfig.MaxDecceleration[i] = stepper.MaxDecceleration / 10000;
             _PEconfig.SoftLimitMaximum[i] = stepper.MaxPoint.StepperValue;
             _PEconfig.SoftLimitMinimum[i] = stepper.MinPoint.StepperValue;
             _PEconfig.param1 = (byte)i; // Set parameter param1 to the bit mask to indicate what have the above Axis Configs set
