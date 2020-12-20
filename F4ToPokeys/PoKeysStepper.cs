@@ -98,8 +98,8 @@ namespace F4ToPokeys
                 RaisePropertyChanged("HomeInverted");
             }
         }
-        private float maxSpeed = 10.0f;
-        public float MaxSpeed
+        private double maxSpeed = 7200.00;
+        public double MaxSpeed
         {
             get { return maxSpeed; }
             set
@@ -110,8 +110,32 @@ namespace F4ToPokeys
                 RaisePropertyChanged("MaxSpeed");
             }
         }
-        private float maxAcceleration = 0.5f;
-        public float MaxAcceleration
+        private double homingMaxAcceleration = 150;
+        public double HomingMaxAcceleration
+        {
+            get { return homingMaxAcceleration; }
+            set
+            {
+                homingMaxAcceleration = value;
+                if (owner != null)
+                    owner.SetAxisParameters(this);
+                RaisePropertyChanged("HomingMaxAcceleration");
+            }
+        }
+        private double homingMaxDecceleration = 150;
+        public double HomingMaxDecceleration
+        {
+            get { return homingMaxDecceleration; }
+            set
+            {
+                homingMaxDecceleration = value;
+                if (owner != null)
+                    owner.SetAxisParameters(this);
+                RaisePropertyChanged("HomingMaxDecceleration");
+            }
+        }
+        private double maxAcceleration = 15;
+        public double MaxAcceleration
         {
             get { return maxAcceleration; }
             set
@@ -122,8 +146,8 @@ namespace F4ToPokeys
                 RaisePropertyChanged("MaxAcceleration");
             }
         }
-        private float maxDecceleration = 0.5f;
-        public float MaxDecceleration
+        private double maxDecceleration = 15;
+        public double MaxDecceleration
         {
             get { return maxDecceleration; }
             set
@@ -193,12 +217,36 @@ namespace F4ToPokeys
                 if (HasHomeSwitch && (!HomePinSwitchList.Contains(value)))
                     Error = Translations.Main.StepperPinHomeSwitchOutOfRange;
 
+                if ((owner != null) && (pinHomeSwitch != value))
+                {
+                    if (pinHomeSwitch != 0)
+                    {
+                        byte pinFunction = 0x0;
+                        owner.SetPinData(this, (byte)(PinHomeSwitch - 1), pinFunction);
+                    }
+                }
+
                 pinHomeSwitch = value;
                 if (owner != null)
                     owner.SetAxisParameters(this);
                 RaisePropertyChanged("PinHomeSwitch");
             }
         }
+        private bool homeSwitchInverted = false;
+        public bool HomeSwitchInverted
+        {
+            get { return homeSwitchInverted; }
+            set
+            {
+                Error = null;
+
+                homeSwitchInverted = value;
+                if (owner != null)
+                    owner.SetAxisParameters(this);
+                RaisePropertyChanged("HomeSwitchInverted");
+            }
+        }
+
         private bool hasHomeSwitch = false;
         public bool HasHomeSwitch
         {
@@ -679,6 +727,7 @@ namespace F4ToPokeys
             {
                 try
                 {
+
                     owner.MoveStepper(StepperId.GetValueOrDefault() - 1, StepperPosition);
                 }
                 catch (Exception e)

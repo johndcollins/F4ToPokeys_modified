@@ -331,6 +331,33 @@ namespace F4ToPokeys.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This pin is not a digital input.
+        /// </summary>
+        public static string DigitalInputErrorBadIOType {
+            get {
+                return ResourceManager.GetString("DigitalInputErrorBadIOType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pin IO type read error.
+        /// </summary>
+        public static string DigitalInputErrorGetIOType {
+            get {
+                return ResourceManager.GetString("DigitalInputErrorGetIOType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error setting Pin IO Type for Pin {0}.
+        /// </summary>
+        public static string DigitalInputErrorSetIOType {
+            get {
+                return ResourceManager.GetString("DigitalInputErrorSetIOType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Digital output.
         /// </summary>
         public static string DigitalOutputConfigCaption {
@@ -385,7 +412,7 @@ namespace F4ToPokeys.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This will enable the Pulse Engine on the Pokeys and will configure several pins automatically. The pins 23, 25 and 26 should not used for anything else. Do you want to continue?.
+        ///   Looks up a localized string similar to This will enable the Pulse Engine on the Pokeys and will configure several pins automatically. The pins 23, 25 and 26 should not used for anything else. You can&apos;t use LED Matrix with the Pulse Engine. Do you want to continue?.
         /// </summary>
         public static string EnablePulseEngineWarning {
             get {
@@ -979,6 +1006,15 @@ namespace F4ToPokeys.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There was an error trying to get the input of Pin {0}.
+        /// </summary>
+        public static string StepperGetInputError {
+            get {
+                return ResourceManager.GetString("StepperGetInputError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Has Home Switch.
         /// </summary>
         public static string StepperHasHomeSwitchCaption {
@@ -997,20 +1033,20 @@ namespace F4ToPokeys.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Home Inverted.
-        /// </summary>
-        public static string StepperHomeInverted {
-            get {
-                return ResourceManager.GetString("StepperHomeInverted", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Home Inverted.
+        ///   Looks up a localized string similar to Invert Direction.
         /// </summary>
         public static string StepperHomeInvertedCaption {
             get {
                 return ResourceManager.GetString("StepperHomeInvertedCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invert.
+        /// </summary>
+        public static string StepperHomePinInvertedCaption {
+            get {
+                return ResourceManager.GetString("StepperHomePinInvertedCaption", resourceCulture);
             }
         }
         
@@ -1024,7 +1060,43 @@ namespace F4ToPokeys.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Homing Reduced Speed.
+        ///   Looks up a localized string similar to Homing:.
+        /// </summary>
+        public static string StepperHomingCaption {
+            get {
+                return ResourceManager.GetString("StepperHomingCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pulse engine not in RUNNING state - check emergency switch. Quiting!.
+        /// </summary>
+        public static string StepperHomingError {
+            get {
+                return ResourceManager.GetString("StepperHomingError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Maximum Acceleration.
+        /// </summary>
+        public static string StepperHomingMaxAccelerationCaption {
+            get {
+                return ResourceManager.GetString("StepperHomingMaxAccelerationCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Maximum Decceleration.
+        /// </summary>
+        public static string StepperHomingMaxDeccelerationCaption {
+            get {
+                return ResourceManager.GetString("StepperHomingMaxDeccelerationCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reduced Speed.
         /// </summary>
         public static string StepperHomingReducedSpeedCaption {
             get {
@@ -1033,7 +1105,7 @@ namespace F4ToPokeys.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Homing Return Speed.
+        ///   Looks up a localized string similar to Return Speed.
         /// </summary>
         public static string StepperHomingReturnSpeedCaption {
             get {
@@ -1042,7 +1114,7 @@ namespace F4ToPokeys.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Homing Speed.
+        ///   Looks up a localized string similar to Speed.
         /// </summary>
         public static string StepperHomingSpeedCaption {
             get {
@@ -1087,7 +1159,7 @@ namespace F4ToPokeys.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reverse Direction.
+        ///   Looks up a localized string similar to Invert Direction.
         /// </summary>
         public static string StepperInverted {
             get {
@@ -1096,7 +1168,16 @@ namespace F4ToPokeys.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Max Acceleration.
+        ///   Looks up a localized string similar to Limits:.
+        /// </summary>
+        public static string StepperLimitsCaption {
+            get {
+                return ResourceManager.GetString("StepperLimitsCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Maximum Acceleration.
         /// </summary>
         public static string StepperMaxAccelerationCaption {
             get {
@@ -1105,7 +1186,7 @@ namespace F4ToPokeys.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Max Decceleration.
+        ///   Looks up a localized string similar to Maximum Decceleration.
         /// </summary>
         public static string StepperMaxDeccelerationCaption {
             get {
@@ -1123,11 +1204,47 @@ namespace F4ToPokeys.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Max Speed.
+        ///   Looks up a localized string similar to Maximum Speed.
         /// </summary>
         public static string StepperMaxSpeedCaption {
             get {
                 return ResourceManager.GetString("StepperMaxSpeedCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Motion Parameters:.
+        /// </summary>
+        public static string StepperMotionParamCaption {
+            get {
+                return ResourceManager.GetString("StepperMotionParamCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There was an error moving Stepper {0}.
+        /// </summary>
+        public static string StepperMoveError {
+            get {
+                return ResourceManager.GetString("StepperMoveError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to % of Full.
+        /// </summary>
+        public static string StepperPctOfFullCaption {
+            get {
+                return ResourceManager.GetString("StepperPctOfFullCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to % of Homing.
+        /// </summary>
+        public static string StepperPctOfHomingCation {
+            get {
+                return ResourceManager.GetString("StepperPctOfHomingCation", resourceCulture);
             }
         }
         
@@ -1141,7 +1258,7 @@ namespace F4ToPokeys.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Homing Switch Pin.
+        ///   Looks up a localized string similar to Home Switch Pin.
         /// </summary>
         public static string StepperPinHomingSwitchCaption {
             get {
@@ -1177,6 +1294,33 @@ namespace F4ToPokeys.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pulses.
+        /// </summary>
+        public static string StepperPulsesCaption {
+            get {
+                return ResourceManager.GetString("StepperPulsesCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pulses/s^2.
+        /// </summary>
+        public static string StepperPulsesPerSec2Caption {
+            get {
+                return ResourceManager.GetString("StepperPulsesPerSec2Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pulses/s.
+        /// </summary>
+        public static string StepperPulsesPerSecCaption {
+            get {
+                return ResourceManager.GetString("StepperPulsesPerSecCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Soft Limit Enabled.
         /// </summary>
         public static string StepperSoftLimitEnabledCaption {
@@ -1186,7 +1330,7 @@ namespace F4ToPokeys.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Soft Limit Maximum.
+        ///   Looks up a localized string similar to Maximum.
         /// </summary>
         public static string StepperSoftLimitMaximumCaption {
             get {
@@ -1195,11 +1339,20 @@ namespace F4ToPokeys.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Soft Limit Minimum.
+        ///   Looks up a localized string similar to Minimum.
         /// </summary>
         public static string StepperSoftLimitMinimumCaption {
             get {
                 return ResourceManager.GetString("StepperSoftLimitMinimumCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Speed:.
+        /// </summary>
+        public static string StepperSpeedCaption {
+            get {
+                return ResourceManager.GetString("StepperSpeedCaption", resourceCulture);
             }
         }
         

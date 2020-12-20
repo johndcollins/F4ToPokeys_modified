@@ -397,13 +397,13 @@
     <value>Has Home Switch</value>
   </data>
   <data name="StepperHomeInvertedCaption" xml:space="preserve">
-    <value>Home Inverted</value>
+    <value>Invert Direction</value>
   </data>
   <data name="StepperHomingReducedSpeedCaption" xml:space="preserve">
-    <value>Homing Reduced Speed</value>
+    <value>Reduced Speed</value>
   </data>
   <data name="StepperHomingSpeedCaption" xml:space="preserve">
-    <value>Homing Speed</value>
+    <value>Speed</value>
   </data>
   <data name="StepperHomingStatusIdle" xml:space="preserve">
     <value>Idle</value>
@@ -418,22 +418,22 @@
     <value>Stepper Id {0} is already used.</value>
   </data>
   <data name="StepperInverted" xml:space="preserve">
-    <value>Reverse Direction</value>
+    <value>Invert Direction</value>
   </data>
   <data name="StepperMaxAccelerationCaption" xml:space="preserve">
-    <value>Max Acceleration</value>
+    <value>Maximum Acceleration</value>
   </data>
   <data name="StepperMaxMovementToleranceCaption" xml:space="preserve">
     <value>Max Movement Tolerance</value>
   </data>
   <data name="StepperMaxSpeedCaption" xml:space="preserve">
-    <value>Max Speed</value>
+    <value>Maximum Speed</value>
   </data>
   <data name="StepperPinHomeSwitchOutOfRange" xml:space="preserve">
     <value>Pin number must be between 1 and 53 or 55</value>
   </data>
   <data name="StepperPinHomingSwitchCaption" xml:space="preserve">
-    <value>Homing Switch Pin</value>
+    <value>Home Switch Pin</value>
   </data>
   <data name="StepperPointFalconValue" xml:space="preserve">
     <value>Falcon value</value>
@@ -466,13 +466,10 @@
     <value>Enable VID6066 Stepper Board</value>
   </data>
   <data name="EnablePulseEngineWarning" xml:space="preserve">
-    <value>This will enable the Pulse Engine on the Pokeys and will configure several pins automatically. The pins 23, 25 and 26 should not used for anything else. Do you want to continue?</value>
+    <value>EnablePulseEngineWarning	This will enable the Pulse Engine on the Pokeys and will configure several pins automatically. The pins 23, 25 and 26 should not used for anything else. You can't use LED Matrix with the Pulse Engine. Do you want to continue?</value>
   </data>
   <data name="EnablePulseEngineWarningCaption" xml:space="preserve">
     <value>Enable Pulse Engine</value>
-  </data>
-  <data name="StepperHomeInverted" xml:space="preserve">
-    <value>Home Inverted</value>
   </data>
   <data name="StepperHomeCaption" xml:space="preserve">
     <value>Home Stepper</value>
@@ -484,16 +481,16 @@
     <value>Home</value>
   </data>
   <data name="StepperHomingReturnSpeedCaption" xml:space="preserve">
-    <value>Homing Return Speed</value>
+    <value>Return Speed</value>
   </data>
   <data name="StepperMaxDeccelerationCaption" xml:space="preserve">
-    <value>Max Decceleration</value>
+    <value>Maximum Decceleration</value>
   </data>
   <data name="StepperSoftLimitMaximumCaption" xml:space="preserve">
-    <value>Soft Limit Maximum</value>
+    <value>Maximum</value>
   </data>
   <data name="StepperSoftLimitMinimumCaption" xml:space="preserve">
-    <value>Soft Limit Minimum</value>
+    <value>Minimum</value>
   </data>
   <data name="StepperSoftLimitEnabledCaption" xml:space="preserve">
     <value>Soft Limit Enabled</value>
@@ -506,5 +503,59 @@
   </data>
   <data name="StepperValueCaption" xml:space="preserve">
     <value>Stepper Value</value>
+  </data>
+  <data name="DigitalInputErrorBadIOType" xml:space="preserve">
+    <value>This pin is not a digital input</value>
+  </data>
+  <data name="DigitalInputErrorGetIOType" xml:space="preserve">
+    <value>Pin IO type read error</value>
+  </data>
+  <data name="StepperHomingError" xml:space="preserve">
+    <value>Pulse engine not in RUNNING state - check emergency switch. Quiting!</value>
+  </data>
+  <data name="StepperGetInputError" xml:space="preserve">
+    <value>There was an error trying to get the input of Pin {0}</value>
+  </data>
+  <data name="StepperMoveError" xml:space="preserve">
+    <value>There was an error moving Stepper {0}</value>
+  </data>
+  <data name="DigitalInputErrorSetIOType" xml:space="preserve">
+    <value>Error setting Pin IO Type for Pin {0}</value>
+  </data>
+  <data name="StepperMotionParamCaption" xml:space="preserve">
+    <value>Motion Parameters:</value>
+  </data>
+  <data name="StepperHomingCaption" xml:space="preserve">
+    <value>Homing:</value>
+  </data>
+  <data name="StepperSpeedCaption" xml:space="preserve">
+    <value>Speed:</value>
+  </data>
+  <data name="StepperLimitsCaption" xml:space="preserve">
+    <value>Limits:</value>
+  </data>
+  <data name="StepperHomePinInvertedCaption" xml:space="preserve">
+    <value>Invert</value>
+  </data>
+  <data name="StepperPctOfFullCaption" xml:space="preserve">
+    <value>% of Full</value>
+  </data>
+  <data name="StepperPctOfHomingCation" xml:space="preserve">
+    <value>% of Homing</value>
+  </data>
+  <data name="StepperPulsesCaption" xml:space="preserve">
+    <value>Pulses</value>
+  </data>
+  <data name="StepperPulsesPerSec2Caption" xml:space="preserve">
+    <value>Pulses/s^2</value>
+  </data>
+  <data name="StepperPulsesPerSecCaption" xml:space="preserve">
+    <value>Pulses/s</value>
+  </data>
+  <data name="StepperHomingMaxAccelerationCaption" xml:space="preserve">
+    <value>Maximum Acceleration</value>
+  </data>
+  <data name="StepperHomingMaxDeccelerationCaption" xml:space="preserve">
+    <value>Maximum Decceleration</value>
   </data>
 </root>
