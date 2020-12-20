@@ -342,6 +342,8 @@ namespace F4ToPokeys
                     return false;
                 }
 
+                Thread.Sleep(500);
+
                 owner.PokeysDevice.PEv2_GetStatus(ref _PEconfig);    // Check status
                 bool inputState = false;
                 if (!owner.PokeysDevice.GetInput((byte)(_PEconfig.PinHomeSwitch.values[stepperId] - 1), ref inputState))
