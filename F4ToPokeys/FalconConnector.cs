@@ -278,6 +278,7 @@ namespace F4ToPokeys
             addToLightList(new FalconLightBit2(chaffFlare, "DISPENSE RDY", LightBits2.Rdy));
             addToLightList(new FalconLightBit2(chaffFlare, "BINGO CHAFF", LightBits2.ChaffLo));
             addToLightList(new FalconLightBit2(chaffFlare, "BINGO FLARE", LightBits2.FlareLo));
+            addToLightList(new FalconLightBit3(cautionlightPanel, "INLET ICING", LightBits3.Inlet_Icing));
 
             //
             // New Blinking Lamps - Beau & Eric

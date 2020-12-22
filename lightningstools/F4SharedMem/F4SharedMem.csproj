@@ -14,7 +14,6 @@
     <AssemblyOriginatorKeyFile>Sn.key.snk</AssemblyOriginatorKeyFile>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
-    <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <PublishUrl>http://localhost/F4SharedMem/</PublishUrl>
@@ -33,46 +32,48 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <DelaySign>false</DelaySign>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <TargetFrameworkProfile />
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Debug\</OutputPath>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
-    <NoWarn>3003</NoWarn>
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
-    <LangVersion>default</LangVersion>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <ErrorReport>prompt</ErrorReport>
-    <DebugType>full</DebugType>
+    <Prefer32Bit>false</Prefer32Bit>
+    <NoWarn>3003</NoWarn>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Release\</OutputPath>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <RegisterForComInterop>false</RegisterForComInterop>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
     <NoWarn>3003</NoWarn>
     <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <LangVersion>default</LangVersion>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <ErrorReport>prompt</ErrorReport>
+    <DebugSymbols>true</DebugSymbols>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Headers\AltBits.cs" />
+    <Compile Include="Headers\BettyBits.cs" />
     <Compile Include="Headers\BlinkBits.cs" />
     <Compile Include="Headers\BMS4FlightData.cs" />
     <Compile Include="Headers\Callsign_LineOfText.cs" />
     <Compile Include="Headers\CmdsModes.cs" />
     <Compile Include="Headers\DED_PFL_LineOfText.cs" />
     <Compile Include="FlightData.cs" />
+    <Compile Include="Headers\DrawingData.cs" />
     <Compile Include="Headers\FlightData2.cs" />
     <Compile Include="Headers\FlyStates.cs" />
     <Compile Include="Headers\HsiBits.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="Headers\LightBits.cs" />
     <Compile Include="Headers\LightBits2.cs" />
     <Compile Include="Headers\LightBits3.cs" />
+    <Compile Include="Headers\MiscBits.cs" />
     <Compile Include="Headers\NavModes.cs" />
     <Compile Include="Headers\OSBData.cs" />
     <Compile Include="Headers\OSBLabel.cs" />
@@ -88,6 +90,8 @@
     <Compile Include="Headers\RadioClientControl.cs" />
     <Compile Include="Headers\RadioClientStatus.cs" />
     <Compile Include="Headers\RTT_areas.cs" />
+    <Compile Include="Headers\StringData.cs" />
+    <Compile Include="Headers\StringIdentifier.cs" />
     <Compile Include="Headers\SwitchStates.cs" />
     <Compile Include="Reader.cs" />
     <Compile Include="NativeMethods.cs" />
@@ -100,9 +104,9 @@
     <None Include="Sn.key.snk" />
   </ItemGroup>
   <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
       <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>

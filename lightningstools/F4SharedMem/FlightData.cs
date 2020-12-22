@@ -338,6 +338,24 @@ namespace F4SharedMem
         // VERSION 14
         public byte instrLight;  // (unsigned char) current instrument backlight brightness setting, see InstrLight enum for details
 
+        // VERSION 15
+        public uint bettyBits;      // see BettyBits enum for details
+        public uint miscBits;        // see MiscBits enum for details
+        public float RALT;                  // radar altitude (only valid/ reliable if MiscBit "RALT_Valid" is set)
+        public float bingoFuel;             // bingo fuel level
+        public float caraAlow;              // cara alow setting
+        public float bullseyeX;             // bullseye X in sim coordinates (same as ownship, i.e. North (Ft))
+        public float bullseyeY;             // bullseye Y in sim coordinates (same as ownship, i.e. East (Ft))
+        public int BMSVersionMajor;         // E.g.  4.
+        public int BMSVersionMinor;         //         34.
+        public int BMSVersionMicro;         //            1
+        public int BMSBuildNumber;          //              build 20050
+        public uint StringAreaSize; // the overall size of the StringData/FalconSharedMemoryAreaString shared memory area
+        public uint StringAreaTime; // last time the StringData/FalconSharedMemoryAreaString shared memory area has been changed - you only need to re-read the string shared mem if this changes
+        public uint DrawingAreaSize;// the overall size of the DrawingData/FalconSharedMemoryAreaDrawing area
+
+        // VERSION 16
+        public float turnRate;              // actual turn rate (no delay or dampening) in degrees/second
 
         public OptionSelectButtonLabel[] leftMFD;
         public OptionSelectButtonLabel[] rightMFD;
@@ -352,6 +370,10 @@ namespace F4SharedMem
 
         public RadioClientControl RadioClientControlData { get; set; }
         public RadioClientStatus RadioClientStatus { get; set; }
+
+        public StringData StringData { get; set; }
+        public DrawingData DrawingData { get; set; }
+
 
     }
 }
