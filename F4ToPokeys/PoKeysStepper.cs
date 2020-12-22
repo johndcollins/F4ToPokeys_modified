@@ -232,20 +232,6 @@ namespace F4ToPokeys
                 RaisePropertyChanged("PinHomeSwitch");
             }
         }
-        private bool homeSwitchInverted = false;
-        public bool HomeSwitchInverted
-        {
-            get { return homeSwitchInverted; }
-            set
-            {
-                Error = null;
-
-                homeSwitchInverted = value;
-                if (owner != null)
-                    owner.SetAxisParameters(this);
-                RaisePropertyChanged("HomeSwitchInverted");
-            }
-        }
 
         private bool hasHomeSwitch = false;
         public bool HasHomeSwitch

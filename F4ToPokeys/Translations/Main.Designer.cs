@@ -1033,20 +1033,11 @@ namespace F4ToPokeys.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invert Direction.
+        ///   Looks up a localized string similar to Invert.
         /// </summary>
         public static string StepperHomeInvertedCaption {
             get {
                 return ResourceManager.GetString("StepperHomeInvertedCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Invert.
-        /// </summary>
-        public static string StepperHomePinInvertedCaption {
-            get {
-                return ResourceManager.GetString("StepperHomePinInvertedCaption", resourceCulture);
             }
         }
         

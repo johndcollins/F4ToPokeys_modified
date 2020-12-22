@@ -42,7 +42,7 @@ Source: "..\F4ToPokeys\bin\Release\SimplifiedCommon.dll"; DestDir: "{app}"; Flag
 Source: "..\F4ToPokeys\bin\Release\SimplifiedCommon.pdb"; DestDir: "{app}"; Flags: IgnoreVersion
 Source: "..\F4ToPokeys\bin\Release\UsbWrapper.dll"; DestDir: "{app}"; Flags: IgnoreVersion
 Source: "..\F4ToPokeys\bin\Release\Usc.dll"; DestDir: "{app}"; Flags: IgnoreVersion
-Source: "..\F4ToPokeys\bin\Release\Usc.pdb"; DestDir: "{app}"; Flags: IgnoreVersion
+//Source: "..\F4ToPokeys\bin\Release\Usc.pdb"; DestDir: "{app}"; Flags: IgnoreVersion
 Source: "..\F4ToPokeys\bin\Release\fr\F4ToPokeys.resources.dll"; DestDir: "{app}\fr"; Flags: IgnoreVersion; Languages: french
 
 [Icons]

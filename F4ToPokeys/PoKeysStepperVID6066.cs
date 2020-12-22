@@ -194,7 +194,7 @@ namespace F4ToPokeys
             if ((stepper.PinHomeSwitch > 0) && stepper.HasHomeSwitch)
             {
                 byte pinFunction = 0;
-                if (stepper.HomeSwitchInverted)
+                if (stepper.HomeInverted)
                     pinFunction = 0x82;
                 else
                     pinFunction = 0x2;
@@ -205,10 +205,10 @@ namespace F4ToPokeys
             _PEconfig.HomingSpeed[i] = (byte)stepper.HomingSpeed;
             _PEconfig.HomingReturnSpeed[i] = (byte)stepper.HomingReturnSpeed;
             _PEconfig.MaxSpeed[i] = (float)(stepper.MaxSpeed / 1000);
-            _PEconfig.MaxAcceleration[i] = (float)(stepper.MaxAcceleration / 1000);
-            _PEconfig.MaxDecceleration[i] = (float)(stepper.MaxDecceleration / 1000);
-            _PEconfig.SoftLimitMaximum[i] = stepper.MaxPoint.StepperValue;
-            _PEconfig.SoftLimitMinimum[i] = stepper.MinPoint.StepperValue;
+            _PEconfig.MaxAcceleration[i] = (float)(stepper.MaxAcceleration / 10000);
+            _PEconfig.MaxDecceleration[i] = (float)(stepper.MaxDecceleration / 10000);
+            _PEconfig.SoftLimitMaximum[i] = stepper.SoftLimitMaximum;
+            _PEconfig.SoftLimitMinimum[i] = stepper.SoftLimitMinimum;
             _PEconfig.param1 = (byte)i; // Set parameter param1 to the bit mask to indicate what have the above Axis Configs set
 
             // Write (Set) above Axis Configuration
@@ -236,8 +236,8 @@ namespace F4ToPokeys
                     return;
 
                 int i = stepper.StepperId.GetValueOrDefault() - 1;
-                _PEconfig.MaxAcceleration[i] = (float)(stepper.HomingMaxAcceleration / 1000);
-                _PEconfig.MaxDecceleration[i] = (float)(stepper.HomingMaxDecceleration / 1000);
+                _PEconfig.MaxAcceleration[i] = (float)(stepper.HomingMaxAcceleration / 10000);
+                _PEconfig.MaxDecceleration[i] = (float)(stepper.HomingMaxDecceleration / 10000);
                 _PEconfig.param1 = (byte)i; // Set parameter param1 to the bit mask to indicate what have the above Axis Configs set
                 owner.PokeysDevice.PEv2_SetAxisConfiguration(ref _PEconfig); // Configure the axis
             }
@@ -284,8 +284,8 @@ namespace F4ToPokeys
 
             int i = stepper.StepperId.GetValueOrDefault() - 1;
 
-            _PEconfig.MaxAcceleration[i] = (float)(stepper.HomingMaxAcceleration / 1000);
-            _PEconfig.MaxDecceleration[i] = (float)(stepper.HomingMaxDecceleration / 1000);
+            _PEconfig.MaxAcceleration[i] = (float)(stepper.HomingMaxAcceleration / 10000);
+            _PEconfig.MaxDecceleration[i] = (float)(stepper.HomingMaxDecceleration / 10000);
             _PEconfig.param1 = (byte)i; // Set parameter param1 to the bit mask to indicate what have the above Axis Configs set
             owner.PokeysDevice.PEv2_SetAxisConfiguration(ref _PEconfig); // Configure the axis
 
@@ -416,8 +416,8 @@ namespace F4ToPokeys
                     _PEconfig.param2 = (byte)(1 << i); // Set param2 bit to indicate which stepper    
                     _PEconfig.PositionSetup[i] = 0;     // Set axis (stepper) position to Zero
                     owner.PokeysDevice.PEv2_SetPositions(ref _PEconfig);
-                    _PEconfig.MaxAcceleration[i] = (float)(stepper.MaxAcceleration / 1000);
-                    _PEconfig.MaxDecceleration[i] = (float)(stepper.MaxDecceleration / 1000);
+                    _PEconfig.MaxAcceleration[i] = (float)(stepper.MaxAcceleration / 10000);
+                    _PEconfig.MaxDecceleration[i] = (float)(stepper.MaxDecceleration / 10000);
                     _PEconfig.param1 = (byte)i; // Set parameter param1 to the bit mask to indicate what have the above Axis Configs set
                     owner.PokeysDevice.PEv2_SetAxisConfiguration(ref _PEconfig); // Configure the axis
                 }
@@ -428,8 +428,8 @@ namespace F4ToPokeys
                 _PEconfig.PositionSetup[_homingAxis] = 0;     // Set axis (stepper) position to Zero
 
                 owner.PokeysDevice.PEv2_SetPositions(ref _PEconfig);
-                _PEconfig.MaxAcceleration[_homingAxis] = (float)(StepperList.First(s => s.StepperId == _homingStepper).MaxAcceleration / 1000);
-                _PEconfig.MaxDecceleration[_homingAxis] = (float)(StepperList.First(s => s.StepperId == _homingStepper).MaxDecceleration / 1000);
+                _PEconfig.MaxAcceleration[_homingAxis] = (float)(StepperList.First(s => s.StepperId == _homingStepper).MaxAcceleration / 10000);
+                _PEconfig.MaxDecceleration[_homingAxis] = (float)(StepperList.First(s => s.StepperId == _homingStepper).MaxDecceleration / 10000);
                 _PEconfig.param1 = (byte)_homingAxis; // Set parameter param1 to the bit mask to indicate what have the above Axis Configs set
                 owner.PokeysDevice.PEv2_SetAxisConfiguration(ref _PEconfig); // Configure the axis
             }

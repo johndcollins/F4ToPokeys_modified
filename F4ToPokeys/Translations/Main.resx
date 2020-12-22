@@ -397,7 +397,7 @@
     <value>Has Home Switch</value>
   </data>
   <data name="StepperHomeInvertedCaption" xml:space="preserve">
-    <value>Invert Direction</value>
+    <value>Invert</value>
   </data>
   <data name="StepperHomingReducedSpeedCaption" xml:space="preserve">
     <value>Reduced Speed</value>
@@ -533,9 +533,6 @@
   </data>
   <data name="StepperLimitsCaption" xml:space="preserve">
     <value>Limits:</value>
-  </data>
-  <data name="StepperHomePinInvertedCaption" xml:space="preserve">
-    <value>Invert</value>
   </data>
   <data name="StepperPctOfFullCaption" xml:space="preserve">
     <value>% of Full</value>
