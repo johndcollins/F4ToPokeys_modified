@@ -122,7 +122,7 @@ namespace F4ToPokeys
                 RaisePropertyChanged("MaxSpeed");
             }
         }
-        private double homingMaxAcceleration = 150;
+        private double homingMaxAcceleration = 150000;
         public double HomingMaxAcceleration
         {
             get { return homingMaxAcceleration; }
@@ -134,7 +134,7 @@ namespace F4ToPokeys
                 RaisePropertyChanged("HomingMaxAcceleration");
             }
         }
-        private double homingMaxDecceleration = 150;
+        private double homingMaxDecceleration = 150000;
         public double HomingMaxDecceleration
         {
             get { return homingMaxDecceleration; }
@@ -146,7 +146,7 @@ namespace F4ToPokeys
                 RaisePropertyChanged("HomingMaxDecceleration");
             }
         }
-        private double maxAcceleration = 15;
+        private double maxAcceleration = 15000;
         public double MaxAcceleration
         {
             get { return maxAcceleration; }
@@ -158,7 +158,7 @@ namespace F4ToPokeys
                 RaisePropertyChanged("MaxAcceleration");
             }
         }
-        private double maxDecceleration = 15;
+        private double maxDecceleration = 15000;
         public double MaxDecceleration
         {
             get { return maxDecceleration; }
