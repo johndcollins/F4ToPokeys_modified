@@ -56,7 +56,19 @@ namespace F4ToPokeys
             set
             {
                 continuousRotation = value;
+                SoftLimitEnabled = !continuousRotation;
                 RaisePropertyChanged("ContinuousRotation");
+            }
+        }
+
+        private int forwardHomingSteps = 700;
+        public int ForwardHomingSteps
+        {
+            get { return forwardHomingSteps; }
+            set
+            {
+                forwardHomingSteps = value;
+                RaisePropertyChanged("ForwardHomingSteps");
             }
         }
 

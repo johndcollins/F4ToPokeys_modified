@@ -555,4 +555,7 @@
   <data name="StepperHomingMaxDeccelerationCaption" xml:space="preserve">
     <value>Maximum Decceleration</value>
   </data>
+  <data name="StepperForwardHomingStepsCaption" xml:space="preserve">
+    <value>Forward Homing Steps</value>
+  </data>
 </root>

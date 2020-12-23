@@ -997,6 +997,15 @@ namespace F4ToPokeys.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Forward Homing Steps.
+        /// </summary>
+        public static string StepperForwardHomingStepsCaption {
+            get {
+                return ResourceManager.GetString("StepperForwardHomingStepsCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Full Turn Value.
         /// </summary>
         public static string StepperFullTurnValue {

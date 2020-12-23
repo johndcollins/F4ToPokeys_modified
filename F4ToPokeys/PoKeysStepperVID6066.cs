@@ -19,7 +19,6 @@ namespace F4ToPokeys
         sPoKeysPEv2 _PEconfig = new sPoKeysPEv2();
         private volatile bool _isHoming = false;
         private Stopwatch _homingTimeoutTimer = null;
-        private int _homingTimeout = 2000;
         private int _homingAxis = -2;
         private int _homingStepper = 0;
         private DispatcherTimer _homingTimer = null;
@@ -32,8 +31,6 @@ namespace F4ToPokeys
 
             FalconConnector.Singleton.FalconStarted += OnFalconFlyingStarted;
             FalconConnector.Singleton.FalconStopped += OnFalconFlyingStopped;
-            //FalconConnector.Singleton.FalconFlyingStarted += OnFalconFlyingStarted;
-            //FalconConnector.Singleton.FalconFlyingStopped += OnFalconFlyingStopped;
         }
 
         public void Dispose()
@@ -194,10 +191,10 @@ namespace F4ToPokeys
             if ((stepper.PinHomeSwitch > 0) && stepper.HasHomeSwitch)
             {
                 byte pinFunction = 0;
-                if (stepper.HomeInverted)
-                    pinFunction = 0x82;
-                else
-                    pinFunction = 0x2;
+//                if (stepper.HomeInverted)
+//                    pinFunction = 0x82;
+//                else
+                pinFunction = 0x2;
                 SetPinData(stepper, (byte)stepper.PinHomeSwitch, pinFunction);
                 _PEconfig.PinHomeSwitch[i] = (byte)(stepper.PinHomeSwitch);
             }
@@ -205,8 +202,8 @@ namespace F4ToPokeys
             _PEconfig.HomingSpeed[i] = (byte)stepper.HomingSpeed;
             _PEconfig.HomingReturnSpeed[i] = (byte)stepper.HomingReturnSpeed;
             _PEconfig.MaxSpeed[i] = (float)(stepper.MaxSpeed / 1000);
-            _PEconfig.MaxAcceleration[i] = (float)(stepper.MaxAcceleration / 10000);
-            _PEconfig.MaxDecceleration[i] = (float)(stepper.MaxDecceleration / 10000);
+            _PEconfig.MaxAcceleration[i] = (float)(stepper.MaxAcceleration / 1000000);
+            _PEconfig.MaxDecceleration[i] = (float)(stepper.MaxDecceleration / 1000000);
             _PEconfig.SoftLimitMaximum[i] = stepper.SoftLimitMaximum;
             _PEconfig.SoftLimitMinimum[i] = stepper.SoftLimitMinimum;
             _PEconfig.param1 = (byte)i; // Set parameter param1 to the bit mask to indicate what have the above Axis Configs set
@@ -218,6 +215,20 @@ namespace F4ToPokeys
         #endregion
 
         #region Homing
+        private int _homingTimeout = 2000;
+        public int HomingTimeoutMilliseconds
+        {
+            get { return _homingTimeout; }
+            set
+            {
+                if (value > 0)
+                {
+                    _homingTimeout = value;
+                    RaisePropertyChanged("HomingTimeoutMilliseconds");
+                }
+            }
+        }
+
         private void StartHomingAll()
         {
             if ((owner == null) || (!owner.Connected))
@@ -228,7 +239,7 @@ namespace F4ToPokeys
                 stepper.Error = null;
                 for (int j = 0; j < 3; j++)
                 {
-                    if (!MoveInitialHoming(stepper, 700))
+                    if (!MoveInitialHoming(stepper))
                         break;
                 }
 
@@ -236,8 +247,8 @@ namespace F4ToPokeys
                     return;
 
                 int i = stepper.StepperId.GetValueOrDefault() - 1;
-                _PEconfig.MaxAcceleration[i] = (float)(stepper.HomingMaxAcceleration / 10000);
-                _PEconfig.MaxDecceleration[i] = (float)(stepper.HomingMaxDecceleration / 10000);
+                _PEconfig.MaxAcceleration[i] = (float)(stepper.HomingMaxAcceleration / 1000000);
+                _PEconfig.MaxDecceleration[i] = (float)(stepper.HomingMaxDecceleration / 1000000);
                 _PEconfig.param1 = (byte)i; // Set parameter param1 to the bit mask to indicate what have the above Axis Configs set
                 owner.PokeysDevice.PEv2_SetAxisConfiguration(ref _PEconfig); // Configure the axis
             }
@@ -284,15 +295,15 @@ namespace F4ToPokeys
 
             int i = stepper.StepperId.GetValueOrDefault() - 1;
 
-            _PEconfig.MaxAcceleration[i] = (float)(stepper.HomingMaxAcceleration / 10000);
-            _PEconfig.MaxDecceleration[i] = (float)(stepper.HomingMaxDecceleration / 10000);
+            _PEconfig.MaxAcceleration[i] = (float)(stepper.HomingMaxAcceleration / 1000000);
+            _PEconfig.MaxDecceleration[i] = (float)(stepper.HomingMaxDecceleration / 1000000);
             _PEconfig.param1 = (byte)i; // Set parameter param1 to the bit mask to indicate what have the above Axis Configs set
             owner.PokeysDevice.PEv2_SetAxisConfiguration(ref _PEconfig); // Configure the axis
 
             stepper.Error = null;
             for (int j = 0; j < 3; j++)
             {
-                if (!MoveInitialHoming(stepper, 700))
+                if (!MoveInitialHoming(stepper))
                     break;
             }
 
@@ -315,12 +326,9 @@ namespace F4ToPokeys
             _homingTimer.Start();
         }
 
-        private bool MoveInitialHoming(PoKeysStepper stepper, int moveSteps)
+        private bool MoveInitialHoming(PoKeysStepper stepper)
         {
             if ((owner == null) || (!owner.Connected))
-                return false;
-
-            if (!stepper.ContinuousRotation)
                 return false;
 
             int stepperId = stepper.StepperId.GetValueOrDefault() - 1;
@@ -331,11 +339,7 @@ namespace F4ToPokeys
                 _PEconfig.PulseEngineStateSetup = (byte)ePoKeysPEState.peRUNNING;
                 owner.PokeysDevice.PEv2_SetState(ref _PEconfig);
 
-                //owner.PokeysDevice.PEv2_GetStatus(ref _PEconfig);    // Check status
-                //int currentStepperPos = _PEconfig.CurrentPosition[stepperId];
-
-                //int newStepperPosition = currentStepperPos - moveSteps;
-                _PEconfig.ReferencePositionSpeed[stepperId] = moveSteps;
+                _PEconfig.ReferencePositionSpeed[stepperId] = stepper.ForwardHomingSteps;
                 if (!owner.PokeysDevice.PEv2_Move(ref _PEconfig))
                 {
                     stepper.Error = string.Format(Translations.Main.StepperMoveError, stepper.StepperId);
@@ -344,15 +348,20 @@ namespace F4ToPokeys
 
                 Thread.Sleep(500);
 
-                owner.PokeysDevice.PEv2_GetStatus(ref _PEconfig);    // Check status
-                bool inputState = false;
-                if (!owner.PokeysDevice.GetInput((byte)(_PEconfig.PinHomeSwitch.values[stepperId] - 1), ref inputState))
+                if (stepper.ContinuousRotation)
                 {
-                    stepper.Error = string.Format(Translations.Main.StepperGetInputError, _PEconfig.PinHomeSwitch.values[stepperId]);
-                    return false;
-                }
+                    owner.PokeysDevice.PEv2_GetStatus(ref _PEconfig);    // Check status
+                    bool inputState = false;
+                    if (!owner.PokeysDevice.GetInput((byte)(_PEconfig.PinHomeSwitch.values[stepperId] - 1), ref inputState))
+                    {
+                        stepper.Error = string.Format(Translations.Main.StepperGetInputError, _PEconfig.PinHomeSwitch.values[stepperId]);
+                        return false;
+                    }
 
-                return inputState;
+                    return inputState;
+                }
+                else
+                    return true;
             }
             catch { return false; }
         }
@@ -378,7 +387,7 @@ namespace F4ToPokeys
                 }
             }
 
-            if (_homingTimeoutTimer.ElapsedMilliseconds >= _homingTimeout)
+            if (_homingTimeoutTimer.ElapsedMilliseconds >= HomingTimeoutMilliseconds)
             {
                 _PEconfig.PulseEngineStateSetup = (byte)ePoKeysPEState.peSTOPPED;
                 _PEconfig.PulseEngineStateSetup = (byte)ePoKeysPEState.peRUNNING;
@@ -416,8 +425,8 @@ namespace F4ToPokeys
                     _PEconfig.param2 = (byte)(1 << i); // Set param2 bit to indicate which stepper    
                     _PEconfig.PositionSetup[i] = 0;     // Set axis (stepper) position to Zero
                     owner.PokeysDevice.PEv2_SetPositions(ref _PEconfig);
-                    _PEconfig.MaxAcceleration[i] = (float)(stepper.MaxAcceleration / 10000);
-                    _PEconfig.MaxDecceleration[i] = (float)(stepper.MaxDecceleration / 10000);
+                    _PEconfig.MaxAcceleration[i] = (float)(stepper.MaxAcceleration / 1000000);
+                    _PEconfig.MaxDecceleration[i] = (float)(stepper.MaxDecceleration / 1000000);
                     _PEconfig.param1 = (byte)i; // Set parameter param1 to the bit mask to indicate what have the above Axis Configs set
                     owner.PokeysDevice.PEv2_SetAxisConfiguration(ref _PEconfig); // Configure the axis
                 }
@@ -428,8 +437,8 @@ namespace F4ToPokeys
                 _PEconfig.PositionSetup[_homingAxis] = 0;     // Set axis (stepper) position to Zero
 
                 owner.PokeysDevice.PEv2_SetPositions(ref _PEconfig);
-                _PEconfig.MaxAcceleration[_homingAxis] = (float)(StepperList.First(s => s.StepperId == _homingStepper).MaxAcceleration / 10000);
-                _PEconfig.MaxDecceleration[_homingAxis] = (float)(StepperList.First(s => s.StepperId == _homingStepper).MaxDecceleration / 10000);
+                _PEconfig.MaxAcceleration[_homingAxis] = (float)(StepperList.First(s => s.StepperId == _homingStepper).MaxAcceleration / 1000000);
+                _PEconfig.MaxDecceleration[_homingAxis] = (float)(StepperList.First(s => s.StepperId == _homingStepper).MaxDecceleration / 1000000);
                 _PEconfig.param1 = (byte)_homingAxis; // Set parameter param1 to the bit mask to indicate what have the above Axis Configs set
                 owner.PokeysDevice.PEv2_SetAxisConfiguration(ref _PEconfig); // Configure the axis
             }
