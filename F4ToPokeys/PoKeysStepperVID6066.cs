@@ -35,8 +35,8 @@ namespace F4ToPokeys
 
         public void Dispose()
         {
-            if (StepperList.Count > 0)
-                DisablePulseEngine();
+            //if (StepperList.Count > 0)
+                //DisablePulseEngine();
 
             foreach (PoKeysStepper stepper in StepperList)
                 stepper.Dispose();
@@ -180,21 +180,24 @@ namespace F4ToPokeys
             if (stepper.Inverted)
                 _PEconfig.AxesConfig[i] |= (int)ePEv2_AxisConfig.aoINVERTED;
 
+            if (stepper.HomeInverted)
+                _PEconfig.AxesConfig[i] |= (int)ePEv2_AxisConfig.aoINVERTED_HOME;
+
             _PEconfig.AxesSwitchConfig[i] = 0;
 
             if (stepper.HasHomeSwitch)
                 _PEconfig.AxesSwitchConfig[i] |= (int)ePEv2_AxisSwitchOptions.aoSWITCH_HOME;
 
-            if (stepper.HomeInverted)
+            if (stepper.HomePinInverted)
                 _PEconfig.AxesSwitchConfig[i] |= (int)ePEv2_AxisSwitchOptions.aoSWITCH_INVERT_HOME;
 
             if ((stepper.PinHomeSwitch > 0) && stepper.HasHomeSwitch)
             {
                 byte pinFunction = 0;
-//                if (stepper.HomeInverted)
-//                    pinFunction = 0x82;
-//                else
-                pinFunction = 0x2;
+                if (stepper.HomePinInverted)
+                    pinFunction = 0x82;
+                else
+                    pinFunction = 0x2;
                 SetPinData(stepper, (byte)stepper.PinHomeSwitch, pinFunction);
                 _PEconfig.PinHomeSwitch[i] = (byte)(stepper.PinHomeSwitch);
             }
@@ -237,10 +240,13 @@ namespace F4ToPokeys
             foreach (PoKeysStepper stepper in StepperList)
             {
                 stepper.Error = null;
+                int stepperPos = stepper.ForwardHomingSteps;
                 for (int j = 0; j < 3; j++)
                 {
-                    if (!MoveInitialHoming(stepper))
+                    if (!MoveInitialHoming(stepper, stepperPos))
                         break;
+
+                    stepperPos += stepper.ForwardHomingSteps;
                 }
 
                 if (!string.IsNullOrEmpty(stepper.Error))
@@ -301,10 +307,13 @@ namespace F4ToPokeys
             owner.PokeysDevice.PEv2_SetAxisConfiguration(ref _PEconfig); // Configure the axis
 
             stepper.Error = null;
+            int stepperPos = stepper.ForwardHomingSteps;
             for (int j = 0; j < 3; j++)
             {
-                if (!MoveInitialHoming(stepper))
+                if (!MoveInitialHoming(stepper, stepperPos))
                     break;
+
+                stepperPos += stepper.ForwardHomingSteps;
             }
 
             if (!string.IsNullOrEmpty(stepper.Error))
@@ -326,7 +335,7 @@ namespace F4ToPokeys
             _homingTimer.Start();
         }
 
-        private bool MoveInitialHoming(PoKeysStepper stepper)
+        private bool MoveInitialHoming(PoKeysStepper stepper, int stepperPos)
         {
             if ((owner == null) || (!owner.Connected))
                 return false;
@@ -339,14 +348,15 @@ namespace F4ToPokeys
                 _PEconfig.PulseEngineStateSetup = (byte)ePoKeysPEState.peRUNNING;
                 owner.PokeysDevice.PEv2_SetState(ref _PEconfig);
 
-                _PEconfig.ReferencePositionSpeed[stepperId] = stepper.ForwardHomingSteps;
+                _PEconfig.ReferencePositionSpeed[stepperId] = stepperPos;
                 if (!owner.PokeysDevice.PEv2_Move(ref _PEconfig))
                 {
                     stepper.Error = string.Format(Translations.Main.StepperMoveError, stepper.StepperId);
                     return false;
                 }
 
-                Thread.Sleep(500);
+                //owner.PokeysDevice.PEv2_GetStatus(ref _PEconfig);    // Check status
+                Thread.Sleep(150);
 
                 if (stepper.ContinuousRotation)
                 {
@@ -361,7 +371,7 @@ namespace F4ToPokeys
                     return inputState;
                 }
                 else
-                    return true;
+                    return false;
             }
             catch { return false; }
         }
@@ -424,6 +434,7 @@ namespace F4ToPokeys
 
                     _PEconfig.param2 = (byte)(1 << i); // Set param2 bit to indicate which stepper    
                     _PEconfig.PositionSetup[i] = 0;     // Set axis (stepper) position to Zero
+                    _PEconfig.ReferencePositionSpeed[i] = 0;
                     owner.PokeysDevice.PEv2_SetPositions(ref _PEconfig);
                     _PEconfig.MaxAcceleration[i] = (float)(stepper.MaxAcceleration / 1000000);
                     _PEconfig.MaxDecceleration[i] = (float)(stepper.MaxDecceleration / 1000000);
@@ -436,6 +447,7 @@ namespace F4ToPokeys
                 _PEconfig.param2 = (byte)(1 << _homingAxis); // Set param2 bit to indicate which stepper 
                 _PEconfig.PositionSetup[_homingAxis] = 0;     // Set axis (stepper) position to Zero
 
+                _PEconfig.ReferencePositionSpeed[_homingAxis] = 0;
                 owner.PokeysDevice.PEv2_SetPositions(ref _PEconfig);
                 _PEconfig.MaxAcceleration[_homingAxis] = (float)(StepperList.First(s => s.StepperId == _homingStepper).MaxAcceleration / 1000000);
                 _PEconfig.MaxDecceleration[_homingAxis] = (float)(StepperList.First(s => s.StepperId == _homingStepper).MaxDecceleration / 1000000);

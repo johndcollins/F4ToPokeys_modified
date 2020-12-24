@@ -886,11 +886,16 @@
                                                                             <TextBlock Text="{x:Static lang:Main.StepperHomingCaption}"
                                                                                 Margin="5,0,0,5"
                                                                                 VerticalAlignment="Center" />
+                                                                            <CheckBox Content="{x:Static lang:Main.StepperHomeInvertedCaption}"
+                                                                                IsChecked="{Binding Path=HomeInverted}"
+                                                                                Margin="5,0,0,2"
+                                                                                VerticalAlignment="Center" HorizontalAlignment="Left" Grid.ColumnSpan="2" 
+                                                                                Grid.Row="1" />
                                                                             <CheckBox Content="{x:Static lang:Main.StepperHasHomeSwitchCaption}"
                                                                                 IsChecked="{Binding Path=HasHomeSwitch}"
                                                                                 Margin="5,0,0,2"
                                                                                 VerticalAlignment="Center" HorizontalAlignment="Left" Grid.ColumnSpan="2" 
-                                                                                Grid.Row="1" />
+                                                                                Grid.Row="2" />
                                                                             <TextBlock Text="{x:Static lang:Main.StepperPinHomingSwitchCaption}"
                                                                                 VerticalAlignment="Center" 
                                                                                 Margin="5,0,0,2"  
@@ -904,8 +909,8 @@
                                                                                 VerticalAlignment="Center" 
                                                                                 Grid.Row="3" Grid.Column="1" 
                                                                                 Visibility="{Binding Path=HasHomeSwitch, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                                                                            <CheckBox Content="{x:Static lang:Main.StepperHomeInvertedCaption}"
-                                                                                IsChecked="{Binding Path=HomeInverted}"
+                                                                            <CheckBox Content="{x:Static lang:Main.StepperHomePinInvertedCaption}"
+                                                                                IsChecked="{Binding Path=HomePinInverted}"
                                                                                 Margin="5,0,0,2"
                                                                                 VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="2" 
                                                                                 Grid.Row="3" />

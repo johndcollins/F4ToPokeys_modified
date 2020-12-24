@@ -38,7 +38,7 @@ namespace F4ToPokeys
             SoftLimitMaximum = 3820;
             PinHomeSwitch = 0;
 
-            HomeInverted = false;
+            HomePinInverted = false;
         }
 
         public void Dispose()
@@ -85,7 +85,7 @@ namespace F4ToPokeys
             }
         }
 
-        private bool inverted;
+        private bool inverted = false;
         public bool Inverted
         {
             get { return inverted; }
@@ -108,6 +108,19 @@ namespace F4ToPokeys
                 if (owner != null)
                     owner.SetAxisParameters(this);
                 RaisePropertyChanged("HomeInverted");
+            }
+        }
+
+        private bool homePinInverted = false;
+        public bool HomePinInverted
+        {
+            get { return homePinInverted; }
+            set
+            {
+                homePinInverted = value;
+                if (owner != null)
+                    owner.SetAxisParameters(this);
+                RaisePropertyChanged("HomePinInverted");
             }
         }
         private double maxSpeed = 7200.00;

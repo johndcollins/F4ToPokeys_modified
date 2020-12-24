@@ -396,7 +396,7 @@
   <data name="StepperHasHomeSwitchCaption" xml:space="preserve">
     <value>Has Home Switch</value>
   </data>
-  <data name="StepperHomeInvertedCaption" xml:space="preserve">
+  <data name="StepperHomePinInvertedCaption" xml:space="preserve">
     <value>Invert</value>
   </data>
   <data name="StepperHomingReducedSpeedCaption" xml:space="preserve">
@@ -557,5 +557,8 @@
   </data>
   <data name="StepperForwardHomingStepsCaption" xml:space="preserve">
     <value>Forward Homing Steps</value>
+  </data>
+  <data name="StepperHomeInvertedCaption" xml:space="preserve">
+    <value>Invert Homing Direction</value>
   </data>
 </root>
