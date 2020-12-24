@@ -188,8 +188,8 @@ namespace F4ToPokeys
             if (stepper.HasHomeSwitch)
                 _PEconfig.AxesSwitchConfig[i] |= (int)ePEv2_AxisSwitchOptions.aoSWITCH_HOME;
 
-            if (stepper.HomePinInverted)
-                _PEconfig.AxesSwitchConfig[i] |= (int)ePEv2_AxisSwitchOptions.aoSWITCH_INVERT_HOME;
+            //if (stepper.HomePinInverted)
+                //_PEconfig.AxesSwitchConfig[i] |= (int)ePEv2_AxisSwitchOptions.aoSWITCH_INVERT_HOME;
 
             if ((stepper.PinHomeSwitch > 0) && stepper.HasHomeSwitch)
             {
