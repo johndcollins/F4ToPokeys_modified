@@ -251,7 +251,10 @@ namespace F4ToPokeys
 
                 if (!string.IsNullOrEmpty(stepper.Error))
                     return;
+            }
 
+            foreach (PoKeysStepper stepper in StepperList)
+            {
                 int i = stepper.StepperId.GetValueOrDefault() - 1;
                 _PEconfig.MaxAcceleration[i] = (float)(stepper.HomingMaxAcceleration / 1000000);
                 _PEconfig.MaxDecceleration[i] = (float)(stepper.HomingMaxDecceleration / 1000000);
@@ -259,6 +262,7 @@ namespace F4ToPokeys
                 owner.PokeysDevice.PEv2_SetAxisConfiguration(ref _PEconfig); // Configure the axis
             }
 
+            Thread.Sleep(100);
 
             _homingTimer = new DispatcherTimer();
             _homingTimer.Tick += _homingTimer_Tick;
@@ -318,6 +322,8 @@ namespace F4ToPokeys
 
             if (!string.IsNullOrEmpty(stepper.Error))
                 return;
+
+            Thread.Sleep(100);
 
             _homingTimer = new DispatcherTimer();
             _homingTimer.Tick += _homingTimer_Tick;
