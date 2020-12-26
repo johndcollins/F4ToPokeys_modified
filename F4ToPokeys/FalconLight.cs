@@ -483,6 +483,25 @@ namespace F4ToPokeys
 
     #endregion // FalconLightRightGearDown
 
+    public class FalconGearSolenoid : FalconLightBit
+    {
+        #region Construction/Destruction
+
+        public FalconGearSolenoid(string group, string label, MiscBits bit)
+            : base(group, label, (int)bit)
+        {
+        }
+
+        #endregion // Construction/Destruction
+
+        #region getNonNullValue
+        protected override bool getNonNullValue(FlightData flightData)
+        {
+            return (flightData.miscBits & bit) != 0;
+        }
+        #endregion // getNonNullValue
+    }
+
     #region FalconLightSpeedBrake
 
     public class FalconLightSpeedBrake : FalconLight

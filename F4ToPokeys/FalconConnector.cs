@@ -415,6 +415,9 @@ namespace F4ToPokeys
             addToLightList(new FalconLightSpeedBrake(landingGear, "SPEEDBRAKE > 33%", 1.0f / 3.0f));
             addToLightList(new FalconLightSpeedBrake(landingGear, "SPEEDBRAKE > 66%", 2.0f / 3.0f));
 
+            //0 not powered or failed or WOW  , 1 is working OK
+            addToLightList(new FalconGearSolenoid(landingGear, "SOLENOID STATUS", MiscBits.SolenoidStatus));
+
             //
             // Support for Homebuilt Custom Mag Switches that need a pulse to reset them to the off position.  Michael
             //
