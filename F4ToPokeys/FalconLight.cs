@@ -483,6 +483,8 @@ namespace F4ToPokeys
 
     #endregion // FalconLightRightGearDown
 
+    #region FalconGearSolenoid
+
     public class FalconGearSolenoid : FalconLightBit
     {
         #region Construction/Destruction
@@ -501,6 +503,8 @@ namespace F4ToPokeys
         }
         #endregion // getNonNullValue
     }
+
+    #endregion // FalconGearSolenoid
 
     #region FalconLightSpeedBrake
 
@@ -1368,6 +1372,7 @@ namespace F4ToPokeys
     //#endregion  //Timer
     #endregion  //FalconMarkerBeacon
 
+    #region FalconFLCSFLCC
     public class FalconFLCSFLCC : FalconLightBit
     {
         #region Construction/Destruction
@@ -1386,6 +1391,5 @@ namespace F4ToPokeys
         }
         #endregion // getNonNullValue
     }
-
-
+    #endregion  //FalconFLCSFLCC
 }
