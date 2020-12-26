@@ -247,6 +247,10 @@ namespace F4ToPokeys
             addToLightList(new FalconLightBit1(cautionlightPanel, "STORES CONFIG", LightBits.CONFIG));
             addToLightList(new FalconLightBit1(rightEyebrow, "HYD/OIL PRESS", LightBits.HYD));
             addToLightList(new FalconLightBit1(testPanel, "FLCS TEST", LightBits.Flcs_ABCD));
+            addToLightList(new FalconFLCSFLCC(testPanel, "FLCS PWR A", MiscBits.Flcs_Flcc_A));
+            addToLightList(new FalconFLCSFLCC(testPanel, "FLCS PWR B", MiscBits.Flcs_Flcc_B));
+            addToLightList(new FalconFLCSFLCC(testPanel, "FLCS PWR C", MiscBits.Flcs_Flcc_C));
+            addToLightList(new FalconFLCSFLCC(testPanel, "FLCS PWR D", MiscBits.Flcs_Flcc_D));
             addToLightList(new FalconLightBit1(rightEyebrow, "FLCS/DUAL", LightBits.FLCS));
             addToLightList(new FalconLightBit1(rightEyebrow, "CANOPY", LightBits.CAN));
             addToLightList(new FalconLightBit1(rightEyebrow, "TO/LDG CONFIG", LightBits.T_L_CFG));
