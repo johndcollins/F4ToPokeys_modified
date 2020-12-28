@@ -188,15 +188,15 @@ namespace F4ToPokeys
             if (stepper.HasHomeSwitch)
                 _PEconfig.AxesSwitchConfig[i] |= (int)ePEv2_AxisSwitchOptions.aoSWITCH_HOME;
 
-            //if (stepper.HomePinInverted)
-                //_PEconfig.AxesSwitchConfig[i] |= (int)ePEv2_AxisSwitchOptions.aoSWITCH_INVERT_HOME;
+            if (stepper.HomePinInverted)
+                _PEconfig.AxesSwitchConfig[i] |= (int)ePEv2_AxisSwitchOptions.aoSWITCH_INVERT_HOME;
 
             if ((stepper.PinHomeSwitch > 0) && stepper.HasHomeSwitch)
             {
                 byte pinFunction = 0;
-                if (stepper.HomePinInverted)
-                    pinFunction = 0x82;
-                else
+//                if (stepper.HomePinInverted)
+//                    pinFunction = 0x82;
+//                else
                     pinFunction = 0x2;
                 SetPinData(stepper, (byte)stepper.PinHomeSwitch, pinFunction);
                 _PEconfig.PinHomeSwitch[i] = (byte)(stepper.PinHomeSwitch);
@@ -262,7 +262,7 @@ namespace F4ToPokeys
                 owner.PokeysDevice.PEv2_SetAxisConfiguration(ref _PEconfig); // Configure the axis
             }
 
-            Thread.Sleep(100);
+            Thread.Sleep(500);
 
             _homingTimer = new DispatcherTimer();
             _homingTimer.Tick += _homingTimer_Tick;
@@ -323,7 +323,7 @@ namespace F4ToPokeys
             if (!string.IsNullOrEmpty(stepper.Error))
                 return;
 
-            Thread.Sleep(100);
+            Thread.Sleep(500);
 
             _homingTimer = new DispatcherTimer();
             _homingTimer.Tick += _homingTimer_Tick;
@@ -362,7 +362,7 @@ namespace F4ToPokeys
                 }
 
                 //owner.PokeysDevice.PEv2_GetStatus(ref _PEconfig);    // Check status
-                Thread.Sleep(150);
+                Thread.Sleep(300);
 
                 if (stepper.ContinuousRotation)
                 {
@@ -374,7 +374,7 @@ namespace F4ToPokeys
                         return false;
                     }
 
-                    return inputState;
+                    return !inputState;
                 }
                 else
                     return false;
