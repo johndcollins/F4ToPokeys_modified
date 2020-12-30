@@ -237,21 +237,20 @@ namespace F4ToPokeys
             if ((owner == null) || (!owner.Connected))
                 return;
 
+            for (int i = 0; i < 8; i++)
+                _PEconfig.ReferencePositionSpeed[i] = 0;
+
+
             foreach (PoKeysStepper stepper in StepperList)
-            {
-                stepper.Error = null;
-                int stepperPos = stepper.ForwardHomingSteps;
-                for (int j = 0; j < 3; j++)
-                {
-                    if (!MoveInitialHoming(stepper, stepperPos))
-                        break;
+                _PEconfig.ReferencePositionSpeed[stepper.StepperId.GetValueOrDefault() - 1] = stepper.ForwardHomingSteps;
 
-                    stepperPos += stepper.ForwardHomingSteps;
-                }
+            _PEconfig.PulseEngineStateSetup = (byte)ePoKeysPEState.peSTOPPED;
+            _PEconfig.PulseEngineStateSetup = (byte)ePoKeysPEState.peRUNNING;
+            owner.PokeysDevice.PEv2_SetState(ref _PEconfig);
 
-                if (!string.IsNullOrEmpty(stepper.Error))
-                    return;
-            }
+            owner.PokeysDevice.PEv2_Move(ref _PEconfig);
+
+            Thread.Sleep(500);
 
             foreach (PoKeysStepper stepper in StepperList)
             {
@@ -305,23 +304,24 @@ namespace F4ToPokeys
 
             int i = stepper.StepperId.GetValueOrDefault() - 1;
 
+            _PEconfig.PulseEngineStateSetup = (byte)ePoKeysPEState.peSTOPPED;
+            _PEconfig.PulseEngineStateSetup = (byte)ePoKeysPEState.peRUNNING;
+            owner.PokeysDevice.PEv2_SetState(ref _PEconfig);
+
+            stepper.Error = null;
+            _PEconfig.ReferencePositionSpeed[i] = stepper.ForwardHomingSteps;
+            if (!owner.PokeysDevice.PEv2_Move(ref _PEconfig))
+                stepper.Error = string.Format(Translations.Main.StepperMoveError, stepper.StepperId);
+
+            if (!string.IsNullOrEmpty(stepper.Error))
+                return;
+
+            Thread.Sleep(500);
+
             _PEconfig.MaxAcceleration[i] = (float)(stepper.HomingMaxAcceleration / 1000000);
             _PEconfig.MaxDecceleration[i] = (float)(stepper.HomingMaxDecceleration / 1000000);
             _PEconfig.param1 = (byte)i; // Set parameter param1 to the bit mask to indicate what have the above Axis Configs set
             owner.PokeysDevice.PEv2_SetAxisConfiguration(ref _PEconfig); // Configure the axis
-
-            stepper.Error = null;
-            int stepperPos = stepper.ForwardHomingSteps;
-            for (int j = 0; j < 3; j++)
-            {
-                if (!MoveInitialHoming(stepper, stepperPos))
-                    break;
-
-                stepperPos += stepper.ForwardHomingSteps;
-            }
-
-            if (!string.IsNullOrEmpty(stepper.Error))
-                return;
 
             Thread.Sleep(500);
 
@@ -350,10 +350,6 @@ namespace F4ToPokeys
 
             try
             {
-                _PEconfig.PulseEngineStateSetup = (byte)ePoKeysPEState.peSTOPPED;
-                _PEconfig.PulseEngineStateSetup = (byte)ePoKeysPEState.peRUNNING;
-                owner.PokeysDevice.PEv2_SetState(ref _PEconfig);
-
                 _PEconfig.ReferencePositionSpeed[stepperId] = stepperPos;
                 if (!owner.PokeysDevice.PEv2_Move(ref _PEconfig))
                 {
@@ -361,23 +357,7 @@ namespace F4ToPokeys
                     return false;
                 }
 
-                //owner.PokeysDevice.PEv2_GetStatus(ref _PEconfig);    // Check status
-                Thread.Sleep(300);
-
-                if (stepper.ContinuousRotation)
-                {
-                    owner.PokeysDevice.PEv2_GetStatus(ref _PEconfig);    // Check status
-                    bool inputState = false;
-                    if (!owner.PokeysDevice.GetInput((byte)(_PEconfig.PinHomeSwitch.values[stepperId] - 1), ref inputState))
-                    {
-                        stepper.Error = string.Format(Translations.Main.StepperGetInputError, _PEconfig.PinHomeSwitch.values[stepperId]);
-                        return false;
-                    }
-
-                    return !inputState;
-                }
-                else
-                    return false;
+                return true;
             }
             catch { return false; }
         }
