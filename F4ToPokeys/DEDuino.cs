@@ -489,9 +489,9 @@ namespace F4ToPokeys
                     break;
                     #endregion
 
+                #endregion
             }
-            #endregion
-            #endregion
+            #endregion // DataProcessingLogic
         }
         #endregion
 
@@ -526,21 +526,22 @@ namespace F4ToPokeys
                 RaisePropertyChanged("DED");
                 RaisePropertyChanged("IsDEDChecked");
 
-                RaisePropertyChanged("CanEngineBeChecked");
-                RaisePropertyChanged("CanPFLBeChecked");
-                RaisePropertyChanged("CanFFIBeChecked");
-                RaisePropertyChanged("CanCautionPanelBeChecked");
-                RaisePropertyChanged("CanIndexersBeChecked");
-                RaisePropertyChanged("CanSpeedBrakesBeChecked");
-                RaisePropertyChanged("CanCMDSBeChecked");
-                RaisePropertyChanged("CanGlareShieldBeChecked");
+                //RaisePropertyChanged("CanEngineBeChecked");
+                //RaisePropertyChanged("CanPFLBeChecked");
+                //RaisePropertyChanged("CanFFIBeChecked");
+                //RaisePropertyChanged("CanCautionPanelBeChecked");
+                //RaisePropertyChanged("CanIndexersBeChecked");
+                //RaisePropertyChanged("CanSpeedBrakesBeChecked");
+                //RaisePropertyChanged("CanCMDSBeChecked");
+                //RaisePropertyChanged("CanGlareShieldBeChecked");
             }
         }
 
         private bool ded = false;
 
+        //[XmlIgnore]
+        //public bool CanDEDBeChecked => (!Indexers && !PFL && !FFI && !CautionPanel && !SpeedBrakes && !CMDS && !GlareShield && !Engine);
         [XmlIgnore]
-        public bool CanDEDBeChecked => (!Indexers && !PFL && !FFI && !CautionPanel && !SpeedBrakes && !CMDS && !GlareShield && !Engine);
         public bool IsDEDChecked => DED;
         #endregion
 
@@ -554,21 +555,22 @@ namespace F4ToPokeys
                 RaisePropertyChanged("PFL");
                 RaisePropertyChanged("IsPFLChecked");
 
-                RaisePropertyChanged("CanDEDBeChecked");
-                RaisePropertyChanged("CanEngineBeChecked");
-                RaisePropertyChanged("CanFFIBeChecked");
-                RaisePropertyChanged("CanCautionPanelBeChecked");
-                RaisePropertyChanged("CanIndexersBeChecked");
-                RaisePropertyChanged("CanSpeedBrakesBeChecked");
-                RaisePropertyChanged("CanCMDSBeChecked");
-                RaisePropertyChanged("CanGlareShieldBeChecked");
+                //RaisePropertyChanged("CanDEDBeChecked");
+                //RaisePropertyChanged("CanEngineBeChecked");
+                //RaisePropertyChanged("CanFFIBeChecked");
+                //RaisePropertyChanged("CanCautionPanelBeChecked");
+                //RaisePropertyChanged("CanIndexersBeChecked");
+                //RaisePropertyChanged("CanSpeedBrakesBeChecked");
+                //RaisePropertyChanged("CanCMDSBeChecked");
+                //RaisePropertyChanged("CanGlareShieldBeChecked");
             }
         }
 
         private bool pfl = false;
 
+        //[XmlIgnore]
+        //public bool CanPFLBeChecked => (!DED && !Indexers && !FFI && !CautionPanel && !SpeedBrakes && !CMDS && !GlareShield && !Engine);
         [XmlIgnore]
-        public bool CanPFLBeChecked => (!DED && !Indexers && !FFI && !CautionPanel && !SpeedBrakes && !CMDS && !GlareShield && !Engine);
         public bool IsPFLChecked => PFL;
         #endregion
 
@@ -581,21 +583,21 @@ namespace F4ToPokeys
                 ffi = value;
                 RaisePropertyChanged("FFI");
 
-                RaisePropertyChanged("CanDEDBeChecked");
-                RaisePropertyChanged("CanPFLBeChecked");
-                RaisePropertyChanged("CanEngineBeChecked");
-                RaisePropertyChanged("CanCautionPanelBeChecked");
-                RaisePropertyChanged("CanIndexersBeChecked");
-                RaisePropertyChanged("CanSpeedBrakesBeChecked");
-                RaisePropertyChanged("CanCMDSBeChecked");
-                RaisePropertyChanged("CanGlareShieldBeChecked");
+                //RaisePropertyChanged("CanDEDBeChecked");
+                //RaisePropertyChanged("CanPFLBeChecked");
+                //RaisePropertyChanged("CanEngineBeChecked");
+                //RaisePropertyChanged("CanCautionPanelBeChecked");
+                //RaisePropertyChanged("CanIndexersBeChecked");
+                //RaisePropertyChanged("CanSpeedBrakesBeChecked");
+                //RaisePropertyChanged("CanCMDSBeChecked");
+                //RaisePropertyChanged("CanGlareShieldBeChecked");
             }
         }
 
         private bool ffi = false;
 
-        [XmlIgnore]
-        public bool CanFFIBeChecked => (!DED && !PFL && !Indexers && !CautionPanel && !SpeedBrakes && !CMDS && !GlareShield && !Engine);
+        //[XmlIgnore]
+        //public bool CanFFIBeChecked => (!DED && !PFL && !Indexers && !CautionPanel && !SpeedBrakes && !CMDS && !GlareShield && !Engine);
         #endregion
 
         #region CautionPanel
@@ -608,14 +610,14 @@ namespace F4ToPokeys
                 RaisePropertyChanged("CautionPanel");
                 RaisePropertyChanged("IsCautionPanelChecked");
 
-                RaisePropertyChanged("CanDEDBeChecked");
-                RaisePropertyChanged("CanPFLBeChecked");
-                RaisePropertyChanged("CanFFIBeChecked");
-                RaisePropertyChanged("CanEngineBeChecked");
-                RaisePropertyChanged("CanIndexersBeChecked");
-                RaisePropertyChanged("CanSpeedBrakesBeChecked");
-                RaisePropertyChanged("CanCMDSBeChecked");
-                RaisePropertyChanged("CanGlareShieldBeChecked");
+                //RaisePropertyChanged("CanDEDBeChecked");
+                //RaisePropertyChanged("CanPFLBeChecked");
+                //RaisePropertyChanged("CanFFIBeChecked");
+                //RaisePropertyChanged("CanEngineBeChecked");
+                //RaisePropertyChanged("CanIndexersBeChecked");
+                //RaisePropertyChanged("CanSpeedBrakesBeChecked");
+                //RaisePropertyChanged("CanCMDSBeChecked");
+                //RaisePropertyChanged("CanGlareShieldBeChecked");
             }
         }
 
@@ -648,8 +650,8 @@ namespace F4ToPokeys
 
         [XmlIgnore]
         public bool IsCautionPanelChecked => (CautionPanel);
-        [XmlIgnore]
-        public bool CanCautionPanelBeChecked => (!DED && !PFL && !FFI && !Indexers && !SpeedBrakes && !CMDS && !GlareShield && !Engine);
+        //[XmlIgnore]
+        //public bool CanCautionPanelBeChecked => (!DED && !PFL && !FFI && !Indexers && !SpeedBrakes && !CMDS && !GlareShield && !Engine);
         #endregion
 
         #region Indexers
@@ -661,21 +663,21 @@ namespace F4ToPokeys
                 indexers = value;
                 RaisePropertyChanged("Indexers");
 
-                RaisePropertyChanged("CanDEDBeChecked");
-                RaisePropertyChanged("CanPFLBeChecked");
-                RaisePropertyChanged("CanFFIBeChecked");
-                RaisePropertyChanged("CanCautionPanelBeChecked");
-                RaisePropertyChanged("CanEngineBeChecked");
-                RaisePropertyChanged("CanSpeedBrakesBeChecked");
-                RaisePropertyChanged("CanCMDSBeChecked");
-                RaisePropertyChanged("CanGlareShieldBeChecked");
+                //RaisePropertyChanged("CanDEDBeChecked");
+                //RaisePropertyChanged("CanPFLBeChecked");
+                //RaisePropertyChanged("CanFFIBeChecked");
+                //RaisePropertyChanged("CanCautionPanelBeChecked");
+                //RaisePropertyChanged("CanEngineBeChecked");
+                //RaisePropertyChanged("CanSpeedBrakesBeChecked");
+                //RaisePropertyChanged("CanCMDSBeChecked");
+                //RaisePropertyChanged("CanGlareShieldBeChecked");
             }
         }
 
         private bool indexers = false;
 
-        [XmlIgnore]
-        public bool CanIndexersBeChecked => (!DED && !PFL && !FFI && !CautionPanel && !SpeedBrakes && !CMDS && !GlareShield && !Engine);
+        //[XmlIgnore]
+        //public bool CanIndexersBeChecked => (!DED && !PFL && !FFI && !CautionPanel && !SpeedBrakes && !CMDS && !GlareShield && !Engine);
         #endregion
 
         #region SpeedBrakes
@@ -688,21 +690,22 @@ namespace F4ToPokeys
                 RaisePropertyChanged("SpeedBrakes");
                 RaisePropertyChanged("IsSpeedBrakesChecked");
 
-                RaisePropertyChanged("CanDEDBeChecked");
-                RaisePropertyChanged("CanPFLBeChecked");
-                RaisePropertyChanged("CanFFIBeChecked");
-                RaisePropertyChanged("CanCautionPanelBeChecked");
-                RaisePropertyChanged("CanIndexersBeChecked");
-                RaisePropertyChanged("CanEngineBeChecked");
-                RaisePropertyChanged("CanCMDSBeChecked");
-                RaisePropertyChanged("CanGlareShieldBeChecked");
+                //RaisePropertyChanged("CanDEDBeChecked");
+                //RaisePropertyChanged("CanPFLBeChecked");
+                //RaisePropertyChanged("CanFFIBeChecked");
+                //RaisePropertyChanged("CanCautionPanelBeChecked");
+                //RaisePropertyChanged("CanIndexersBeChecked");
+                //RaisePropertyChanged("CanEngineBeChecked");
+                //RaisePropertyChanged("CanCMDSBeChecked");
+                //RaisePropertyChanged("CanGlareShieldBeChecked");
             }
         }
 
         private bool speedBrakes = false;
 
+        //[XmlIgnore]
+        //public bool CanSpeedBrakesBeChecked => (!DED && !PFL && !FFI && !CautionPanel && !Indexers && !CMDS && !GlareShield && !Engine);
         [XmlIgnore]
-        public bool CanSpeedBrakesBeChecked => (!DED && !PFL && !FFI && !CautionPanel && !Indexers && !CMDS && !GlareShield && !Engine);
         public bool IsSpeedBrakesChecked => SpeedBrakes;
         #endregion
 
@@ -715,21 +718,21 @@ namespace F4ToPokeys
                 cmds = value;
                 RaisePropertyChanged("CMDS");
 
-                RaisePropertyChanged("CanDEDBeChecked");
-                RaisePropertyChanged("CanPFLBeChecked");
-                RaisePropertyChanged("CanFFIBeChecked");
-                RaisePropertyChanged("CanCautionPanelBeChecked");
-                RaisePropertyChanged("CanIndexersBeChecked");
-                RaisePropertyChanged("CanSpeedBrakesBeChecked");
-                RaisePropertyChanged("CanEngineBeChecked");
-                RaisePropertyChanged("CanGlareShieldBeChecked");
+                //RaisePropertyChanged("CanDEDBeChecked");
+                //RaisePropertyChanged("CanPFLBeChecked");
+                //RaisePropertyChanged("CanFFIBeChecked");
+                //RaisePropertyChanged("CanCautionPanelBeChecked");
+                //RaisePropertyChanged("CanIndexersBeChecked");
+                //RaisePropertyChanged("CanSpeedBrakesBeChecked");
+                //RaisePropertyChanged("CanEngineBeChecked");
+                //RaisePropertyChanged("CanGlareShieldBeChecked");
             }
         }
 
         private bool cmds = false;
 
-        [XmlIgnore]
-        public bool CanCMDSBeChecked => (!DED && !PFL && !FFI && !CautionPanel && !Indexers && !SpeedBrakes && !GlareShield && !Engine);
+        //[XmlIgnore]
+        //public bool CanCMDSBeChecked => (!DED && !PFL && !FFI && !CautionPanel && !Indexers && !SpeedBrakes && !GlareShield && !Engine);
         #endregion
 
         #region GlareShield
@@ -741,21 +744,21 @@ namespace F4ToPokeys
                 glareShield = value;
                 RaisePropertyChanged("GlareShield");
 
-                RaisePropertyChanged("CanDEDBeChecked");
-                RaisePropertyChanged("CanPFLBeChecked");
-                RaisePropertyChanged("CanFFIBeChecked");
-                RaisePropertyChanged("CanCautionPanelBeChecked");
-                RaisePropertyChanged("CanIndexersBeChecked");
-                RaisePropertyChanged("CanSpeedBrakesBeChecked");
-                RaisePropertyChanged("CanCMDSBeChecked");
-                RaisePropertyChanged("CanEngineBeChecked");
+                //RaisePropertyChanged("CanDEDBeChecked");
+                //RaisePropertyChanged("CanPFLBeChecked");
+                //RaisePropertyChanged("CanFFIBeChecked");
+                //RaisePropertyChanged("CanCautionPanelBeChecked");
+                //RaisePropertyChanged("CanIndexersBeChecked");
+                //RaisePropertyChanged("CanSpeedBrakesBeChecked");
+                //RaisePropertyChanged("CanCMDSBeChecked");
+                //RaisePropertyChanged("CanEngineBeChecked");
             }
         }
 
         private bool glareShield = false;
 
-        [XmlIgnore]
-        public bool CanGlareShieldBeChecked => (!DED && !PFL && !FFI && !CautionPanel && !Indexers && !SpeedBrakes && !CMDS && !Engine);
+        //[XmlIgnore]
+        //public bool CanGlareShieldBeChecked => (!DED && !PFL && !FFI && !CautionPanel && !Indexers && !SpeedBrakes && !CMDS && !Engine);
         #endregion
 
         #region Engine
@@ -767,21 +770,21 @@ namespace F4ToPokeys
                 engine = value;
                 RaisePropertyChanged("Engine");
 
-                RaisePropertyChanged("CanDEDBeChecked");
-                RaisePropertyChanged("CanPFLBeChecked");
-                RaisePropertyChanged("CanFFIBeChecked");
-                RaisePropertyChanged("CanCautionPanelBeChecked");
-                RaisePropertyChanged("CanIndexersBeChecked");
-                RaisePropertyChanged("CanSpeedBrakesBeChecked");
-                RaisePropertyChanged("CanCMDSBeChecked");
-                RaisePropertyChanged("CanGlareShieldBeChecked");
+                //RaisePropertyChanged("CanDEDBeChecked");
+                //RaisePropertyChanged("CanPFLBeChecked");
+                //RaisePropertyChanged("CanFFIBeChecked");
+                //RaisePropertyChanged("CanCautionPanelBeChecked");
+                //RaisePropertyChanged("CanIndexersBeChecked");
+                //RaisePropertyChanged("CanSpeedBrakesBeChecked");
+                //RaisePropertyChanged("CanCMDSBeChecked");
+                //RaisePropertyChanged("CanGlareShieldBeChecked");
             }
         }
 
         private bool engine = false;
 
-        [XmlIgnore]
-        public bool CanEngineBeChecked => (!DED && !PFL && !FFI && !CautionPanel && !Indexers && !SpeedBrakes && !CMDS && !GlareShield);
+        //[XmlIgnore]
+        //public bool CanEngineBeChecked => (!DED && !PFL && !FFI && !CautionPanel && !Indexers && !SpeedBrakes && !CMDS && !GlareShield);
         #endregion
 
 

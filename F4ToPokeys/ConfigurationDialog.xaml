@@ -1321,7 +1321,6 @@
                                         <CheckBox Content="{x:Static lang:Main.DEDuinoDEDCaption}"
                                             IsChecked="{Binding Path=DED}"
                                             Margin="5,0,0,0"
-                                            Visibility="{Binding Path=CanDEDBeChecked, Converter={StaticResource BooleanToVisibilityConverter}}"
                                             VerticalAlignment="Center" HorizontalAlignment="Left" />
                                         <CheckBox Content="{x:Static lang:Main.DEDuinoBMS432Caption}"
                                             IsChecked="{Binding Path=BMS432}"
@@ -1333,7 +1332,6 @@
                                         <CheckBox Content="{x:Static lang:Main.DEDuinoPFLCaption}"
                                             IsChecked="{Binding Path=PFL}"
                                             Margin="5,0,0,0"
-                                            Visibility="{Binding Path=CanPFLBeChecked, Converter={StaticResource BooleanToVisibilityConverter}}"
                                             VerticalAlignment="Center" HorizontalAlignment="Left" />
                                         <CheckBox Content="{x:Static lang:Main.DEDuinoBMS432Caption}"
                                             IsChecked="{Binding Path=BMS432}"
@@ -1344,13 +1342,11 @@
                                     <CheckBox Content="{x:Static lang:Main.DEDuinoFFICaption}"
                                         IsChecked="{Binding Path=FFI}"
                                         Margin="5,0,0,0"
-                                        Visibility="{Binding Path=CanFFIBeChecked, Converter={StaticResource BooleanToVisibilityConverter}}"
                                         VerticalAlignment="Center" HorizontalAlignment="Left" />
                                     <StackPanel Orientation="Horizontal">
                                         <CheckBox Content="{x:Static lang:Main.DEDuinoCautionPanelCaption}"
                                             IsChecked="{Binding Path=CautionPanel}"
                                             Margin="5,0,0,0"
-                                            Visibility="{Binding Path=CanCautionPanelBeChecked, Converter={StaticResource BooleanToVisibilityConverter}}"
                                             VerticalAlignment="Center" HorizontalAlignment="Left" />
                                         <ComboBox ItemsSource="{Binding Path=NewOldList}"
                                               SelectedItem="{Binding Path=CPVersion}"
@@ -1368,13 +1364,11 @@
                                     <CheckBox Content="{x:Static lang:Main.DEDuinoIndexersCaption}"
                                         IsChecked="{Binding Path=Indexers}"
                                         Margin="5,0,0,0"
-                                        Visibility="{Binding Path=CanIndexersBeChecked, Converter={StaticResource BooleanToVisibilityConverter}}"
                                         VerticalAlignment="Center" HorizontalAlignment="Left" />
                                     <StackPanel Orientation="Horizontal">
                                         <CheckBox Content="{x:Static lang:Main.DEDuinoSpeedBrakesCaption}"
                                             IsChecked="{Binding Path=SpeedBrakes}"
                                             Margin="5,0,0,0"
-                                            Visibility="{Binding Path=CanSpeedBrakesBeChecked, Converter={StaticResource BooleanToVisibilityConverter}}"
                                             VerticalAlignment="Center" HorizontalAlignment="Left" />
                                         <CheckBox Content="{x:Static lang:Main.DEDuinoBMS432Caption}"
                                             IsChecked="{Binding Path=BMS432}"
@@ -1385,17 +1379,14 @@
                                     <CheckBox Content="{x:Static lang:Main.DEDuinoCMDSCaption}"
                                         IsChecked="{Binding Path=CMDS}"
                                         Margin="5,0,0,0"
-                                        Visibility="{Binding Path=CanCMDSBeChecked, Converter={StaticResource BooleanToVisibilityConverter}}"
                                         VerticalAlignment="Center" HorizontalAlignment="Left" />
                                     <CheckBox Content="{x:Static lang:Main.DEDuinoGlareShieldCaption}"
                                         IsChecked="{Binding Path=GlareShield}"
                                         Margin="5,0,0,0"
-                                        Visibility="{Binding Path=CanGlareShieldBeChecked, Converter={StaticResource BooleanToVisibilityConverter}}"
                                         VerticalAlignment="Center" HorizontalAlignment="Left" />
                                     <CheckBox Content="{x:Static lang:Main.DEDuinoEngineCaption}"
                                         IsChecked="{Binding Path=Engine}"
                                         Margin="5,0,0,0"
-                                        Visibility="{Binding Path=CanEngineBeChecked, Converter={StaticResource BooleanToVisibilityConverter}}"
                                         VerticalAlignment="Center" HorizontalAlignment="Left" />
                                 </StackPanel>
                             </GroupBox.Content>
