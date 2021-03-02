@@ -33,11 +33,11 @@ namespace F4ToPokeys
         {
             AvailablePoKeysList.Clear();
 
-            int nbPokeys = PoKeysDevice.EnumerateDevices();
+            List<PoKeysDeviceInfo> devices = PoKeysDevice.EnumeratePoKeysDevices(true, true, true);
 
-            for (int pokeysIndex = 0; pokeysIndex < nbPokeys; ++pokeysIndex)
+            foreach (PoKeysDeviceInfo device in devices)
             {
-                if (PoKeysDevice.ConnectToDevice(pokeysIndex))
+                if (PoKeysDevice.ConnectToDevice(device))
                 {
                     int pokeysSerial = PoKeysDevice.GetDeviceSerialNumber();
                     string pokeysName = PoKeysDevice.GetDeviceName();
@@ -47,7 +47,7 @@ namespace F4ToPokeys
                     if (PoKeysDevice.GetUserID(ref pokeysUserId))
                         pokeysUserIdOk = true;
 
-                    AvailablePoKeys availablePoKeys = new AvailablePoKeys(pokeysSerial, pokeysName, pokeysUserIdOk ? pokeysUserId : (byte?)null, pokeysIndex);
+                    AvailablePoKeys availablePoKeys = new AvailablePoKeys(pokeysSerial, pokeysName, pokeysUserIdOk ? pokeysUserId : (byte?)null, device);
                     AvailablePoKeysList.Add(availablePoKeys);
 
                     PoKeysDevice.DisconnectDevice();
@@ -74,12 +74,12 @@ namespace F4ToPokeys
     public class AvailablePoKeys : BindableObject
     {
         #region Construction/Destruction
-        public AvailablePoKeys(int pokeysSerial, string pokeysName, byte? pokeysUserId, int? pokeysIndex)
+        public AvailablePoKeys(int pokeysSerial, string pokeysName, byte? pokeysUserId, PoKeysDeviceInfo pokeysDeviceInfo)
         {
             PokeysSerial = pokeysSerial;
             PokeysName = pokeysName;
             PokeysUserId = pokeysUserId;
-            PokeysIndex = pokeysIndex;
+            PokeysInfo = pokeysDeviceInfo;
         }
         #endregion // Construction/Destruction
 
@@ -95,9 +95,9 @@ namespace F4ToPokeys
         public byte? PokeysUserId { get; private set; }
         #endregion // PokeysUserId
 
-        #region PokeysIndex
-        public int? PokeysIndex { get; private set; }
-        #endregion // PokeysIndex
+        #region PoKeysInfo
+        public PoKeysDeviceInfo PokeysInfo { get; private set; }
+        #endregion // PoKeysInfo
 
         #region PokeysId
         public string PokeysId { get { return PokeysName + " - " + PokeysUserId + " (" + PokeysSerial + ")"; } }

@@ -113,14 +113,14 @@ namespace F4ToPokeys
                 return;
             }
 
-            if (selectedPokeys.PokeysIndex == null)
+            if (selectedPokeys.PokeysInfo == null)
             {
                 Error = Translations.Main.PokeysNotFoundError;
                 return;
             }
 
             PokeysDevice.EnumerateDevices();
-            if (!PokeysDevice.ConnectToDevice(selectedPokeys.PokeysIndex.Value))
+            if (!PokeysDevice.ConnectToDevice(selectedPokeys.PokeysInfo))
                 Error = Translations.Main.PokeysConnectError;
 
             connected = true;
@@ -551,10 +551,10 @@ namespace F4ToPokeys
 
         #endregion // owner
 
-        #region PokeysIndex
+        #region PokeysInfo
         [XmlIgnore]
-        private int? pokeysIndex { get; set; }
-        #endregion // PokeysIndex
+        private PoKeysDevice_DLL.PoKeysDeviceInfo pokeysInfo { get; set; }
+        #endregion // PokeysInfo
 
         #region updateStatus
 
@@ -566,12 +566,12 @@ namespace F4ToPokeys
             if (SelectedPokeys == null)
             {
                 Error = null;
-                pokeysIndex = null;
+                pokeysInfo = null;
             }
             else
             {
                 Error = SelectedPokeys.Error;
-                pokeysIndex = SelectedPokeys.PokeysIndex;
+                pokeysInfo = SelectedPokeys.PokeysInfo;
             }
         }
 
