@@ -683,8 +683,13 @@ namespace Hardcodet.Wpf.TaskbarNotification
       {
         //use absolute position
         ContextMenu.Placement = PlacementMode.AbsolutePoint;
-        ContextMenu.HorizontalOffset = cursorPosition.X;
-        ContextMenu.VerticalOffset = cursorPosition.Y;
+        var g = Graphics.FromHwnd(IntPtr.Zero);
+        var scaleX = g.DpiX / 96.0;
+        var scaleY = g.DpiY / 96.0;
+
+        ContextMenu.HorizontalOffset = cursorPosition.X / scaleX;
+        ContextMenu.VerticalOffset = cursorPosition.Y / scaleY;
+        
         ContextMenu.IsOpen = true;
 
         //activate the message window to track deactivation - otherwise, the context menu

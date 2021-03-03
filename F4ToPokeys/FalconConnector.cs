@@ -362,7 +362,7 @@ namespace F4ToPokeys
             addToLightList(new FalconTacanBits(auxCommPanel, "UFC TACAN BAND X", TacanBits.band, (int)TacanSources.UFC));
             addToLightList(new FalconTacanBits(auxCommPanel, "UFC TACAN A-A", TacanBits.mode, (int)TacanSources.UFC));
             addToLightList(new FalconDataBits(centerConsole, "ALTIMETER in Hg", flightdata => (flightdata.altBits & (int)AltBits.CalType) == 1));
-            addToLightList(new FalconDataBits(centerConsole, "ALT PNEU FLAG", flightdata => (flightdata.altBits & (int)AltBits.PneuFlag) == 1));
+            addToLightList(new FalconDataBits(centerConsole, "ALT PNEU FLAG", flightdata => (flightdata.altBits & (int)AltBits.PneuFlag) == 2));
             addToLightList(new FalconDataBits(centerConsole, "NAV MODE TACAN", flightdata => (flightdata.navMode == (byte)NavModes.TACAN)));
             addToLightList(new FalconDataBits(centerConsole, "NAV MODE NAV", flightdata => (flightdata.navMode == (byte)NavModes.NAV)));
             addToLightList(new FalconDataBits(centerConsole, "NAV MODE ILS-TACAN", flightdata => (flightdata.navMode == (byte)NavModes.ILS_TACAN)));
@@ -507,6 +507,9 @@ namespace F4ToPokeys
             addToGaugeList(new FalconGauge("BEARING TO BEACON", flightData => flightData.bearingToBeacon, 0.0F, 360.0F, 3, 0, 0));
             addToGaugeList(new FalconGauge("CDI", flightData => flightData.courseDeviation, -10.0F, 10.0F, 4, 3, 1));
             addToGaugeList(new FalconGauge("CABIN ALT", flightData => flightData.cabinAlt, 0.0F, 60000.0F, 5, 0, 0));
+
+            // Added missing Gs
+            addToGaugeList(new FalconGauge("Gs", flightData => flightData.gs, 0.0F, 10.0F, 1, 0, 0));
         }
 
         private void addToGaugeList(FalconGauge falconGauge)
