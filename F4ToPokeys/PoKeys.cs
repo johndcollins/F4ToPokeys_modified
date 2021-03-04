@@ -294,6 +294,10 @@ namespace F4ToPokeys
             memorySlotOutput = new MemorySlotOutput(12);
             memorySlotOutput.Slot = new MemorySlot("Altbits", flightData => (uint)flightData.altBits, 0xffffffff, 0, " 0 - 31", false, "bool bits");
             addToSlotList(memorySlotOutput);
+
+            memorySlotOutput = new MemorySlotOutput(13);
+            memorySlotOutput.Slot = new MemorySlot("PresetUhfFreq", flightData => (uint)flightData.BupUhfPreset, 0xffffff, 0, "0 - 23", true, "6 BCD Digits", true);
+            addToSlotList(memorySlotOutput);
         }
 
         private void DeleteMemorySlotList()

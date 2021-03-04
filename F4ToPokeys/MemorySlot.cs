@@ -11,7 +11,7 @@ namespace F4ToPokeys
     public class MemorySlot
     {
         #region Construction
-        public MemorySlot(string label, Func<FlightData, uint> getFlightDataProperty, uint slotMask, int shiftBits, string displayShiftBits, bool bcd, string format)
+        public MemorySlot(string label, Func<FlightData, uint> getFlightDataProperty, uint slotMask, int shiftBits, string displayShiftBits, bool bcd, string format, bool bupUhfFreq = false)
         {
             Label = label;
             Format = format;
@@ -19,6 +19,7 @@ namespace F4ToPokeys
             ShiftBits = shiftBits;
             BCD = bcd;
             DisplayShiftBits = displayShiftBits;
+            BupUhfFreq = bupUhfFreq;
             this.getFlightDataProperty = getFlightDataProperty;
         }
         #endregion
@@ -48,6 +49,8 @@ namespace F4ToPokeys
         #endregion
 
         public bool BCD { get; private set; }
+
+        public bool BupUhfFreq { get; private set; }
 
         #region MemorySlotChanged
         public event EventHandler<MemorySlotChangedEventArgs> MemorySlotChanged

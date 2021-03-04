@@ -22,5 +22,14 @@ namespace F4ToPokeys.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("E:\\Games\\Falcon BMS 4.35\\Game\\User\\Config\\Viper.ini")]
+        public string Viper_ini_path {
+            get {
+                return ((string)(this["Viper_ini_path"]));
+            }
+        }
     }
 }

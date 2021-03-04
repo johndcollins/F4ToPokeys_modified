@@ -73,7 +73,16 @@ namespace F4ToPokeys
             else
             {
                 uint currentValue = memorySlots[SlotId.GetValueOrDefault()];
-                uint newValue = FalconValue.GetValueOrDefault();
+                uint newValue = 0;
+                if (Slot.BupUhfFreq)
+                {
+                    if (BupPresetFrequencies.ContainsKey(FalconValue.GetValueOrDefault()))
+                        newValue = BupPresetFrequencies[FalconValue.GetValueOrDefault()];
+                    else
+                        newValue = 0;
+                }
+                else
+                    newValue = FalconValue.GetValueOrDefault();
 
                 uint maska = this.Slot.SlotMask << this.Slot.ShiftBits;
                 currentValue = currentValue & ~maska;
