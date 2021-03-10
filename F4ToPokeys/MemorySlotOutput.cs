@@ -76,8 +76,13 @@ namespace F4ToPokeys
                 uint newValue = 0;
                 if (Slot.BupUhfFreq)
                 {
-                    if (BupPresetFrequencies.ContainsKey(FalconValue.GetValueOrDefault()))
-                        newValue = BupPresetFrequencies[FalconValue.GetValueOrDefault()];
+                    if (FalconValue.HasValue)
+                    {
+                        if (BupPresetFrequencies.ContainsKey(FalconValue.GetValueOrDefault()))
+                            newValue = BupPresetFrequencies[FalconValue.GetValueOrDefault()];
+                        else
+                            newValue = 0;
+                    }
                     else
                         newValue = 0;
                 }
@@ -90,6 +95,10 @@ namespace F4ToPokeys
                 if (this.Slot.BCD)
                 {
                     uint orig_value = newValue;
+                    uint ten_millions = orig_value / 10000000;
+                    orig_value = orig_value - (ten_millions * 10000000);
+                    uint millions = orig_value / 1000000;
+                    orig_value = orig_value - (millions * 1000000);
                     uint hundred_thousands = orig_value / 100000;
                     orig_value = orig_value - (hundred_thousands * 100000);
                     uint ten_thousands = orig_value / 10000;
@@ -101,7 +110,7 @@ namespace F4ToPokeys
                     uint tens = orig_value / 10;
                     orig_value = orig_value - (tens * 10);
                     uint units = orig_value;
-                    uint bcd_value = (hundred_thousands << 20) | (ten_thousands << 16) | (thousands << 12) | (hundreds << 8) | (tens << 4) | units;
+                    uint bcd_value = (ten_millions << 28) | (millions << 24) | (hundred_thousands << 20) | (ten_thousands << 16) | (thousands << 12) | (hundreds << 8) | (tens << 4) | units;
 
                     newValue = bcd_value;
                 }

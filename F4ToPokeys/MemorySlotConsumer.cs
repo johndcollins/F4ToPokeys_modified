@@ -119,7 +119,7 @@ namespace F4ToPokeys
             return false;
         }
 
-        public Dictionary<uint, uint> BupPresetFrequencies { get; }
+        public Dictionary<uint, uint> BupPresetFrequencies { get { return _bupPresetFrequencies; } }
         #endregion
 
         #region FalconValue
