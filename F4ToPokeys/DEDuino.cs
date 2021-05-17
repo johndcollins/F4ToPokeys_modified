@@ -582,6 +582,7 @@ namespace F4ToPokeys
             {
                 ffi = value;
                 RaisePropertyChanged("FFI");
+                RaisePropertyChanged("IsFFIChecked");
 
                 //RaisePropertyChanged("CanDEDBeChecked");
                 //RaisePropertyChanged("CanPFLBeChecked");
@@ -595,6 +596,11 @@ namespace F4ToPokeys
         }
 
         private bool ffi = false;
+
+        [XmlIgnore]
+        public bool IsFFIChecked => FFI;
+
+        public bool FFI_PR_MINUTE { get; set; }
 
         //[XmlIgnore]
         //public bool CanFFIBeChecked => (!DED && !PFL && !Indexers && !CautionPanel && !SpeedBrakes && !CMDS && !GlareShield && !Engine);
@@ -812,6 +818,9 @@ namespace F4ToPokeys
 
         private string FuelFlowConvert(float FuelFlow)
         {
+            if (FFI_PR_MINUTE)
+                return ((Math.Round(Convert.ToDecimal(FuelFlow) / 10) * 10) / 60).ToString();
+
             return (Math.Round(Convert.ToDecimal(FuelFlow) / 10) * 10).ToString();
         }
 

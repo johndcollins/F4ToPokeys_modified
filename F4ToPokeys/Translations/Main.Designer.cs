@@ -286,6 +286,15 @@ namespace F4ToPokeys.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Convert to Minutes.
+        /// </summary>
+        public static string DEDuinoFFIPrMinuteCaption {
+            get {
+                return ResourceManager.GetString("DEDuinoFFIPrMinuteCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Glare Shield.
         /// </summary>
         public static string DEDuinoGlareShieldCaption {

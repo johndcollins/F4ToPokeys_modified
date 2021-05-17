@@ -561,4 +561,7 @@
   <data name="StepperHomeInvertedCaption" xml:space="preserve">
     <value>Invert Homing Direction</value>
   </data>
+  <data name="DEDuinoFFIPrMinuteCaption" xml:space="preserve">
+    <value>Convert to Minutes</value>
+  </data>
 </root>

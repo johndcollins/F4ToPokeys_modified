@@ -1339,10 +1339,17 @@
                                             Visibility="{Binding Path=IsPFLChecked, Converter={StaticResource BooleanToVisibilityConverter}}"
                                             VerticalAlignment="Center" />
                                     </StackPanel>
-                                    <CheckBox Content="{x:Static lang:Main.DEDuinoFFICaption}"
-                                        IsChecked="{Binding Path=FFI}"
-                                        Margin="5,0,0,0"
-                                        VerticalAlignment="Center" HorizontalAlignment="Left" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <CheckBox Content="{x:Static lang:Main.DEDuinoFFICaption}"
+                                            IsChecked="{Binding Path=FFI}"
+                                            Margin="5,0,0,0"
+                                            VerticalAlignment="Center" HorizontalAlignment="Left" />
+                                        <CheckBox Content="{x:Static lang:Main.DEDuinoFFIPrMinuteCaption}"
+                                            IsChecked="{Binding Path=FFI_PR_MINUTE}"
+                                            Margin="5,0,0,0"
+                                            Visibility="{Binding Path=IsFFIChecked, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                            VerticalAlignment="Center" />
+                                    </StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <CheckBox Content="{x:Static lang:Main.DEDuinoCautionPanelCaption}"
                                             IsChecked="{Binding Path=CautionPanel}"
