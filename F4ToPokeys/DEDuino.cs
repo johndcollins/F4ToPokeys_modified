@@ -819,7 +819,7 @@ namespace F4ToPokeys
         private string FuelFlowConvert(float FuelFlow)
         {
             if (FFI_PR_MINUTE)
-                return Math.Round(Convert.ToDecimal(FuelFlow) / 60).ToString();
+                return (Math.Round(Convert.ToDecimal(FuelFlow) / 6) * 10).ToString();
 
             return (Math.Round(Convert.ToDecimal(FuelFlow) / 10) * 10).ToString();
         }
