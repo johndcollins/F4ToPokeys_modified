@@ -255,9 +255,10 @@ namespace F4ToPokeys
             memorySlotOutput.Slot = new MemorySlot("BupUhfFreq", flightData => (uint)flightData.BupUhfFreq, 0xffffff, 0, "0 - 23", true, "6 BCD Digits");
             addToSlotList(memorySlotOutput);
 
-            memorySlotOutput = new MemorySlotOutput(4);
-            memorySlotOutput.Slot = new MemorySlot("BupUhfPreset", flightData => (uint)flightData.BupUhfPreset, 0x1f, 24, "24 - 28", true, "int");
-            addToSlotList(memorySlotOutput);
+            // Issue with Pokeys and negative numbers. Moved it to it's own int at pos 14
+            //memorySlotOutput = new MemorySlotOutput(4);
+            //memorySlotOutput.Slot = new MemorySlot("BupUhfPreset", flightData => (uint)flightData.BupUhfPreset, 0x1f, 24, "24 - 28", true, "int");
+            //addToSlotList(memorySlotOutput);
 
             memorySlotOutput = new MemorySlotOutput(5);
             memorySlotOutput.Slot = new MemorySlot("AUXTBand", flightData => (uint)(flightData.AuxTacanIsX ? 1 : 0 & (flightData.AUXTChan << 4)), 0x1, 0, " 0 -  3", false, "1 BCD Digit");
@@ -298,6 +299,11 @@ namespace F4ToPokeys
             memorySlotOutput = new MemorySlotOutput(13);
             memorySlotOutput.Slot = new MemorySlot("PresetUhfFreq", flightData => (uint)flightData.BupUhfPreset, 0xffffff, 0, "0 - 23", true, "6 BCD Digits", true);
             addToSlotList(memorySlotOutput);
+
+            memorySlotOutput = new MemorySlotOutput(14);
+            memorySlotOutput.Slot = new MemorySlot("BupUhfPresetChannel", flightData => (uint)flightData.BupUhfPreset, 0x1f, 0, "0 - 8", true, "2 BCD Digits");
+            addToSlotList(memorySlotOutput);
+
         }
 
         private void DeleteMemorySlotList()
