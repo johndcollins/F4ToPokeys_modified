@@ -223,6 +223,7 @@ namespace F4ToPokeys
         const string flightControlPanel = "FLT CONTROL";
         const string testPanel = "TEST";
         const string auxCommPanel = "AUXCOMM";     // Beau
+        const string ecm = "ECM";
         const string others = "Others";
 
         //
@@ -373,6 +374,32 @@ namespace F4ToPokeys
             addToLightList(new FalconDataBits(chaffFlare, "CMDS MODE AUTO", flightdata => (flightdata.cmdsMode == (int)CmdsModes.CmdsAUTO)));
             addToLightList(new FalconDataBits(chaffFlare, "CMDS MODE BYP", flightdata => (flightdata.cmdsMode == (int)CmdsModes.CmdsBYP)));
             addToLightList(new FalconDataBits(chaffFlare, "CMDS MODE SEMI", flightdata => (flightdata.cmdsMode == (int)CmdsModes.CmdsSEMI)));
+
+            // ECM
+            addToLightList(new FalconBlinkingLamp(ecm, "ECM 1 Standby", flightData => ((flightData.ecmBits[0] & (int)EcmBits.ECM_PRESSED_STANDBY) != 0 || (flightData.ecmBits[0] & (int)EcmBits.ECM_PRESSED_ALL_LIT) != 0 || (flightData.ecmBits[0] & (int)EcmBits.ECM_UNPRESSED_ALL_LIT) != 0), BlinkBits.ECM_Oper, 100));
+            addToLightList(new FalconBlinkingLamp(ecm, "ECM 2 Standby", flightData => (flightData.ecmBits[1] & (int)EcmBits.ECM_PRESSED_STANDBY) != 0, BlinkBits.ECM_Oper, 100));
+            addToLightList(new FalconBlinkingLamp(ecm, "ECM 3 Standby", flightData => (flightData.ecmBits[2] & (int)EcmBits.ECM_PRESSED_STANDBY) != 0, BlinkBits.ECM_Oper, 100));
+            addToLightList(new FalconBlinkingLamp(ecm, "ECM 4 Standby", flightData => (flightData.ecmBits[3] & (int)EcmBits.ECM_PRESSED_STANDBY) != 0, BlinkBits.ECM_Oper, 100));
+            addToLightList(new FalconBlinkingLamp(ecm, "ECM 5 Standby", flightData => (flightData.ecmBits[4] & (int)EcmBits.ECM_PRESSED_STANDBY) != 0, BlinkBits.ECM_Oper, 100));
+            
+            addToLightList(new FalconDataBits(ecm, "ECM 1 Active", flightdata => ((flightdata.ecmBits[0] == (int)EcmBits.ECM_UNPRESSED_ALL_LIT) || (flightdata.ecmBits[0] == (int)EcmBits.ECM_PRESSED_ALL_LIT) || (flightdata.ecmBits[0] == (int)EcmBits.ECM_PRESSED_ACTIVE))));
+            addToLightList(new FalconDataBits(ecm, "ECM 2 Active", flightdata => ((flightdata.ecmBits[1] == (int)EcmBits.ECM_UNPRESSED_ALL_LIT) || (flightdata.ecmBits[1] == (int)EcmBits.ECM_PRESSED_ALL_LIT) || (flightdata.ecmBits[1] == (int)EcmBits.ECM_PRESSED_ACTIVE))));
+            addToLightList(new FalconDataBits(ecm, "ECM 3 Active", flightdata => ((flightdata.ecmBits[2] == (int)EcmBits.ECM_UNPRESSED_ALL_LIT) || (flightdata.ecmBits[2] == (int)EcmBits.ECM_PRESSED_ALL_LIT) || (flightdata.ecmBits[2] == (int)EcmBits.ECM_PRESSED_ACTIVE))));
+            addToLightList(new FalconDataBits(ecm, "ECM 4 Active", flightdata => ((flightdata.ecmBits[3] == (int)EcmBits.ECM_UNPRESSED_ALL_LIT) || (flightdata.ecmBits[3] == (int)EcmBits.ECM_PRESSED_ALL_LIT) || (flightdata.ecmBits[3] == (int)EcmBits.ECM_PRESSED_ACTIVE))));
+            addToLightList(new FalconDataBits(ecm, "ECM 5 Active", flightdata => ((flightdata.ecmBits[4] == (int)EcmBits.ECM_UNPRESSED_ALL_LIT) || (flightdata.ecmBits[4] == (int)EcmBits.ECM_PRESSED_ALL_LIT) || (flightdata.ecmBits[4] == (int)EcmBits.ECM_PRESSED_ACTIVE))));
+
+            addToLightList(new FalconDataBits(ecm, "ECM 1 Transmitting", flightdata => ((flightdata.ecmBits[0] == (int)EcmBits.ECM_UNPRESSED_ALL_LIT) || (flightdata.ecmBits[0] == (int)EcmBits.ECM_PRESSED_ALL_LIT) || (flightdata.ecmBits[0] == (int)EcmBits.ECM_PRESSED_TRANSMIT))));
+            addToLightList(new FalconDataBits(ecm, "ECM 2 Transmitting", flightdata => ((flightdata.ecmBits[1] == (int)EcmBits.ECM_UNPRESSED_ALL_LIT) || (flightdata.ecmBits[1] == (int)EcmBits.ECM_PRESSED_ALL_LIT) || (flightdata.ecmBits[1] == (int)EcmBits.ECM_PRESSED_TRANSMIT))));
+            addToLightList(new FalconDataBits(ecm, "ECM 3 Transmitting", flightdata => ((flightdata.ecmBits[2] == (int)EcmBits.ECM_UNPRESSED_ALL_LIT) || (flightdata.ecmBits[2] == (int)EcmBits.ECM_PRESSED_ALL_LIT) || (flightdata.ecmBits[2] == (int)EcmBits.ECM_PRESSED_TRANSMIT))));
+            addToLightList(new FalconDataBits(ecm, "ECM 4 Transmitting", flightdata => ((flightdata.ecmBits[3] == (int)EcmBits.ECM_UNPRESSED_ALL_LIT) || (flightdata.ecmBits[3] == (int)EcmBits.ECM_PRESSED_ALL_LIT) || (flightdata.ecmBits[3] == (int)EcmBits.ECM_PRESSED_TRANSMIT))));
+            addToLightList(new FalconDataBits(ecm, "ECM 5 Transmitting", flightdata => ((flightdata.ecmBits[4] == (int)EcmBits.ECM_UNPRESSED_ALL_LIT) || (flightdata.ecmBits[4] == (int)EcmBits.ECM_PRESSED_ALL_LIT) || (flightdata.ecmBits[4] == (int)EcmBits.ECM_PRESSED_TRANSMIT))));
+
+            addToLightList(new FalconDataBits(ecm, "ECM 1 Fault", flightdata => ((flightdata.ecmBits[0] == (int)EcmBits.ECM_UNPRESSED_ALL_LIT) || (flightdata.ecmBits[0] == (int)EcmBits.ECM_PRESSED_ALL_LIT) || (flightdata.ecmBits[0] == (int)EcmBits.ECM_PRESSED_FAIL))));
+            addToLightList(new FalconDataBits(ecm, "ECM 2 Fault", flightdata => ((flightdata.ecmBits[1] == (int)EcmBits.ECM_UNPRESSED_ALL_LIT) || (flightdata.ecmBits[1] == (int)EcmBits.ECM_PRESSED_ALL_LIT) || (flightdata.ecmBits[1] == (int)EcmBits.ECM_PRESSED_FAIL))));
+            addToLightList(new FalconDataBits(ecm, "ECM 3 Fault", flightdata => ((flightdata.ecmBits[2] == (int)EcmBits.ECM_UNPRESSED_ALL_LIT) || (flightdata.ecmBits[2] == (int)EcmBits.ECM_PRESSED_ALL_LIT) || (flightdata.ecmBits[2] == (int)EcmBits.ECM_PRESSED_FAIL))));
+            addToLightList(new FalconDataBits(ecm, "ECM 4 Fault", flightdata => ((flightdata.ecmBits[3] == (int)EcmBits.ECM_UNPRESSED_ALL_LIT) || (flightdata.ecmBits[3] == (int)EcmBits.ECM_PRESSED_ALL_LIT) || (flightdata.ecmBits[3] == (int)EcmBits.ECM_PRESSED_FAIL))));
+            addToLightList(new FalconDataBits(ecm, "ECM 5 Fault", flightdata => ((flightdata.ecmBits[4] == (int)EcmBits.ECM_UNPRESSED_ALL_LIT) || (flightdata.ecmBits[4] == (int)EcmBits.ECM_PRESSED_ALL_LIT) || (flightdata.ecmBits[4] == (int)EcmBits.ECM_PRESSED_FAIL))));
+
             //
             // End new Lightbits
             //
@@ -538,4 +565,20 @@ namespace F4ToPokeys
     }
 
     #endregion // FlightDataChangedEventArgs
+
+    #region FlightData2ChangedEventArgs
+
+    public class FlightData2ChangedEventArgs : EventArgs
+    {
+        public FlightData2ChangedEventArgs(FlightData2 oldFlightData, FlightData2 newFlightData)
+        {
+            this.oldFlightData = oldFlightData;
+            this.newFlightData = newFlightData;
+        }
+
+        public readonly FlightData2 oldFlightData;
+        public readonly FlightData2 newFlightData;
+    }
+
+    #endregion // FlightData2ChangedEventArgs
 }

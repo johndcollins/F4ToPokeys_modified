@@ -58,6 +58,10 @@ namespace F4ToPokeys
         private float rpm = 0.0f;
         private float ftit = 0.0f;
 
+        // Altitude
+        private float altitude = 0.0f;
+        private float altBaro = 29.92f;
+
         #endregion
 
         #region Construction
@@ -107,6 +111,9 @@ namespace F4ToPokeys
                 nozzlePos = e.newFlightData.nozzlePos;
                 rpm = e.newFlightData.rpm;
                 ftit = e.newFlightData.ftit;
+
+                altitude = e.newFlightData.aauz;
+                altBaro = e.newFlightData.AltCalReading / 100;
             }
             else
             {
@@ -402,6 +409,28 @@ namespace F4ToPokeys
                     }
                     break;
                 #endregion
+                case 'K':
+                    #region ALT1000
+                    if (Altimeter)
+                    {
+                        if (powerOn)
+                            SendLine(Alt1000Convert((altitude)).PadLeft(5, '0'), 5);
+                        else
+                            SendLine("0".PadRight(5, '0'), 5);
+                    }
+                    break;
+                #endregion
+                case 'L':
+                    #region ALT_BARO
+                    if (Altimeter)
+                    {
+                        if (powerOn)
+                            SendBytes(BitConverter.GetBytes(altBaro), 5);
+                        else
+                            SendBytes(BitConverter.GetBytes(uint.MinValue), 5);
+                    }
+                    break;
+                #endregion
                 case 'F':
                     #region FuelFlow
                     if (FFI)
@@ -572,6 +601,20 @@ namespace F4ToPokeys
         //public bool CanPFLBeChecked => (!DED && !Indexers && !FFI && !CautionPanel && !SpeedBrakes && !CMDS && !GlareShield && !Engine);
         [XmlIgnore]
         public bool IsPFLChecked => PFL;
+        #endregion
+
+        #region Altimeter
+        public bool Altimeter
+        {
+            get { return altimeter; }
+            set
+            {
+                altimeter = value;
+                RaisePropertyChanged("Altimeter");
+            }
+        }
+
+        private bool altimeter = false;
         #endregion
 
         #region FFI
@@ -814,6 +857,11 @@ namespace F4ToPokeys
             byte[] result = new byte[1];
             mapping.CopyTo(result, 0);
             return result;
+        }
+
+        private string Alt1000Convert(float alt)
+        {
+            return (Math.Round(Convert.ToDecimal(alt) / 1000, 0) * 1000).ToString();
         }
 
         private string FuelFlowConvert(float FuelFlow)

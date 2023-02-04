@@ -25,11 +25,12 @@ namespace F4SharedMem.Headers
         // 15: added MiscBits, BettyBits, radar altitude, bingo fuel, cara alow, bullseye, BMS version information, string area size/time, drawing area size
         // 16: added turn rate
         // 17: added Flcs_Flcc, SolenoidStatus to MiscBits
+        // 18: added floodconsole brightness
+        // 19: added ECM_M1-5, ECM oper + blinkbit, magnetic deviation, RWR jamming status
 
         public const int RWRINFO_SIZE = 512;
         public const int MAX_CALLSIGNS = 32;
         public const int CALLSIGN_LEN = 12;
-
 
         // VERSION 1
         public float nozzlePos2;   // Ownship engine nozzle2 percent open (0-100)
@@ -122,8 +123,22 @@ namespace F4SharedMem.Headers
         public uint DrawingAreaSize;// the overall size of the DrawingData/FalconSharedMemoryAreaDrawing area
 
         // VERSION 16
-        float turnRate;              // actual turn rate (no delay or dampening) in degrees/second
+        public float turnRate;              // actual turn rate (no delay or dampening) in degrees/second
 
+        // VERSION 18
+        public FloodConsole floodConsole;   // (unsigned char) current floodconsole brightness setting, see FloodConsole enum for details
+
+        // VERSION 19
+        public float magDeviationSystem;    // current mag deviation of the system
+        public float magDeviationReal;      // current mag deviation of the system
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 5)]
+        public uint[] ecmBits; // see EcmBits enum for details - Note: these are currently not combinable bits, but mutually exclusive states!
+
+        public EcmOperStates ecmOper;                  // (unsigned char) see enum EcmOperStates for details
+
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 40)]
+        public JammingStates[] RWRjammingStatus; // (unsigned) char see enum JammingStates for details
     }
 
 }
