@@ -861,7 +861,7 @@ namespace F4ToPokeys
 
         private string Alt1000Convert(float alt)
         {
-            return (Math.Round(Convert.ToDecimal(alt) / 1000, 0) * 1000).ToString();
+            return (Math.Round(Convert.ToDecimal(alt) % 1000, 0)).ToString();
         }
 
         private string FuelFlowConvert(float FuelFlow)
