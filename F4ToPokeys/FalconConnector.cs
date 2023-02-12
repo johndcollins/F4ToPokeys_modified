@@ -377,11 +377,11 @@ namespace F4ToPokeys
 
             // ECM
             addToLightList(new FalconBlinkingLamp(ecm, "ECM 1 Standby", flightData => ((flightData.ecmBits[0] & (int)EcmBits.ECM_PRESSED_STANDBY) != 0 || (flightData.ecmBits[0] & (int)EcmBits.ECM_PRESSED_ALL_LIT) != 0 || (flightData.ecmBits[0] & (int)EcmBits.ECM_UNPRESSED_ALL_LIT) != 0), BlinkBits.ECM_Oper, 100));
-            addToLightList(new FalconBlinkingLamp(ecm, "ECM 2 Standby", flightData => (flightData.ecmBits[1] & (int)EcmBits.ECM_PRESSED_STANDBY) != 0, BlinkBits.ECM_Oper, 100));
-            addToLightList(new FalconBlinkingLamp(ecm, "ECM 3 Standby", flightData => (flightData.ecmBits[2] & (int)EcmBits.ECM_PRESSED_STANDBY) != 0, BlinkBits.ECM_Oper, 100));
-            addToLightList(new FalconBlinkingLamp(ecm, "ECM 4 Standby", flightData => (flightData.ecmBits[3] & (int)EcmBits.ECM_PRESSED_STANDBY) != 0, BlinkBits.ECM_Oper, 100));
-            addToLightList(new FalconBlinkingLamp(ecm, "ECM 5 Standby", flightData => (flightData.ecmBits[4] & (int)EcmBits.ECM_PRESSED_STANDBY) != 0, BlinkBits.ECM_Oper, 100));
-            
+            addToLightList(new FalconBlinkingLamp(ecm, "ECM 2 Standby", flightData => ((flightData.ecmBits[1] & (int)EcmBits.ECM_PRESSED_STANDBY) != 0 || (flightData.ecmBits[1] & (int)EcmBits.ECM_PRESSED_ALL_LIT) != 0 || (flightData.ecmBits[1] & (int)EcmBits.ECM_UNPRESSED_ALL_LIT) != 0), BlinkBits.ECM_Oper, 100));
+            addToLightList(new FalconBlinkingLamp(ecm, "ECM 3 Standby", flightData => ((flightData.ecmBits[2] & (int)EcmBits.ECM_PRESSED_STANDBY) != 0 || (flightData.ecmBits[2] & (int)EcmBits.ECM_PRESSED_ALL_LIT) != 0 || (flightData.ecmBits[2] & (int)EcmBits.ECM_UNPRESSED_ALL_LIT) != 0), BlinkBits.ECM_Oper, 100));
+            addToLightList(new FalconBlinkingLamp(ecm, "ECM 4 Standby", flightData => ((flightData.ecmBits[3] & (int)EcmBits.ECM_PRESSED_STANDBY) != 0 || (flightData.ecmBits[3] & (int)EcmBits.ECM_PRESSED_ALL_LIT) != 0 || (flightData.ecmBits[3] & (int)EcmBits.ECM_UNPRESSED_ALL_LIT) != 0), BlinkBits.ECM_Oper, 100));
+            addToLightList(new FalconBlinkingLamp(ecm, "ECM 5 Standby", flightData => ((flightData.ecmBits[4] & (int)EcmBits.ECM_PRESSED_STANDBY) != 0 || (flightData.ecmBits[4] & (int)EcmBits.ECM_PRESSED_ALL_LIT) != 0 || (flightData.ecmBits[4] & (int)EcmBits.ECM_UNPRESSED_ALL_LIT) != 0), BlinkBits.ECM_Oper, 100));
+
             addToLightList(new FalconDataBits(ecm, "ECM 1 Active", flightdata => ((flightdata.ecmBits[0] == (int)EcmBits.ECM_UNPRESSED_ALL_LIT) || (flightdata.ecmBits[0] == (int)EcmBits.ECM_PRESSED_ALL_LIT) || (flightdata.ecmBits[0] == (int)EcmBits.ECM_PRESSED_ACTIVE))));
             addToLightList(new FalconDataBits(ecm, "ECM 2 Active", flightdata => ((flightdata.ecmBits[1] == (int)EcmBits.ECM_UNPRESSED_ALL_LIT) || (flightdata.ecmBits[1] == (int)EcmBits.ECM_PRESSED_ALL_LIT) || (flightdata.ecmBits[1] == (int)EcmBits.ECM_PRESSED_ACTIVE))));
             addToLightList(new FalconDataBits(ecm, "ECM 3 Active", flightdata => ((flightdata.ecmBits[2] == (int)EcmBits.ECM_UNPRESSED_ALL_LIT) || (flightdata.ecmBits[2] == (int)EcmBits.ECM_PRESSED_ALL_LIT) || (flightdata.ecmBits[2] == (int)EcmBits.ECM_PRESSED_ACTIVE))));
