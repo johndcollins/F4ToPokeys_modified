@@ -11,6 +11,8 @@ namespace F4SharedMem
     [Serializable]
     public sealed class FlightData
     {
+        public const int MAX_RWR_OBJECTS = 40;
+
         [Serializable]
         public struct OptionSelectButtonLabel
         {
@@ -68,6 +70,16 @@ namespace F4SharedMem
                     {
                         PopulateCallsignLineOfText(data, currentField, thisFlightDataField);
                     }
+#if EWMU_AND_EWPI_PATCH_APPLIED
+                    else if (currentFieldType == typeof(EWMU_LineOfText[]))
+                    {
+                        PopulateEWMULineOfText(data, currentField, thisFlightDataField);
+                    }
+                    else if (currentFieldType == typeof(EWPI_LineOfText[]))
+                    {
+                        PopulateEWPILineOfText(data, currentField, thisFlightDataField);
+                    }
+#endif
                     else
                     {
                         var currentValue = (Array)currentField.GetValue(data);
@@ -133,7 +145,40 @@ namespace F4SharedMem
             }
             thisField.SetValue(this, valuesToAssign);
         }
-
+#if EWMU_AND_EWPI_PATCH_APPLIED
+        private void PopulateEWMULineOfText(object data, FieldInfo currentField, FieldInfo thisField)
+        {
+            var currentValue = (EWMU_LineOfText[])currentField.GetValue(data);
+            var valuesToAssign = new string[currentValue.Length];
+            for (var j = 0; j < currentValue.Length; j++)
+            {
+                var currentItem = currentValue[j];
+                var sb = new StringBuilder(currentItem.chars.Length);
+                foreach (var chr in currentItem.chars.Where(chr => chr != 0))
+                {
+                    sb.Append((char)chr);
+                }
+                valuesToAssign[j] = sb.ToString();
+            }
+            thisField.SetValue(this, valuesToAssign);
+        }
+        private void PopulateEWPILineOfText(object data, FieldInfo currentField, FieldInfo thisField)
+        {
+            var currentValue = (EWPI_LineOfText[])currentField.GetValue(data);
+            var valuesToAssign = new string[currentValue.Length];
+            for (var j = 0; j < currentValue.Length; j++)
+            {
+                var currentItem = currentValue[j];
+                var sb = new StringBuilder(currentItem.chars.Length);
+                foreach (var chr in currentItem.chars.Where(chr => chr != 0))
+                {
+                    sb.Append((char)chr);
+                }
+                valuesToAssign[j] = sb.ToString();
+            }
+            thisField.SetValue(this, valuesToAssign);
+        }
+#endif
         private void PopulateOSBLabel(object data, FieldInfo currentField, FieldInfo thisField)
         {
             var currentValue = (OSBLabel[])currentField.GetValue(data);
@@ -308,7 +353,7 @@ namespace F4SharedMem
         // existing on/off bits. It's up to the external program to implement the
         // *actual* blinking.
         public int cmdsMode;		// Ownship CMDS mode state, see CmdsModes enum for details
-        public int currentTime;	    // Current time in seconds (max 60 * 60 * 24)
+        public uint currentTime;	    // Current time in seconds (max 60 * 60 * 24)
         public short vehicleACD;	// Ownship ACD index number, i.e. which aircraft type are we flying.
         public byte[] tacanInfo;    //TACAN info (new in BMS4)
         public float fuelFlow2;     // Ownship fuel flow2 (Lbs/Hour)
@@ -365,14 +410,17 @@ namespace F4SharedMem
         public float magDeviationSystem;    // current mag deviation of the system
         public float magDeviationReal;      // current mag deviation of the system
 
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 5)]
         public uint[] ecmBits; // see EcmBits enum for details - Note: these are currently not combinable bits, but mutually exclusive states!
 
         public EcmOperStates ecmOper;                  // (unsigned char) see enum EcmOperStates for details
 
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 40)]
         public JammingStates[] RWRjammingStatus; // (unsigned) char see enum JammingStates for details
 
+#if EWMU_AND_EWPI_PATCH_APPLIED
+        // VERSION 18?
+        public string[] EWMULines;  //16 usable chars
+        public string[] EWPILines;  //8 usable chars
+#endif
         public OptionSelectButtonLabel[] leftMFD;
         public OptionSelectButtonLabel[] rightMFD;
         public object ExtensionData;

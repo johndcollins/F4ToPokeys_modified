@@ -3,8 +3,8 @@
 namespace F4SharedMem.Headers
 {
     [Serializable]
-    // EcmBits
-    public enum EcmBits : byte
+    [Flags]
+    public enum EcmBits : uint
     {
         ECM_UNPRESSED_NO_LIT = 0x01,
         ECM_UNPRESSED_ALL_LIT = 0x02,
@@ -16,3 +16,4 @@ namespace F4SharedMem.Headers
         ECM_PRESSED_ALL_LIT = 0x80,
     };
 }
+
