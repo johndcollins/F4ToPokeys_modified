@@ -1159,6 +1159,15 @@ namespace F4ToPokeys.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Timeout Milliseconds.
+        /// </summary>
+        public static string StepperHomingTimeoutCaption {
+            get {
+                return ResourceManager.GetString("StepperHomingTimeoutCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Homing timeout.
         /// </summary>
         public static string StepperHomingTimeoutError {

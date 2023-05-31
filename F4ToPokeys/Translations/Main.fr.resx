@@ -564,4 +564,7 @@
   <data name="DEDuinoFFIPrMinuteCaption" xml:space="preserve">
     <value>Convert to Minutes</value>
   </data>
+  <data name="StepperHomingTimeoutCaption" xml:space="preserve">
+    <value>Timeout Milliseconds</value>
+  </data>
 </root>

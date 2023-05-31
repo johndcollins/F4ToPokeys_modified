@@ -270,6 +270,9 @@ namespace F4ToPokeys
                 RaisePropertyChanged("HasHomeSwitch");
             }
         }
+
+        public PoKeysStepperVID6066 PoVID6066 { get { return owner; } }
+
         #endregion
 
         #region StepperIdList

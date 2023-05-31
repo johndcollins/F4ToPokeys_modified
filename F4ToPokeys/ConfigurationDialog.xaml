@@ -728,7 +728,7 @@
                                                                      IsReadOnly="True"
                                                                      IsEnabled="False"
                                                                      VerticalAlignment="Center" />
-                                                            <TextBox Text="{Binding Path=PoVID6066.HomingTimeout, UpdateSourceTrigger=PropertyChanged}"
+                                                            <TextBox Text="{Binding Path=PoVID6066.HomingTimeoutMilliseconds, UpdateSourceTrigger=PropertyChanged}"
                                                                      Margin="10,0,0,0"
                                                                      Width="75"
                                                                      IsReadOnly="True"
@@ -876,6 +876,7 @@
                                                                                 <RowDefinition />
                                                                                 <RowDefinition />
                                                                                 <RowDefinition />
+                                                                                <RowDefinition />
                                                                             </Grid.RowDefinitions>
                                                                             <Grid.ColumnDefinitions>
                                                                                 <ColumnDefinition Width="*" />
@@ -927,33 +928,29 @@
                                                                                 Margin="5,0,0,2"
                                                                                 VerticalAlignment="Center"
                                                                                 Grid.Row="4" Grid.Column="2" />
-                                                                            <TextBlock Text="{x:Static lang:Main.StepperForwardHomingStepsCaption}"
+                                                                            <TextBlock Text="{x:Static lang:Main.StepperHomingTimeoutCaption}"
                                                                                 VerticalAlignment="Center" 
                                                                                 Margin="5,0,0,2"  
                                                                                 Grid.Row="5" />
-                                                                            <TextBox Text="{Binding Path=ForwardHomingSteps, UpdateSourceTrigger=PropertyChanged}"
+                                                                            <TextBox Text="{Binding Path=PoVID6066.HomingTimeoutMilliseconds, UpdateSourceTrigger=PropertyChanged}"
                                                                                 Margin="5,0,0,2"
                                                                                 Width="75"
                                                                                 VerticalAlignment="Center" 
                                                                                 Grid.Row="5" Grid.Column="1" />
-                                                                            <TextBlock Text="{x:Static lang:Main.StepperHomingMaxAccelerationCaption}"
+                                                                            <TextBlock Text="{x:Static lang:Main.StepperForwardHomingStepsCaption}"
                                                                                 VerticalAlignment="Center" 
                                                                                 Margin="5,0,0,2"  
                                                                                 Grid.Row="6" />
-                                                                            <TextBox Text="{Binding Path=HomingMaxAcceleration, UpdateSourceTrigger=PropertyChanged}"
+                                                                            <TextBox Text="{Binding Path=ForwardHomingSteps, UpdateSourceTrigger=PropertyChanged}"
                                                                                 Margin="5,0,0,2"
                                                                                 Width="75"
                                                                                 VerticalAlignment="Center" 
                                                                                 Grid.Row="6" Grid.Column="1" />
-                                                                            <TextBlock Text="{x:Static lang:Main.StepperPulsesPerSec2Caption}"
-                                                                                Margin="5,0,0,2"
-                                                                                VerticalAlignment="Center"
-                                                                                Grid.Row="6" Grid.Column="2" />
-                                                                            <TextBlock Text="{x:Static lang:Main.StepperHomingMaxDeccelerationCaption}"
+                                                                            <TextBlock Text="{x:Static lang:Main.StepperHomingMaxAccelerationCaption}"
                                                                                 VerticalAlignment="Center" 
                                                                                 Margin="5,0,0,2"  
                                                                                 Grid.Row="7" />
-                                                                            <TextBox Text="{Binding Path=HomingMaxDecceleration, UpdateSourceTrigger=PropertyChanged}"
+                                                                            <TextBox Text="{Binding Path=HomingMaxAcceleration, UpdateSourceTrigger=PropertyChanged}"
                                                                                 Margin="5,0,0,2"
                                                                                 Width="75"
                                                                                 VerticalAlignment="Center" 
@@ -962,18 +959,31 @@
                                                                                 Margin="5,0,0,2"
                                                                                 VerticalAlignment="Center"
                                                                                 Grid.Row="7" Grid.Column="2" />
-                                                                            <TextBlock Text="{x:Static lang:Main.StepperHomingReturnSpeedCaption}"
-                                                                                VerticalAlignment="Center" Margin="5,0,0,0"  
+                                                                            <TextBlock Text="{x:Static lang:Main.StepperHomingMaxDeccelerationCaption}"
+                                                                                VerticalAlignment="Center" 
+                                                                                Margin="5,0,0,2"  
                                                                                 Grid.Row="8" />
-                                                                            <TextBox Text="{Binding Path=HomingReturnSpeed, UpdateSourceTrigger=PropertyChanged}"
+                                                                            <TextBox Text="{Binding Path=HomingMaxDecceleration, UpdateSourceTrigger=PropertyChanged}"
                                                                                 Margin="5,0,0,2"
                                                                                 Width="75"
                                                                                 VerticalAlignment="Center" 
                                                                                 Grid.Row="8" Grid.Column="1" />
-                                                                            <TextBlock Text="{x:Static lang:Main.StepperPctOfHomingCation}"
+                                                                            <TextBlock Text="{x:Static lang:Main.StepperPulsesPerSec2Caption}"
                                                                                 Margin="5,0,0,2"
                                                                                 VerticalAlignment="Center"
                                                                                 Grid.Row="8" Grid.Column="2" />
+                                                                            <TextBlock Text="{x:Static lang:Main.StepperHomingReturnSpeedCaption}"
+                                                                                VerticalAlignment="Center" Margin="5,0,0,0"  
+                                                                                Grid.Row="9" />
+                                                                            <TextBox Text="{Binding Path=HomingReturnSpeed, UpdateSourceTrigger=PropertyChanged}"
+                                                                                Margin="5,0,0,2"
+                                                                                Width="75"
+                                                                                VerticalAlignment="Center" 
+                                                                                Grid.Row="9" Grid.Column="1" />
+                                                                            <TextBlock Text="{x:Static lang:Main.StepperPctOfHomingCation}"
+                                                                                Margin="5,0,0,2"
+                                                                                VerticalAlignment="Center"
+                                                                                Grid.Row="9" Grid.Column="2" />
                                                                         </Grid>
                                                                     </Border>
                                                                 </Grid>
