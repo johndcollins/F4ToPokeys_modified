@@ -47,6 +47,7 @@ namespace F4ToPokeys
         private void OnFalconFlyingStopped(object sender, EventArgs e)
         {
             _isFlying = false;
+            StartHomingAll();
         }
 
         private void OnFalconFlyingStarted(object sender, EventArgs e)
