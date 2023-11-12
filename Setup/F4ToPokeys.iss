@@ -35,8 +35,7 @@ Source: "..\F4ToPokeys\bin\Release\F4SharedMem.pdb"; DestDir: "{app}"; Flags: Ig
 Source: "..\F4ToPokeys\bin\Release\F4ToPokeys.exe"; DestDir: "{app}"; Flags: IgnoreVersion
 Source: "..\F4ToPokeys\bin\Release\F4ToPokeys.exe.config"; DestDir: "{app}"
 Source: "..\F4ToPokeys\bin\Release\F4ToPokeys.pdb"; DestDir: "{app}"; Flags: IgnoreVersion
-Source: "..\F4ToPokeys\bin\Release\Hardcodet.Wpf.TaskbarNotification.dll"; DestDir: "{app}"; Flags: IgnoreVersion
-Source: "..\F4ToPokeys\bin\Release\Hardcodet.Wpf.TaskbarNotification.pdb"; DestDir: "{app}"; Flags: IgnoreVersion
+Source: "..\F4ToPokeys\bin\Release\Hardcodet.NotifyIcon.Wpf.dll"; DestDir: "{app}"; Flags: IgnoreVersion
 Source: "..\F4ToPokeys\bin\Release\PoKeysDevice_DLL.dll"; DestDir: "{app}"; Flags: IgnoreVersion
 Source: "..\F4ToPokeys\bin\Release\SimplifiedCommon.dll"; DestDir: "{app}"; Flags: IgnoreVersion
 Source: "..\F4ToPokeys\bin\Release\SimplifiedCommon.pdb"; DestDir: "{app}"; Flags: IgnoreVersion

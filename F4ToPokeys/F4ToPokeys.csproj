@@ -54,6 +54,9 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Hardcodet.NotifyIcon.Wpf, Version=1.1.0.0, Culture=neutral, PublicKeyToken=682384a853a08aad, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hardcodet.NotifyIcon.Wpf.1.1.0\lib\net472\Hardcodet.NotifyIcon.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="PoKeysDevice_DLL, Version=1.1.0.2518, Culture=neutral, PublicKeyToken=b8cc0985acb6f071, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files\PoLabs\PoKeys\PoKeysDevice_DLL.dll</HintPath>
@@ -205,6 +208,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -219,10 +223,6 @@
     <ProjectReference Include="..\lightningstools\SimplifiedCommon\SimplifiedCommon.csproj">
       <Project>{DC943441-41CF-4631-9401-D458EB60C2C8}</Project>
       <Name>SimplifiedCommon</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\wpf-notifyicon\NotifyIconWpf\NotifyIconWpf.csproj">
-      <Project>{7AC63864-7638-41C4-969C-D3197EF2BED9}</Project>
-      <Name>NotifyIconWpf</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
