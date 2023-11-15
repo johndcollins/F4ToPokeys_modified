@@ -537,6 +537,10 @@ namespace F4ToPokeys
 
             // Added missing Gs
             addToGaugeList(new FalconGauge("Gs", flightData => flightData.gs, 0.0F, 10.0F, 1, 0, 0));
+
+            // Shared Memory Version 20
+            addToGaugeList(new FalconGauge("UHF 2 CHANNEL", flightData2 => (float)flightData2.radio2_preset, 0.0F, 20.0F, 2, 2, 0));
+            addToGaugeList(new FalconGauge("UHF 2 FREQ", flightData2 => (float)flightData2.radio2_frequency / 1000, 225.000F, 399.999F, 6, 3, 3));
         }
 
         private void addToGaugeList(FalconGauge falconGauge)
