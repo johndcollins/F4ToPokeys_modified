@@ -62,7 +62,7 @@ namespace F4SharedMem.Headers
         public float hydPressureB;	// Ownship Hydraulic Pressure B
         public uint currentTime;	// Current time in seconds (max 60 * 60 * 24)
         public short vehicleACD;	// Ownship ACD index number, i.e. which aircraft type are we flying.
-        public int VersionNum2;		// Version of FlightData2 mem area
+        public int VersionNum;		// Version of FlightData2 mem area
 
         // VERSION 4
         public float fuelFlow2;    // Ownship fuel flow2 (Lbs/Hour)
@@ -147,7 +147,7 @@ namespace F4SharedMem.Headers
         int radio2_frequency;    // Radio 2 channel frequency (if present).
 
         // IFF transponder currently active (as seen from outside) codes, negative for OFF or n/a
-        char iffTransponderActiveCode1;  // mode 1
+        byte iffTransponderActiveCode1;  // mode 1
         short iffTransponderActiveCode2;  // mode 2
         short iffTransponderActiveCode3A; // mode 3A
         short iffTransponderActiveCodeC;  // mode C
