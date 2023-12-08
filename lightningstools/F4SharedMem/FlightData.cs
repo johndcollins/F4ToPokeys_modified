@@ -421,7 +421,7 @@ namespace F4SharedMem
         public int radio2_frequency;    // Radio 2 channel frequency (if present).
 
         // IFF transponder currently active (as seen from outside) codes, negative for OFF or n/a
-        public char iffTransponderActiveCode1;  // mode 1
+        public byte iffTransponderActiveCode1;  // mode 1
         public short iffTransponderActiveCode2;  // mode 2
         public short iffTransponderActiveCode3A; // mode 3A
         public short iffTransponderActiveCodeC;  // mode C
