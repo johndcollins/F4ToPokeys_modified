@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media.TextFormatting;
 using System.Windows.Threading;
 using System.Xml.Serialization;
 
@@ -238,29 +239,62 @@ namespace F4ToPokeys
             if ((owner == null) || (!owner.Connected))
                 return;
 
-            for (int i = 0; i < 8; i++)
-                _PEconfig.ReferencePositionSpeed[i] = 0;
-
-
-            foreach (PoKeysStepper stepper in StepperList)
-                _PEconfig.ReferencePositionSpeed[stepper.StepperId.GetValueOrDefault() - 1] = stepper.ForwardHomingSteps;
-
             _PEconfig.PulseEngineStateSetup = (byte)ePoKeysPEState.peSTOPPED;
             _PEconfig.PulseEngineStateSetup = (byte)ePoKeysPEState.peRUNNING;
             owner.PokeysDevice.PEv2_SetState(ref _PEconfig);
 
-            owner.PokeysDevice.PEv2_Move(ref _PEconfig);
+            double[] maxSpeeds = new double[8];
+            foreach (PoKeysStepper stepper in StepperList)
+            {
+                int stepperIndex = stepper.StepperId.GetValueOrDefault() - 1;
+                maxSpeeds[stepperIndex] = stepper.MaxSpeed;
+                stepper.MaxSpeed = maxSpeeds[stepperIndex] * 0.5;
+                _PEconfig.ReferencePositionSpeed[stepperIndex] = -3820;
+            }
+
+            owner.PokeysDevice.PEv2_SetAxisConfiguration(ref _PEconfig);
 
             Thread.Sleep(500);
 
+            owner.PokeysDevice.PEv2_Move(ref _PEconfig);
+
+            // Wait for movement to end
+            //owner.PokeysDevice.PEv2_GetStatus(ref _PEconfig);
+            //while (true)
+            //{
+            //    if (!_PEconfig.axisState.values.Contains((byte)ePoKeysPEAxisState.axRUNNING))
+            //        break;
+            //}
+
+            Thread.Sleep(10000);
+
             foreach (PoKeysStepper stepper in StepperList)
             {
-                int i = stepper.StepperId.GetValueOrDefault() - 1;
-                _PEconfig.MaxAcceleration[i] = (float)(stepper.HomingMaxAcceleration / 1000000);
-                _PEconfig.MaxDecceleration[i] = (float)(stepper.HomingMaxDecceleration / 1000000);
-                _PEconfig.param1 = (byte)i; // Set parameter param1 to the bit mask to indicate what have the above Axis Configs set
-                owner.PokeysDevice.PEv2_SetAxisConfiguration(ref _PEconfig); // Configure the axis
+                int stepperIndex = stepper.StepperId.GetValueOrDefault() - 1;
+                stepper.MaxSpeed = maxSpeeds[stepperIndex];
             }
+
+            //for (int i = 0; i < 8; i++)
+            //    _PEconfig.ReferencePositionSpeed[i] = 0;
+
+
+            //foreach (PoKeysStepper stepper in StepperList)
+            //    _PEconfig.ReferencePositionSpeed[stepper.StepperId.GetValueOrDefault() - 1] = -3820;
+
+
+
+            //owner.PokeysDevice.PEv2_Move(ref _PEconfig);
+
+            //Thread.Sleep(500);
+
+            //foreach (PoKeysStepper stepper in StepperList)
+            //{
+            //    int i = stepper.StepperId.GetValueOrDefault() - 1;
+            //    _PEconfig.MaxAcceleration[i] = (float)(stepper.HomingMaxAcceleration / 1000000);
+            //    _PEconfig.MaxDecceleration[i] = (float)(stepper.HomingMaxDecceleration / 1000000);
+            //    _PEconfig.param1 = (byte)i; // Set parameter param1 to the bit mask to indicate what have the above Axis Configs set
+            //    owner.PokeysDevice.PEv2_SetAxisConfiguration(ref _PEconfig); // Configure the axis
+            //}
 
             Thread.Sleep(500);
 
@@ -309,22 +343,92 @@ namespace F4ToPokeys
             _PEconfig.PulseEngineStateSetup = (byte)ePoKeysPEState.peRUNNING;
             owner.PokeysDevice.PEv2_SetState(ref _PEconfig);
 
-            stepper.Error = null;
-            _PEconfig.ReferencePositionSpeed[i] = stepper.ForwardHomingSteps;
-            if (!owner.PokeysDevice.PEv2_Move(ref _PEconfig))
-                stepper.Error = string.Format(Translations.Main.StepperMoveError, stepper.StepperId);
+            if (!stepper.HasHomeSwitch)
+            {
+                stepper.Error = null;
 
-            if (!string.IsNullOrEmpty(stepper.Error))
-                return;
+                // Run gauge full backward at 50% speed
+                _PEconfig.MaxSpeed[i] = (float)(stepper.MaxSpeed * 0.2 / 1000);
+                _PEconfig.ReferencePositionSpeed[i] = -3820;
+                owner.PokeysDevice.PEv2_SetAxisConfiguration(ref _PEconfig);
+                if (!owner.PokeysDevice.PEv2_Move(ref _PEconfig))
+                    stepper.Error = string.Format(Translations.Main.StepperMoveError, stepper.StepperId);
+                if (!string.IsNullOrEmpty(stepper.Error))
+                    return;
 
-            Thread.Sleep(500);
+                // Wait for movement to end
+                owner.PokeysDevice.PEv2_GetStatus(ref _PEconfig);
+                while (_PEconfig.axisState[i] == 2)
+                {
+                    Thread.Sleep(200);
+                    owner.PokeysDevice.PEv2_GetStatus(ref _PEconfig);
+                }
 
-            _PEconfig.MaxAcceleration[i] = (float)(stepper.HomingMaxAcceleration / 1000000);
-            _PEconfig.MaxDecceleration[i] = (float)(stepper.HomingMaxDecceleration / 1000000);
-            _PEconfig.param1 = (byte)i; // Set parameter param1 to the bit mask to indicate what have the above Axis Configs set
-            owner.PokeysDevice.PEv2_SetAxisConfiguration(ref _PEconfig); // Configure the axis
+                stepper.MaxSpeed = stepper.MaxSpeed;
 
-            Thread.Sleep(500);
+                //// Set axis position to zero
+                //_PEconfig.param2 = (byte)(1 << i); // Set param2 bit to indicate which stepper    
+                //_PEconfig.PositionSetup[i] = 0;     // Set axis (stepper) position to Zero
+                //_PEconfig.ReferencePositionSpeed[i] = 0;
+                //owner.PokeysDevice.PEv2_SetPositions(ref _PEconfig);
+
+
+                //// Step forward 500 at 50% speed
+                //_PEconfig.ReferencePositionSpeed[i] = 500;
+                //if (!owner.PokeysDevice.PEv2_Move(ref _PEconfig))
+                //    stepper.Error = string.Format(Translations.Main.StepperMoveError, stepper.StepperId);
+                //if (!string.IsNullOrEmpty(stepper.Error))
+                //    return;
+
+                //// Wait for movement
+                //owner.PokeysDevice.PEv2_GetStatus(ref _PEconfig);
+                //while (_PEconfig.axisState[i] == (byte)ePoKeysPEAxisState.axRUNNING)
+                //{
+                //    Thread.Sleep(100);
+                //    owner.PokeysDevice.PEv2_GetStatus(ref _PEconfig);
+                //}
+
+                //// Step backward 600 at 20% speed
+                //stepper.MaxSpeed = maxSpeed * 0.2;
+                //owner.PokeysDevice.PEv2_SetAxisConfiguration(ref _PEconfig);
+                //_PEconfig.ReferencePositionSpeed[i] = -600;
+                //if (!owner.PokeysDevice.PEv2_Move(ref _PEconfig))
+                //    stepper.Error = string.Format(Translations.Main.StepperMoveError, stepper.StepperId);
+                //if (!string.IsNullOrEmpty(stepper.Error))
+                //    return;
+
+                //// Wait for movement
+                //owner.PokeysDevice.PEv2_GetStatus(ref _PEconfig);
+                //while (_PEconfig.axisState[i] == (byte)ePoKeysPEAxisState.axRUNNING)
+                //{
+                //    Thread.Sleep(100);
+                //    owner.PokeysDevice.PEv2_GetStatus(ref _PEconfig);
+                //}
+
+                //// Set axis position to zero
+                //_PEconfig.param2 = (byte)(1 << i); // Set param2 bit to indicate which stepper    
+                //_PEconfig.PositionSetup[i] = 0;     // Set axis (stepper) position to Zero
+                //_PEconfig.ReferencePositionSpeed[i] = 0;
+                //owner.PokeysDevice.PEv2_SetPositions(ref _PEconfig);
+
+            }
+            else
+            {
+                stepper.Error = null;
+                _PEconfig.ReferencePositionSpeed[i] = stepper.ForwardHomingSteps;
+                if (!owner.PokeysDevice.PEv2_Move(ref _PEconfig))
+                    stepper.Error = string.Format(Translations.Main.StepperMoveError, stepper.StepperId);
+
+                if (!string.IsNullOrEmpty(stepper.Error))
+                    return;
+
+                _PEconfig.MaxAcceleration[i] = (float)(stepper.HomingMaxAcceleration / 1000000);
+                _PEconfig.MaxDecceleration[i] = (float)(stepper.HomingMaxDecceleration / 1000000);
+                _PEconfig.param1 = (byte)i; // Set parameter param1 to the bit mask to indicate what have the above Axis Configs set
+                owner.PokeysDevice.PEv2_SetAxisConfiguration(ref _PEconfig); // Configure the axis
+
+                Thread.Sleep(500);
+            }
 
             _homingTimer = new DispatcherTimer();
             _homingTimer.Tick += _homingTimer_Tick;

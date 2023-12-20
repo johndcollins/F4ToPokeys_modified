@@ -89,8 +89,8 @@
             <ItemsControl ItemsSource="{Binding Path=ConfigHolder.Configuration.PoKeysList}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <GroupBox Margin="0,5,0,5">
-                            <GroupBox.Header>
+                        <Expander Margin="0,5,0,5" BorderBrush="Black" BorderThickness="1">
+                            <Expander.Header>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="{x:Static lang:Main.PoKeysConfigCaption}"
                                                VerticalAlignment="Center" />
@@ -112,8 +112,8 @@
                                             Margin="10,0,0,0"
                                             VerticalAlignment="Center" />
                                 </StackPanel>
-                            </GroupBox.Header>
-                            <GroupBox.Content>
+                            </Expander.Header>
+                            <Expander.Content>
                                 <StackPanel Margin="5">
                                     <!-- Digital Output -->
                                     <Button Content="{x:Static lang:Main.AddDigitalOutputButton}"
@@ -224,92 +224,92 @@
                                     </ItemsControl>
                                     <!-- LED Matrix -->
                                     <ItemsControl ItemsSource="{Binding Path=MatrixLedOutputList}"
-                                                  Margin="0,10,0,0">
+                                        Margin="0,10,0,0">
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal"
-                                                            Margin="2">
+                                                Margin="2">
                                                     <TextBlock Text="{x:Static lang:Main.MatrixLedOutputConfigCaption}"
-                                                               VerticalAlignment="Center" />
+                                                    VerticalAlignment="Center" />
                                                     <ComboBox ItemsSource="{x:Static my:MatrixLed.AvailableMatrixLedList}"
-                                                              SelectedItem="{Binding Path=MatrixLed}"
-                                                              my:SelectorHelper.SelectIndexInDesignMode="0"
-                                                              Margin="5,0,0,0"
-                                                              Width="80"
-                                                              VerticalAlignment="Center"
-                                                              DisplayMemberPath="Name" />
+                                                    SelectedItem="{Binding Path=MatrixLed}"
+                                                    my:SelectorHelper.SelectIndexInDesignMode="0"
+                                                    Margin="5,0,0,0"
+                                                    Width="80"
+                                                    VerticalAlignment="Center"
+                                                    DisplayMemberPath="Name" />
                                                     <TextBlock Text="{x:Static lang:Main.MatrixLedOutputConfigRow}"
-                                                               Margin="5,0,0,0"
-                                                               VerticalAlignment="Center" />
+                                                    Margin="5,0,0,0"
+                                                    VerticalAlignment="Center" />
                                                     <ComboBox ItemsSource="{x:Static my:MatrixLed.AvailableIndexList}"
-                                                              SelectedItem="{Binding Path=Row}"
-                                                              Margin="5,0,0,0"
-                                                              Width="40"
-                                                              VerticalAlignment="Center" />
+                                                    SelectedItem="{Binding Path=Row}"
+                                                    Margin="5,0,0,0"
+                                                    Width="40"
+                                                    VerticalAlignment="Center" />
                                                     <TextBlock Text="{x:Static lang:Main.MatrixLedOutputConfigColumn}"
-                                                               Margin="5,0,0,0"
-                                                               VerticalAlignment="Center" />
+                                                    Margin="5,0,0,0"
+                                                    VerticalAlignment="Center" />
                                                     <ComboBox ItemsSource="{x:Static my:MatrixLed.AvailableIndexList}"
-                                                              SelectedItem="{Binding Path=Column}"
-                                                              Margin="5,0,0,0"
-                                                              Width="40"
-                                                              VerticalAlignment="Center" />
+                                                    SelectedItem="{Binding Path=Column}"
+                                                    Margin="5,0,0,0"
+                                                    Width="40"
+                                                    VerticalAlignment="Center" />
                                                     <Image Name="MatrixLedErrorIcon"
-                                                           Source="{StaticResource image_erreur}"
-                                                           Width="{StaticResource {x:Static SystemParameters.SmallIconWidthKey}}"
-                                                           ToolTip="{Binding Path=Error}"
-                                                           Margin="5,0,0,0"
-                                                           VerticalAlignment="Center" />
+                                                Source="{StaticResource image_erreur}"
+                                                Width="{StaticResource {x:Static SystemParameters.SmallIconWidthKey}}"
+                                                ToolTip="{Binding Path=Error}"
+                                                Margin="5,0,0,0"
+                                                VerticalAlignment="Center" />
                                                     <Image Name="MatrixLedOutputStateIcon"
-                                                           Source="{StaticResource image_light_off}"
-                                                           Width="{StaticResource {x:Static SystemParameters.SmallIconWidthKey}}"
-                                                           Margin="10,0,0,0"
-                                                           VerticalAlignment="Center" />
+                                                Source="{StaticResource image_light_off}"
+                                                Width="{StaticResource {x:Static SystemParameters.SmallIconWidthKey}}"
+                                                Margin="10,0,0,0"
+                                                VerticalAlignment="Center" />
                                                     <Button Content="{x:Static lang:Main.FalconLightConsumerConfigOnButton}"
-                                                            Command="{Binding Path=SetOutputStateToOnCommand}"
-                                                            Margin="5,0,0,0"
-                                                            VerticalAlignment="Center" />
+                                                Command="{Binding Path=SetOutputStateToOnCommand}"
+                                                Margin="5,0,0,0"
+                                                VerticalAlignment="Center" />
                                                     <Button Content="{x:Static lang:Main.FalconLightConsumerConfigOffButton}"
-                                                            Command="{Binding Path=SetOutputStateToOffCommand}"
-                                                            Margin="5,0,0,0"
-                                                            VerticalAlignment="Center" />
+                                                Command="{Binding Path=SetOutputStateToOffCommand}"
+                                                Margin="5,0,0,0"
+                                                VerticalAlignment="Center" />
                                                     <ComboBox ItemsSource="{Binding Source={StaticResource FalconLightList}}"
-                                                              SelectedItem="{Binding Path=FalconLight}"
-                                                              Margin="10,0,0,0"
-                                                              Width="250"
-                                                              DisplayMemberPath="Label"
-                                                              VerticalAlignment="Center"
-                                                              IsSynchronizedWithCurrentItem="False">
+                                                    SelectedItem="{Binding Path=FalconLight}"
+                                                    Margin="10,0,0,0"
+                                                    Width="250"
+                                                    DisplayMemberPath="Label"
+                                                    VerticalAlignment="Center"
+                                                    IsSynchronizedWithCurrentItem="False">
                                                         <ComboBox.GroupStyle>
                                                             <GroupStyle HeaderTemplate="{StaticResource FalconLightGroupTemplate}" />
                                                         </ComboBox.GroupStyle>
                                                     </ComboBox>
                                                     <Button Content="{x:Static lang:Main.RemoveButton}"
-                                                            Command="{Binding Path=RemoveMatrixLedOutputCommand}"
-                                                            Margin="10,0,0,0"
-                                                            VerticalAlignment="Center" />
+                                                Command="{Binding Path=RemoveMatrixLedOutputCommand}"
+                                                Margin="10,0,0,0"
+                                                VerticalAlignment="Center" />
                                                 </StackPanel>
                                                 <DataTemplate.Triggers>
                                                     <DataTrigger Binding="{Binding Path=Error}"
-                                                                 Value="{x:Null}">
+                                                        Value="{x:Null}">
                                                         <Setter TargetName="MatrixLedErrorIcon"
-                                                                Property="Visibility"
-                                                                Value="Hidden" />
+                                                    Property="Visibility"
+                                                    Value="Hidden" />
                                                     </DataTrigger>
                                                     <DataTrigger Binding="{Binding Path=OutputState}"
-                                                                 Value="true">
+                                                        Value="true">
                                                         <Setter TargetName="MatrixLedOutputStateIcon"
-                                                                Property="Source"
-                                                                Value="{StaticResource image_light_on}" />
+                                                    Property="Source"
+                                                    Value="{StaticResource image_light_on}" />
                                                     </DataTrigger>
                                                 </DataTemplate.Triggers>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
                                     </ItemsControl>
                                     <Button Content="{x:Static lang:Main.AddMatrixLedOutputButton}"
-                                            HorizontalAlignment="Left"
-                                            Margin="0,10,0,0"
-                                            Command="{Binding Path=AddMatrixLedOutputCommand}" />
+                                HorizontalAlignment="Left"
+                                Margin="0,10,0,0"
+                                Command="{Binding Path=AddMatrixLedOutputCommand}" />
                                     <!-- PoExtBus -->
                                     <ItemsControl ItemsSource="{Binding Path=PoExtBusOutputList}"
                                                   Margin="0,10,0,0">
@@ -1143,8 +1143,8 @@
                                             Command="{Binding Path=PoVID6066.AddStepperCommand}" 
                                             Visibility="{Binding Path=PoVID6066.StepperSlotsAvailable, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                 </StackPanel>
-                            </GroupBox.Content>
-                        </GroupBox>
+                            </Expander.Content>
+                        </Expander>
                         <DataTemplate.Triggers>
                             <DataTrigger Binding="{Binding Path=Error}"
                                          Value="{x:Null}">
