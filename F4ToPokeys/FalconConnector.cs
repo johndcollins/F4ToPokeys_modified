@@ -519,6 +519,9 @@ namespace F4ToPokeys
             addToGaugeList(new FalconGauge("CURRENT HEADING", flightData => flightData.currentHeading, 0.0F, 360.0F, 3, 0, 0));
             addToGaugeList(new FalconGauge("HSI COURSE", flightData => flightData.desiredCourse, 0.0F, 360.0F, 3, 3, 0));
             addToGaugeList(new FalconGauge("HSI MILES", flightData => flightData.distanceToBeacon, 0.0F, 999.0F, 3, 3, 0));
+            addToGaugeList(new FalconGauge("PITCH", flightData => flightData.pitch, 0.0F, 6.283185307F, 1, 0, 9));
+            addToGaugeList(new FalconGauge("ROLL", flightData => flightData.roll, 0.0F, 6.283185307F, 1, 0, 9));
+            addToGaugeList(new FalconGauge("YAW", flightData => flightData.yaw, 0.0F, 6.283185307F, 1, 0, 9));
 
             //
             // Added missing F4Shared Memory Gauges - Beau
