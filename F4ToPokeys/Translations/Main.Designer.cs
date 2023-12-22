@@ -61,6 +61,15 @@ namespace F4ToPokeys.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Arduino Gauge Driver.
+        /// </summary>
+        public static string AddArduinoGaugeDriverButton {
+            get {
+                return ResourceManager.GetString("AddArduinoGaugeDriverButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add DEDuino.
         /// </summary>
         public static string AddDEDuinoButton {
@@ -174,6 +183,24 @@ namespace F4ToPokeys.Translations {
         public static string ApplicationTitle {
             get {
                 return ResourceManager.GetString("ApplicationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Arduino Gauge Driver.
+        /// </summary>
+        public static string ArduinoGaugeDriverConfigCaption {
+            get {
+                return ResourceManager.GetString("ArduinoGaugeDriverConfigCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not Found.
+        /// </summary>
+        public static string ArduinoGaugeDriverNotFoundError {
+            get {
+                return ResourceManager.GetString("ArduinoGaugeDriverNotFoundError", resourceCulture);
             }
         }
         
@@ -714,6 +741,24 @@ namespace F4ToPokeys.Translations {
         public static string PololuMaestroNotFoundError {
             get {
                 return ResourceManager.GetString("PololuMaestroNotFoundError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove Arduino Gauge Driver.
+        /// </summary>
+        public static string RemoveArduinoGaugeDriverCaption {
+            get {
+                return ResourceManager.GetString("RemoveArduinoGaugeDriverCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove Arduino Gauge Driver {0}?.
+        /// </summary>
+        public static string RemoveArduinoGaugeDriverText {
+            get {
+                return ResourceManager.GetString("RemoveArduinoGaugeDriverText", resourceCulture);
             }
         }
         

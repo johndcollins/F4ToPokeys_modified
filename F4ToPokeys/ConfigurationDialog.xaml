@@ -1440,6 +1440,160 @@
                     HorizontalAlignment="Left"
                     Margin="0,10,0,0"
                     Command="{Binding Path=ConfigHolder.Configuration.AddDEDuinoCommand}" />
+            <!-- ARDUINO GAUGE -->
+            <ItemsControl ItemsSource="{Binding Path=ConfigHolder.Configuration.ArduinoGaugeList}"
+                          Margin="0,10,0,0">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <GroupBox Margin="0,5,0,5">
+                            <GroupBox.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{x:Static lang:Main.ArduinoGaugeDriverConfigCaption}"
+                                               VerticalAlignment="Center" />
+                                    <ComboBox ItemsSource="{Binding Path=SerialNumberList}"
+                                              SelectedItem="{Binding Path=SerialNumber}"
+                                              Margin="5,0,0,0"
+                                              Width="100"
+                                              VerticalAlignment="Center" />
+                                    <Image x:Name="ArduinoGaugeDriverErrorIcon"
+                                           Source="{StaticResource image_erreur}"
+                                           Width="{StaticResource {x:Static SystemParameters.SmallIconWidthKey}}"
+                                           ToolTip="{Binding Path=Error}"
+                                           Margin="5,0,0,0"
+                                           VerticalAlignment="Center" />
+                                    <Button Content="{x:Static lang:Main.RemoveButton}"
+                                            Command="{Binding Path=RemoveArduinoGaugeDriverCommand}"
+                                            Margin="10,0,0,0"
+                                            VerticalAlignment="Center" />
+                                </StackPanel>
+                            </GroupBox.Header>
+                            <GroupBox.Content>
+                                <StackPanel Margin="5">
+                                    <ItemsControl ItemsSource="{Binding StepperMotorList}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Expander Margin="2">
+                                                    <Expander.Header>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="{x:Static lang:Main.StepperConfigCaption}"
+                                                                       VerticalAlignment="Center" />
+                                                            <ComboBox ItemsSource="{Binding Path=StepperMotorIdList}"
+                                                                      SelectedItem="{Binding Path=StepperMotorId}"
+                                                                      Margin="5,0,0,0"
+                                                                      Width="50"
+                                                                      VerticalAlignment="Center" />
+                                                            <Image Name="StepperMotorErrorIcon"
+                                                                   Source="{StaticResource image_erreur}"
+                                                                   Width="{StaticResource {x:Static SystemParameters.SmallIconWidthKey}}"
+                                                                   ToolTip="{Binding Path=Error}"
+                                                                   Margin="5,0,0,0"
+                                                                   VerticalAlignment="Center" />
+                                                            <Slider Value="{Binding Path=OutputTarget}"
+                                                                    Minimum="{Binding Path=MinStepperMotorValue}"
+                                                                    Maximum="{Binding Path=MaxStepperMotorValue}"
+                                                                    SmallChange="1"
+                                                                    LargeChange="100"
+                                                                    TickFrequency="{Binding Path=TickFrequency}"
+                                                                    TickPlacement="BottomRight"
+                                                                    Margin="10,0,0,0"
+                                                                    Width="200" />
+                                                            <TextBlock Text="{Binding Path=OutputTarget, UpdateSourceTrigger=PropertyChanged}"
+                                                                       Margin="5,0,0,0"
+                                                                       Width="50" />
+                                                            <ComboBox ItemsSource="{Binding Source={StaticResource FalconGaugeList}}"
+                                                                      SelectedItem="{Binding Path=FalconGauge}"
+                                                                      Margin="10,0,0,0"
+                                                                      Width="200"
+                                                                      DisplayMemberPath="Label"
+                                                                      VerticalAlignment="Center"
+                                                                      IsSynchronizedWithCurrentItem="False" />
+                                                            <TextBlock Text="{Binding Path=FalconValue, UpdateSourceTrigger=PropertyChanged}"
+                                                                       Margin="5,0,0,0"
+                                                                       Width="75"
+                                                                       VerticalAlignment="Center" />
+                                                            <Button Content="{x:Static lang:Main.RemoveButton}"
+                                                                    Command="{Binding Path=RemoveStepperMotorCommand}"
+                                                                    Margin="10,0,0,0"
+                                                                    VerticalAlignment="Center" />
+                                                        </StackPanel>
+                                                    </Expander.Header>
+                                                    <Expander.Content>
+                                                        <StackPanel Orientation="Horizontal"
+                                                                    Margin="20,5,0,5">
+                                                            <ListView ItemsSource="{Binding Path=Points}"
+                                                                      HorizontalAlignment="Left">
+                                                                <ListView.View>
+                                                                    <GridView>
+                                                                        <GridView.Columns>
+                                                                            <GridViewColumn Header="{x:Static lang:Main.StepperPointFalconValue}">
+                                                                                <GridViewColumn.CellTemplate>
+                                                                                    <DataTemplate>
+                                                                                        <TextBox Text="{Binding Path=FalconValue, UpdateSourceTrigger=PropertyChanged}"
+                                                                                                   Width="75" />
+                                                                                    </DataTemplate>
+                                                                                </GridViewColumn.CellTemplate>
+                                                                            </GridViewColumn>
+                                                                            <GridViewColumn Header="{x:Static lang:Main.StepperPointStepperValue}">
+                                                                                <GridViewColumn.CellTemplate>
+                                                                                    <DataTemplate>
+                                                                                        <TextBox Text="{Binding Path=StepperValue, UpdateSourceTrigger=PropertyChanged}"
+                                                                                                   Width="75" />
+                                                                                    </DataTemplate>
+                                                                                </GridViewColumn.CellTemplate>
+                                                                            </GridViewColumn>
+                                                                            <GridViewColumn>
+                                                                                <GridViewColumn.CellTemplate>
+                                                                                    <DataTemplate>
+                                                                                        <Button Content="{x:Static lang:Main.RemoveButton}"
+                                                                                                Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ListView, AncestorLevel=1}, Path=DataContext.RemoveAdditionalPointCommand}"
+                                                                                                CommandParameter="{Binding}" />
+                                                                                    </DataTemplate>
+                                                                                </GridViewColumn.CellTemplate>
+                                                                            </GridViewColumn>
+                                                                        </GridView.Columns>
+                                                                    </GridView>
+                                                                </ListView.View>
+                                                            </ListView>
+                                                            <Button Content="{x:Static lang:Main.AddStepperPointButton}"
+                                                                    VerticalAlignment="Center"
+                                                                    Margin="10,0,0,0"
+                                                                    Command="{Binding Path=AddAdditionalPointCommand}" />
+                                                        </StackPanel>
+                                                    </Expander.Content>
+                                                </Expander>
+                                                <DataTemplate.Triggers>
+                                                    <DataTrigger Binding="{Binding Path=Error}"
+                                                                 Value="{x:Null}">
+                                                        <Setter TargetName="StepperMotorErrorIcon"
+                                                                Property="Visibility"
+                                                                Value="Hidden" />
+                                                    </DataTrigger>
+                                                </DataTemplate.Triggers>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                    <Button Content="{x:Static lang:Main.AddStepperButton}"
+                                            HorizontalAlignment="Left"
+                                            Margin="0,10,0,0"
+                                            Command="{Binding Path=AddStepperMotorCommand}" />
+                                </StackPanel>
+                            </GroupBox.Content>
+                        </GroupBox>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Path=Error}"
+                                         Value="{x:Null}">
+                                <Setter TargetName="ArduinoGaugeDriverErrorIcon"
+                                        Property="Visibility"
+                                        Value="Hidden" />
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <Button Content="{x:Static lang:Main.AddArduinoGaugeDriverButton}"
+                        HorizontalAlignment="Left"
+                        Margin="0,10,0,0"
+                        Command="{Binding Path=ConfigHolder.Configuration.AddArduinoGaugeCommand}" />
         </StackPanel>
     </ScrollViewer>
 </Window>
