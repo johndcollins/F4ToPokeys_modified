@@ -28,6 +28,7 @@ namespace F4SharedMem.Headers
         // 18?: added EWMULines, EWPILines; added EWMU and EWPI RTT areas
         // 18: added floodconsole brightness
         // 19: added ECM_M1-5, ECM oper + blinkbit, magnetic deviation, RWR jamming status
+        // 20: added radio2_present and radio2_frequency, effective IFF transponder codes
 
         public const int RWRINFO_SIZE = 512;
         public const int CALLSIGN_LEN = 12;
@@ -62,7 +63,7 @@ namespace F4SharedMem.Headers
         public float hydPressureB;	// Ownship Hydraulic Pressure B
         public uint currentTime;	// Current time in seconds (max 60 * 60 * 24)
         public short vehicleACD;	// Ownship ACD index number, i.e. which aircraft type are we flying.
-        public int VersionNum;		// Version of FlightData2 mem area
+        public int VersionNum2;		// Version of FlightData2 mem area
 
         // VERSION 4
         public float fuelFlow2;    // Ownship fuel flow2 (Lbs/Hour)
@@ -147,7 +148,7 @@ namespace F4SharedMem.Headers
         int radio2_frequency;    // Radio 2 channel frequency (if present).
 
         // IFF transponder currently active (as seen from outside) codes, negative for OFF or n/a
-        byte iffTransponderActiveCode1;  // mode 1
+        sbyte iffTransponderActiveCode1;  // mode 1
         short iffTransponderActiveCode2;  // mode 2
         short iffTransponderActiveCode3A; // mode 3A
         short iffTransponderActiveCodeC;  // mode C
