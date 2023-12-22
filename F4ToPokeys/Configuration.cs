@@ -182,6 +182,7 @@ namespace F4ToPokeys
             AddPoKeysCommand = new RelayCommand(executeAddPoKeys);
             AddPololuMaestroCommand = new RelayCommand(executeAddPololuMaestro);
             AddDEDuinoCommand = new RelayCommand(executeAddDEDuino);
+            AddArduinoGaugeCommand = new RelayCommand(executeAddArduinoGauge);
         }
 
         public void setOwner()
@@ -194,6 +195,9 @@ namespace F4ToPokeys
 
             foreach (DEDuino deduino in DEDuinoList)
                 deduino.setOwner(this);
+
+            foreach (ArduinoGauge arduinoGauge in ArduinoGaugeList)
+                arduinoGauge.SetOwner(this);
         }
 
         public void Dispose()
@@ -299,6 +303,30 @@ namespace F4ToPokeys
             DEDuino deduino = new DEDuino();
             deduino.setOwner(this);
             DEDuinoList.Add(deduino);
+        }
+        #endregion
+
+        #region ArduinoGauge
+        private ObservableCollection<ArduinoGauge> arduinoGaugeList = new ObservableCollection<ArduinoGauge>();
+        public ObservableCollection<ArduinoGauge> ArduinoGaugeList
+        {
+            get { return arduinoGaugeList; }
+            set
+            {
+                arduinoGaugeList = value;
+                RaisePropertyChanged("ArduinoGaugeList");
+            }
+        }
+        #endregion
+
+        #region AddArduinoGaugeCommand
+        [XmlIgnore]
+        public RelayCommand AddArduinoGaugeCommand { get; private set; }
+        private void executeAddArduinoGauge(object o)
+        {
+            ArduinoGauge arduinoGauge = new ArduinoGauge();
+            arduinoGauge.SetOwner(this);
+            ArduinoGaugeList.Add(arduinoGauge);
         }
         #endregion
     }

@@ -567,4 +567,19 @@
   <data name="StepperHomingTimeoutCaption" xml:space="preserve">
     <value>Timeout Milliseconds</value>
   </data>
+  <data name="ArduinoGaugeDriverConfigCaption" xml:space="preserve">
+    <value>Arduino Gauge Driver</value>
+  </data>
+  <data name="ArduinoGaugeDriverNotFoundError" xml:space="preserve">
+    <value>Not Found</value>
+  </data>
+  <data name="RemoveArduinoGaugeDriverCaption" xml:space="preserve">
+    <value>Remove Arduino Gauge Driver</value>
+  </data>
+  <data name="RemoveArduinoGaugeDriverText" xml:space="preserve">
+    <value>Remove Arduino Gauge Driver {0}?</value>
+  </data>
+  <data name="AddArduinoGaugeDriverButton" xml:space="preserve">
+    <value>Add Arduino Gauge Driver</value>
+  </data>
 </root>
