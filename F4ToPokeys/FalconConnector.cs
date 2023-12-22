@@ -13,6 +13,9 @@ namespace F4ToPokeys
 {
     public class FalconConnector
     {
+        public const float TWO_PI = (float)(Math.PI * 2);
+        public const float RTD = (float)(180.0 / Math.PI);
+
         #region Singleton
         public static FalconConnector Singleton
         {
@@ -519,9 +522,12 @@ namespace F4ToPokeys
             addToGaugeList(new FalconGauge("CURRENT HEADING", flightData => flightData.currentHeading, 0.0F, 360.0F, 3, 0, 0));
             addToGaugeList(new FalconGauge("HSI COURSE", flightData => flightData.desiredCourse, 0.0F, 360.0F, 3, 3, 0));
             addToGaugeList(new FalconGauge("HSI MILES", flightData => flightData.distanceToBeacon, 0.0F, 999.0F, 3, 3, 0));
-            addToGaugeList(new FalconGauge("PITCH", flightData => flightData.pitch, 0.0F, 6.283185307F, 1, 0, 9));
-            addToGaugeList(new FalconGauge("ROLL", flightData => flightData.roll, 0.0F, 6.283185307F, 1, 0, 9));
-            addToGaugeList(new FalconGauge("YAW", flightData => flightData.yaw, 0.0F, 6.283185307F, 1, 0, 9));
+            addToGaugeList(new FalconGauge("PITCH", flightData => flightData.pitch, -TWO_PI, TWO_PI, 1, 0, 9));
+            addToGaugeList(new FalconGauge("ROLL", flightData => flightData.roll, -TWO_PI, TWO_PI, 1, 0, 9));
+            addToGaugeList(new FalconGauge("YAW", flightData => flightData.yaw, -TWO_PI, TWO_PI, 1, 0, 9));
+            addToGaugeList(new FalconGauge("PITCH DEGREES", flightData => flightData.pitch * RTD, -360, 360, 3, 0, 2));
+            addToGaugeList(new FalconGauge("ROLL DEGREES", flightData => flightData.roll * RTD, -360, 360, 3, 0, 2));
+            addToGaugeList(new FalconGauge("YAW DEGREES", flightData => flightData.yaw * RTD, -360, 360, 3, 0, 2));
 
             //
             // Added missing F4Shared Memory Gauges - Beau
