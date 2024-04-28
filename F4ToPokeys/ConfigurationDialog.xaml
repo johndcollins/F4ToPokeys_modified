@@ -1350,6 +1350,12 @@
                                             VerticalAlignment="Center" />
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
+                                        <CheckBox Content="{x:Static lang:Main.DEDuinoAltimeterCaption}"
+                                            IsChecked="{Binding Path=Altimeter}"
+                                            Margin="5,0,0,0"
+                                            VerticalAlignment="Center" HorizontalAlignment="Left" />
+                                    </StackPanel>                                    
+                                    <StackPanel Orientation="Horizontal">
                                         <CheckBox Content="{x:Static lang:Main.DEDuinoFFICaption}"
                                             IsChecked="{Binding Path=FFI}"
                                             Margin="5,0,0,0"

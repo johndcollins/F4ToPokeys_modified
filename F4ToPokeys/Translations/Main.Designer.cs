@@ -223,6 +223,15 @@ namespace F4ToPokeys.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Altimeter.
+        /// </summary>
+        public static string DEDuinoAltimeterCaption {
+            get {
+                return ResourceManager.GetString("DEDuinoAltimeterCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to BMS432.
         /// </summary>
         public static string DEDuinoBMS432Caption {
