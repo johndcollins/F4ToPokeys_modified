@@ -425,9 +425,9 @@ namespace F4ToPokeys
                     if (Altimeter)
                     {
                         if (powerOn)
-                            SendBytes(BitConverter.GetBytes(altBaro), 5);
+                            SendBytes(BitConverter.GetBytes(altBaro), 4);
                         else
-                            SendBytes(BitConverter.GetBytes(uint.MinValue), 5);
+                            SendBytes(BitConverter.GetBytes(uint.MinValue), 4);
                     }
                     break;
                 #endregion
