@@ -414,7 +414,7 @@ namespace F4ToPokeys
                     if (Altimeter)
                     {
                         if (powerOn)
-                            SendLine(Alt1000Convert((altitude)).PadLeft(5, '0'), 5);
+                            SendLine(ConvertAlt((altitude)).PadLeft(5, '0'), 5);
                         else
                             SendLine("0".PadRight(5, '0'), 5);
                     }
@@ -859,9 +859,13 @@ namespace F4ToPokeys
             return result;
         }
 
-        private string Alt1000Convert(float alt)
+        private string ConvertAlt(float alt)
         {
-            return (Math.Round(Convert.ToDecimal(alt) % 1000, 0)).ToString();
+            decimal thousands = Math.Round(Convert.ToDecimal(alt - (float)(Convert.ToDecimal(alt) % 1000)), 0);
+            decimal hundreds = Math.Round(Convert.ToDecimal(alt - (float)(Convert.ToDecimal(alt) % 100)), 0) - thousands;
+            decimal tens = Math.Round(Convert.ToDecimal(alt - (float)(Convert.ToDecimal(alt) % 10)), 0) - (thousands + hundreds);
+            decimal total = thousands / 10 + hundreds / 10 + tens / 10;
+            return total.ToString();
         }
 
         private string FuelFlowConvert(float FuelFlow)
