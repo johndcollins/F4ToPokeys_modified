@@ -425,7 +425,7 @@ namespace F4ToPokeys
                     if (Altimeter)
                     {
                         if (powerOn)
-                            SendLine(altBaro.ToString().PadLeft(5, '0'), 5);
+                            SendLine(Math.Round(altBaro * 100, 0).ToString().PadLeft(5, '0'), 5);
                         else
                             SendLine("0".PadRight(5, '0'), 5);
                     }
