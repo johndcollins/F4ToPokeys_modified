@@ -60,7 +60,7 @@ namespace F4ToPokeys
 
         // Altitude
         private float altitude = 0.0f;
-        private float altBaro = 29.92f;
+        private float altBaro = 2992f;
 
         #endregion
 
@@ -112,8 +112,8 @@ namespace F4ToPokeys
                 rpm = e.newFlightData.rpm;
                 ftit = e.newFlightData.ftit;
 
-                altitude = e.newFlightData.aauz;
-                altBaro = e.newFlightData.AltCalReading / 100;
+                altitude = -e.newFlightData.aauz;
+                altBaro = e.newFlightData.AltCalReading;
             }
             else
             {
@@ -136,6 +136,9 @@ namespace F4ToPokeys
                 nozzlePos = 0.0f;
                 rpm = 0.0f;
                 ftit = 0.0f;
+
+                altitude = 0.0f;
+                altBaro = 2992f;
             }
         }
 
@@ -414,7 +417,7 @@ namespace F4ToPokeys
                     if (Altimeter)
                     {
                         if (powerOn)
-                            SendLine(ConvertAlt((-altitude)).PadLeft(5, '0'), 5);
+                            SendLine(ConvertAlt(altitude).PadLeft(5, '0'), 5);
                         else
                             SendLine("0".PadRight(5, '0'), 5);
                     }
@@ -425,7 +428,7 @@ namespace F4ToPokeys
                     if (Altimeter)
                     {
                         if (powerOn)
-                            SendLine(Math.Round(altBaro * 100, 0).ToString().PadLeft(5, '0'), 5);
+                            SendLine(Math.Round(altBaro, 0).ToString().PadLeft(5, '0'), 5);
                         else
                             SendLine("0".PadRight(5, '0'), 5);
                     }
