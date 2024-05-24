@@ -185,35 +185,42 @@ namespace F4SharedMem
             var valuesToAssign = new OptionSelectButtonLabel[currentValue.Length];
             for (var j = 0; j < currentValue.Length; j++)
             {
+                var tmpLine1 = "";
+                var tmpLine2 = "";
+
                 var currentItem = currentValue[j];
                 var label = new OptionSelectButtonLabel();
                 var lineBuilder = new StringBuilder(currentItem.Line1.Length);
-
                 foreach (var chr in currentItem.Line1)
                 {
                     if (chr == 0)
                     {
-                        lineBuilder.Append(" ");
+                        break;
                     }
                     else
                     {
                         lineBuilder.Append((char)chr);
                     }
                 }
-                label.Line1 = lineBuilder.ToString();
+                tmpLine1 = lineBuilder.ToString().Trim();
+
+                label.Line1 = tmpLine1;
+
                 lineBuilder = new StringBuilder(currentItem.Line2.Length);
                 foreach (var chr in currentItem.Line2)
                 {
                     if (chr == 0)
                     {
-                        lineBuilder.Append(" ");
+                        break;
                     }
                     else
                     {
                         lineBuilder.Append((char)chr);
                     }
                 }
-                label.Line2 = lineBuilder.ToString();
+                tmpLine2 = lineBuilder.ToString().Trim();
+
+                label.Line2 = tmpLine2;
                 label.Inverted = currentItem.Inverted;
                 valuesToAssign[j] = label;
             }
@@ -332,7 +339,7 @@ namespace F4SharedMem
         public float total;
 
         public int VersionNum;    //Version of Mem area
-        public int VersionNum2;     // Version of Mem area
+        public int VersionNum2;    //Version of Mem area
         public float headX;        // Head X offset from design eye (feet)
         public float headY;        // Head Y offset from design eye (feet)
         public float headZ;        // Head Z offset from design eye (feet)
@@ -421,7 +428,7 @@ namespace F4SharedMem
         public int radio2_frequency;    // Radio 2 channel frequency (if present).
 
         // IFF transponder currently active (as seen from outside) codes, negative for OFF or n/a
-        public byte iffTransponderActiveCode1;  // mode 1
+        public sbyte iffTransponderActiveCode1;  // mode 1
         public short iffTransponderActiveCode2;  // mode 2
         public short iffTransponderActiveCode3A; // mode 3A
         public short iffTransponderActiveCodeC;  // mode C

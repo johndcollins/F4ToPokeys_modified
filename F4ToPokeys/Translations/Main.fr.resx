@@ -572,5 +572,7 @@
   </data>
   <data name="RemoveStepperMotorText" xml:space="preserve">
     <value>Remove stepper motor {0}?</value>
+  <data name="DEDuinoAltimeterCaption" xml:space="preserve">
+    <value>Altimeter</value>
   </data>
 </root>

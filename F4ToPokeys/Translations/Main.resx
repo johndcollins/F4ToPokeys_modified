@@ -581,5 +581,7 @@
   </data>
   <data name="AddArduinoGaugeDriverButton" xml:space="preserve">
     <value>Add Arduino Gauge Driver</value>
+  <data name="DEDuinoAltimeterCaption" xml:space="preserve">
+    <value>Altimeter</value>
   </data>
 </root>
