@@ -544,6 +544,11 @@ namespace F4ToPokeys
             addToGaugeList(new FalconGauge("CDI", flightData => flightData.courseDeviation, -10.0F, 10.0F, 4, 3, 1));
             addToGaugeList(new FalconGauge("CABIN ALT", flightData => flightData.cabinAlt, 0.0F, 60000.0F, 5, 0, 0));
 
+            addToGaugeList(new FalconGauge("IFF BACKUP MODE 1 DIGIT 1", flightData => flightData.iffBackupMode1Digit1, 0.0F, 9.0F, 1, 1, 0));
+            addToGaugeList(new FalconGauge("IFF BACKUP MODE 1 DIGIT 2", flightData => flightData.iffBackupMode1Digit2, 0.0F, 9.0F, 1, 1, 0));
+            addToGaugeList(new FalconGauge("IFF BACKUP MODE 3A DIGIT 1", flightData => flightData.iffBackupMode3ADigit1, 0.0F, 9.0F, 1, 1, 0));
+            addToGaugeList(new FalconGauge("IFF BACKUP MODE 3A DIGIT 2", flightData => flightData.iffBackupMode3ADigit2, 0.0F, 9.0F, 1, 1, 0));
+
             // Added missing Gs
             addToGaugeList(new FalconGauge("Gs", flightData => flightData.gs, 0.0F, 10.0F, 1, 0, 0));
 
