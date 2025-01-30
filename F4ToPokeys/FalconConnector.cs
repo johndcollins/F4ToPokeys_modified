@@ -292,19 +292,19 @@ namespace F4ToPokeys
             // New Blinking Lamps - Beau & Eric
             //
             addToLightList(new FalconBlinkingLamp(threatWarningPrime, "LAUNCH",
-                flightData => (flightData.lightBits2 & (int)LightBits2.Launch) != 0, BlinkBits.Launch, 260));
+                flightData => (flightData.lightBits2 & (int)LightBits2.Launch) != 0, BlinkBits.Launch, 250));
             addToLightList(new FalconBlinkingLamp(threatWarningAuxiliary, "SEARCH",
-                flightData => ((flightData.lightBits2 & (int)LightBits2.AuxSrch) != 0) && ((flightData.lightBits2 & (int)LightBits2.AuxPwr) != 0), BlinkBits.AuxSrch, 250));
+                flightData => ((flightData.lightBits2 & (int)LightBits2.AuxSrch) != 0) && ((flightData.lightBits2 & (int)LightBits2.AuxPwr) != 0), BlinkBits.AuxSrch, 1000));
             addToLightList(new FalconBlinkingLamp(threatWarningPrime, "PRIORITY",
-                flightData => (flightData.lightBits2 & (int)LightBits2.PriMode) != 0, BlinkBits.PriMode, 250));
+                flightData => (flightData.lightBits2 & (int)LightBits2.PriMode) != 0, BlinkBits.PriMode, 1000));
             addToLightList(new FalconBlinkingLamp(threatWarningPrime, "UNKNOWN",
-                flightData => (flightData.lightBits2 & (int)LightBits2.Unk) != 0, BlinkBits.Unk, 250));
+                flightData => (flightData.lightBits2 & (int)LightBits2.Unk) != 0, BlinkBits.Unk, 500));
             addToLightList(new FalconBlinkingLamp(centerConsole, "OUTER MARKER",
                 flightData => (flightData.hsiBits & (int)HsiBits.OuterMarker) != 0, BlinkBits.OuterMarker, 500));
             addToLightList(new FalconBlinkingLamp(centerConsole, "MIDDLE MARKER",
-                flightData => (flightData.hsiBits & (int)HsiBits.MiddleMarker) != 0, BlinkBits.MiddleMarker, 250));
+                flightData => (flightData.hsiBits & (int)HsiBits.MiddleMarker) != 0, BlinkBits.MiddleMarker, 700));
             addToLightList(new FalconBlinkingLamp(cautionlightPanel, "PROBE HEAT",
-                flightData => (flightData.lightBits2 & (int)LightBits2.PROBEHEAT) != 0, BlinkBits.PROBEHEAT, 100));
+                flightData => (flightData.lightBits2 & (int)LightBits2.PROBEHEAT) != 0, BlinkBits.PROBEHEAT, 250));
 
             addToLightList(new FalconTWPOpenLight(threatWarningPrime, "OPEN", flightData => (flightData.lightBits2 & (int)LightBits2.PriMode) != 0));
             addToLightList(new FalconLightBit2(threatWarningAuxiliary, "ACTIVITY", LightBits2.AuxAct));
