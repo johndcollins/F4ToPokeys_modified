@@ -296,7 +296,7 @@ namespace F4ToPokeys
             addToLightList(new FalconBlinkingLamp(threatWarningAuxiliary, "SEARCH",
                 flightData => ((flightData.lightBits2 & (int)LightBits2.AuxSrch) != 0) && ((flightData.lightBits2 & (int)LightBits2.AuxPwr) != 0), BlinkBits.AuxSrch, 1000));
             addToLightList(new FalconBlinkingLamp(threatWarningPrime, "PRIORITY",
-                flightData => (flightData.lightBits2 & (int)LightBits2.PriMode) != 0, BlinkBits.PriMode, 1000));
+                flightData => (flightData.lightBits2 & (int)LightBits2.PriMode) != 0, BlinkBits.PriMode, 250));
             addToLightList(new FalconBlinkingLamp(threatWarningPrime, "UNKNOWN",
                 flightData => (flightData.lightBits2 & (int)LightBits2.Unk) != 0, BlinkBits.Unk, 500));
             addToLightList(new FalconBlinkingLamp(centerConsole, "OUTER MARKER",
