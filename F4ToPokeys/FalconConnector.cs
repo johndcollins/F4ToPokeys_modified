@@ -8,6 +8,7 @@ using SimplifiedCommon.Win32;
 using F4SharedMem;
 using F4SharedMem.Headers;
 using System.Collections.ObjectModel;
+using System.Runtime.InteropServices;
 
 namespace F4ToPokeys
 {
@@ -15,6 +16,9 @@ namespace F4ToPokeys
     {
         public const float TWO_PI = (float)(Math.PI * 2);
         public const float RTD = (float)(180.0 / Math.PI);
+
+        // Undocumented hack: check this mutex to detect if BMS is running (this works, as of BMS 4.37.6)
+        private const string FalconSemaphore = "FALCONBMS-9B416580-DE23-11B2-A386-000C6E135DDE";
 
         #region Singleton
         public static FalconConnector Singleton
@@ -62,7 +66,7 @@ namespace F4ToPokeys
         {
             if (reader == null)
             {
-                if (GetFalconWindowHandle() != IntPtr.Zero)
+                if (IsBMSRunning())
                 {
                     reader = new Reader();
                     if (!reader.IsFalconRunning)
@@ -80,7 +84,7 @@ namespace F4ToPokeys
             }
             else
             {
-                if (GetFalconWindowHandle() == IntPtr.Zero)
+                if (!IsBMSRunning())
                 {
                     DebugUtils.Speak(string.Format("Falcon stopped"));
                     reader.Dispose();
@@ -198,6 +202,21 @@ namespace F4ToPokeys
         #endregion Events
 
         #region Static Falcon functions
+
+        private const uint SYNCHRONIZE = 0x00100000;
+
+        // Undocumented hack: check this mutex to detect if BMS is running (this works, as of BMS 4.37.6)
+        private static bool IsBMSRunning()
+        {
+            IntPtr hBMSRunningMutex = NativeMethods.OpenMutex(SYNCHRONIZE, false, FalconSemaphore);
+            if (hBMSRunningMutex != IntPtr.Zero)
+            {
+                NativeMethods.CloseHandle(hBMSRunningMutex);
+                return true;
+            }
+
+            return false;
+        }
 
         public static IntPtr GetFalconWindowHandle()
         {

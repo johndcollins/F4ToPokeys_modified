@@ -611,5 +611,8 @@ namespace SimplifiedCommon.Win32
 
         [DllImport("user32.dll")]
         public static extern uint MapVirtualKey(uint uCode, uint uMapType);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern IntPtr OpenMutex(uint desiredAccess, bool inheritHandle, string name);
     }
 }
