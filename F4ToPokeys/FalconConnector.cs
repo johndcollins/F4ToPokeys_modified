@@ -547,6 +547,8 @@ namespace F4ToPokeys
             addToGaugeList(new FalconGauge("PITCH DEGREES", flightData => flightData.pitch * RTD, -360, 360, 3, 0, 2));
             addToGaugeList(new FalconGauge("ROLL DEGREES", flightData => flightData.roll * RTD, -360, 360, 3, 0, 2));
             addToGaugeList(new FalconGauge("YAW DEGREES", flightData => flightData.yaw * RTD, -360, 360, 3, 0, 2));
+            addToGaugeList(new FalconGauge("ADI ILS VERTICAL POSITION", flightData => flightData.AdiIlsVerPos, -360, 360, 3, 0, 2));
+            addToGaugeList(new FalconGauge("ADI ILS HOROZONTAL POSITION", flightData => flightData.AdiIlsHorPos, -360, 360, 3, 0, 2));
 
             //
             // Added missing F4Shared Memory Gauges - Beau
@@ -586,6 +588,7 @@ namespace F4ToPokeys
 
         #endregion // GaugeList
     }
+
 
     #region FlightDataChangedEventArgs
 
