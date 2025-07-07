@@ -376,6 +376,9 @@ namespace F4ToPokeys
             addToLightList(new FalconHsiBits(centerConsole, "ADI AUX FLAG", HsiBits.ADI_AUX));
             addToLightList(new FalconHsiBits(centerConsole, "ADI GS FLAG", HsiBits.ADI_GS));
             addToLightList(new FalconHsiBits(centerConsole, "ADI LOC FLAG", HsiBits.ADI_LOC));
+            addToLightList(new FalconDataBits(centerConsole, "ADI SHOW CMD BARS", flightdata => DetermineWhetherToShowILSCommandBars(flightdata)));
+            addToLightList(new FalconDataBits(centerConsole, "ADI SHOW TO/FROM FLAGS", flightdata => DetermineWhetherToShowILSToFromFlags(flightdata)));
+
             addToLightList(new FalconHsiBits(centerConsole, "BUP ADI OFF FLAG", HsiBits.BUP_ADI_OFF));
             addToLightList(new FalconHsiBits(centerConsole, "VVI OFF FLAG", HsiBits.VVI));
             addToLightList(new FalconHsiBits(centerConsole, "AOA OFF FLAG", HsiBits.AOA));
@@ -586,6 +589,63 @@ namespace F4ToPokeys
                 GaugeList.Add(falconGauge);
         }
 
+        private static bool DetermineWhetherToShowILSToFromFlags(FlightData flightData)
+        {
+            const float RADIANS_PER_DEGREE = 0.0174532925f;
+            var showToFromFlag = true;
+            var showCommandBars = Math.Abs(flightData.AdiIlsVerPos / RADIANS_PER_DEGREE) <= flightData.deviationLimit / 5.0f
+                              && Math.Abs(flightData.AdiIlsHorPos / RADIANS_PER_DEGREE) <= flightData.deviationLimit
+                              && ((HsiBits)flightData.hsiBits & HsiBits.ADI_GS) != HsiBits.ADI_GS
+                              && ((HsiBits)flightData.hsiBits & HsiBits.ADI_LOC) != HsiBits.ADI_LOC
+                              && ((HsiBits)flightData.hsiBits & HsiBits.ADI_OFF) != HsiBits.ADI_OFF;
+
+            switch (flightData.navMode)
+            {
+                case 0: //NavModes.PlsTcn:
+                    showToFromFlag = false;
+                    break;
+                case 1: //NavModes.Tcn:
+                    showToFromFlag = true;
+                    showCommandBars = false;
+                    break;
+                case 2: //NavModes.Nav:
+                    showToFromFlag = false;
+                    showCommandBars = false;
+                    break;
+                case 3: //NavModes.PlsNav:
+                    showToFromFlag = false;
+                    break;
+            }
+
+            showToFromFlag &= !showCommandBars;
+            return showToFromFlag;
+        }
+
+        private static bool DetermineWhetherToShowILSCommandBars(FlightData flightData)
+        {
+            const float RADIANS_PER_DEGREE = 0.0174532925f;
+            var showCommandBars = Math.Abs(flightData.AdiIlsVerPos / RADIANS_PER_DEGREE) <= flightData.deviationLimit / 5.0f
+                              && Math.Abs(flightData.AdiIlsHorPos / RADIANS_PER_DEGREE) <= flightData.deviationLimit
+                              && ((HsiBits)flightData.hsiBits & HsiBits.ADI_GS) != HsiBits.ADI_GS
+                              && ((HsiBits)flightData.hsiBits & HsiBits.ADI_LOC) != HsiBits.ADI_LOC
+                              && ((HsiBits)flightData.hsiBits & HsiBits.ADI_OFF) != HsiBits.ADI_OFF;
+
+            switch (flightData.navMode)
+            {
+                case 0: //NavModes.PlsTcn:
+                    break;
+                case 1: //NavModes.Tcn:
+                    showCommandBars = false;
+                    break;
+                case 2: //NavModes.Nav:
+                    showCommandBars = false;
+                    break;
+                case 3: //NavModes.PlsNav:
+                    break;
+            }
+
+            return showCommandBars;
+        }
         #endregion // GaugeList
     }
 
