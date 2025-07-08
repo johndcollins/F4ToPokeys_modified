@@ -589,7 +589,7 @@ namespace F4ToPokeys
                 GaugeList.Add(falconGauge);
         }
 
-        private static bool DetermineWhetherToShowILSToFromFlags(FlightData flightData)
+        internal static bool DetermineWhetherToShowILSToFromFlags(FlightData flightData)
         {
             const float RADIANS_PER_DEGREE = 0.0174532925f;
             var showToFromFlag = true;
@@ -621,7 +621,7 @@ namespace F4ToPokeys
             return showToFromFlag;
         }
 
-        private static bool DetermineWhetherToShowILSCommandBars(FlightData flightData)
+        internal static bool DetermineWhetherToShowILSCommandBars(FlightData flightData)
         {
             const float RADIANS_PER_DEGREE = 0.0174532925f;
             var showCommandBars = Math.Abs(flightData.AdiIlsVerPos / RADIANS_PER_DEGREE) <= flightData.deviationLimit / 5.0f

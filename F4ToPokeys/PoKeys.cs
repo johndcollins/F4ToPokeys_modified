@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using F4SharedMem;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using System.Xml.Serialization;
 using System.Windows;
+using System.Xml.Serialization;
 
 namespace F4ToPokeys
 {
@@ -304,6 +305,13 @@ namespace F4ToPokeys
             memorySlotOutput.Slot = new MemorySlot("BupUhfPresetChannel", flightData => (uint)flightData.BupUhfPreset, 0x1f, 0, "0 - 8", true, "2 BCD Digits");
             addToSlotList(memorySlotOutput);
 
+            memorySlotOutput = new MemorySlotOutput(15);
+            memorySlotOutput.Slot = new MemorySlot("ADIShowCommandBars", flightData => (uint)(FalconConnector.DetermineWhetherToShowILSCommandBars(flightData) ? 1: 0), 0x1, 0, "0", false, "bool");
+            addToSlotList(memorySlotOutput);
+
+            memorySlotOutput = new MemorySlotOutput(15);
+            memorySlotOutput.Slot = new MemorySlot("ADIShowToFromFlags", flightData => (uint)(FalconConnector.DetermineWhetherToShowILSToFromFlags(flightData) ? 1 : 0), 0x1, 1, "1", false, "bool");
+            addToSlotList(memorySlotOutput);
         }
 
         private void DeleteMemorySlotList()
