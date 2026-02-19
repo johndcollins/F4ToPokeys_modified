@@ -7,6 +7,7 @@ DEDuino
  * Adapted to F4ToPokeys by John Collins and Beau Williamsen
 */
 
+using F4SharedMem;
 using F4SharedMem.Headers;
 using System;
 using System.Collections;
@@ -44,6 +45,9 @@ namespace F4ToPokeys
         private float fuelFlow = 0;
         private float fuelFlow2 = 0;
 
+        // Fuel Quantity
+        private float fuelQtyTotal = 0;
+
         // SpeedBrakes
         private uint powerBits = 0;
         private float speeddBrakeValue;
@@ -62,6 +66,9 @@ namespace F4ToPokeys
         private float altitude = 0.0f;
         private float altBaro = 2992f;
 
+        // UHF
+        private int bupUhfPreset = 0;
+        private int bupUhfFreq = 0;
         #endregion
 
         #region Construction
@@ -101,6 +108,8 @@ namespace F4ToPokeys
                 fuelFlow = e.newFlightData.fuelFlow;
                 fuelFlow2 = e.newFlightData.fuelFlow2;
 
+                fuelQtyTotal = e.newFlightData.total;
+
                 powerBits = e.newFlightData.powerBits;
                 speeddBrakeValue = e.newFlightData.speedBrake;
 
@@ -114,6 +123,9 @@ namespace F4ToPokeys
 
                 altitude = -e.newFlightData.aauz;
                 altBaro = e.newFlightData.AltCalReading;
+
+                bupUhfPreset = e.newFlightData.BupUhfPreset;
+                bupUhfFreq = e.newFlightData.BupUhfFreq;
             }
             else
             {
@@ -125,6 +137,8 @@ namespace F4ToPokeys
 
                 fuelFlow = 0.0f;
                 fuelFlow2 = 0.0f;
+
+                fuelQtyTotal = 0.0f;
 
                 powerBits = 0;
                 speeddBrakeValue = 0.0f;
@@ -139,6 +153,9 @@ namespace F4ToPokeys
 
                 altitude = 0.0f;
                 altBaro = 2992f;
+
+                bupUhfPreset = 0;
+                bupUhfFreq = 0;
             }
         }
 
@@ -412,6 +429,24 @@ namespace F4ToPokeys
                     }
                     break;
                 #endregion
+                case 'H':
+                    #region UHF
+                    if (UHF)
+                    {
+                        if (powerOn)
+                        {
+                            SendBytes(BitConverter.GetBytes(bupUhfPreset));
+                            SendBytes(BitConverter.GetBytes(bupUhfFreq));
+                        }
+                        else
+                        {
+                            int tmp = 0;
+                            SendBytes(BitConverter.GetBytes(tmp));
+                            SendBytes(BitConverter.GetBytes(tmp));
+                        }
+                    }
+                    break;
+                    #endregion
                 case 'K':
                     #region ALT1000
                     if (Altimeter)
@@ -442,6 +477,29 @@ namespace F4ToPokeys
                             SendLine(FuelFlowConvert((fuelFlow + fuelFlow2)).PadLeft(5, '0'), 5);
                         else
                             SendLine("0".PadRight(5, '0'), 5);
+                    }
+                    break;
+                case 'g':
+                    if (FFI)
+                    {
+                        if (powerOn)
+                            SendLine(FuelFlowConvertFull((fuelFlow + fuelFlow2)).PadLeft(5, '0'), 5);
+                        else
+                            SendLine("0".PadRight(5, '0'), 5);
+                    }
+                    break;                
+                    #endregion
+                case 'f':
+                    #region Fuel Quantity
+                    if (FQI)
+                    {
+                        if (powerOn)
+                            SendBytes(BitConverter.GetBytes(fuelQtyTotal));
+                        else
+                        {
+                            float tmp = 0.0f;
+                            SendBytes(BitConverter.GetBytes(tmp));
+                        }
                     }
                     break;
                 #endregion
@@ -541,6 +599,11 @@ namespace F4ToPokeys
         #endregion
 
         #region SendBytes
+        private void SendBytes(byte[] sendThis)
+        {
+            if (serialPort.IsOpen)
+                serialPort.Write(sendThis, 0, sendThis.Length);
+        }
         private void SendBytes(byte[] sendThis, int length)
         {
             if (serialPort.IsOpen)
@@ -650,6 +713,20 @@ namespace F4ToPokeys
 
         //[XmlIgnore]
         //public bool CanFFIBeChecked => (!DED && !PFL && !Indexers && !CautionPanel && !SpeedBrakes && !CMDS && !GlareShield && !Engine);
+        #endregion
+
+        #region FQI
+        public bool FQI
+        {
+            get { return fqi; }
+            set
+            {
+                fqi = value;
+                RaisePropertyChanged("FQI");
+            }
+        }
+
+        private bool fqi = false;
         #endregion
 
         #region CautionPanel
@@ -787,6 +864,20 @@ namespace F4ToPokeys
         //public bool CanCMDSBeChecked => (!DED && !PFL && !FFI && !CautionPanel && !Indexers && !SpeedBrakes && !GlareShield && !Engine);
         #endregion
 
+        #region UHF
+        public bool UHF
+        {
+            get { return uhf; }
+            set
+            {
+                uhf = value;
+                RaisePropertyChanged("UHF");
+            }
+        }
+
+        private bool uhf = false;
+        #endregion
+
         #region GlareShield
         public bool GlareShield
         {
@@ -867,12 +958,22 @@ namespace F4ToPokeys
             return Math.Round(alt, 0).ToString();
         }
 
+        private string ConvertFQI(float fuel)
+        {
+            return Math.Round(fuel, 0).ToString();
+        }
+
         private string FuelFlowConvert(float FuelFlow)
         {
             if (FFI_PR_MINUTE)
                 return (Math.Round(Convert.ToDecimal(FuelFlow) / 6) * 10).ToString();
 
             return (Math.Round(Convert.ToDecimal(FuelFlow) / 10) * 10).ToString();
+        }
+
+        private string FuelFlowConvertFull(float FuelFlow)
+        {
+            return Math.Round(Convert.ToDecimal(FuelFlow)).ToString();
         }
 
         private byte[] MakeCautionPanel(string version = "new")

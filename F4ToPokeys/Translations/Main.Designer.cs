@@ -304,6 +304,15 @@ namespace F4ToPokeys.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to FQI.
+        /// </summary>
+        public static string DEDuinoFQICaption {
+            get {
+                return ResourceManager.GetString("DEDuinoFQICaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Glare Shield.
         /// </summary>
         public static string DEDuinoGlareShieldCaption {
@@ -345,6 +354,15 @@ namespace F4ToPokeys.Translations {
         public static string DEDuinoSpeedBrakesCaption {
             get {
                 return ResourceManager.GetString("DEDuinoSpeedBrakesCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UHF.
+        /// </summary>
+        public static string DEDuinoUHFCaption {
+            get {
+                return ResourceManager.GetString("DEDuinoUHFCaption", resourceCulture);
             }
         }
         

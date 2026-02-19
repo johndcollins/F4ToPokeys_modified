@@ -492,11 +492,11 @@
   <data name="StepperSoftLimitMinimumCaption" xml:space="preserve">
     <value>Minimum</value>
   </data>
-  <data name="StepperSoftLimitEnabledCaption" xml:space="preserve">
-    <value>Soft Limit Enabled</value>
-  </data>
   <data name="StepperContinuousCaption" xml:space="preserve">
     <value>Continuous Rotation</value>
+  </data>
+  <data name="StepperSoftLimitEnabledCaption" xml:space="preserve">
+    <value>Soft Limit Enabled</value>
   </data>
   <data name="FalconValueCaption" xml:space="preserve">
     <value>Falcon Value</value>
@@ -569,5 +569,11 @@
   </data>
   <data name="DEDuinoAltimeterCaption" xml:space="preserve">
     <value>Altimeter</value>
+  </data>
+  <data name="DEDuinoFQICaption" xml:space="preserve">
+    <value>FQI</value>
+  </data>
+  <data name="DEDuinoUHFCaption" xml:space="preserve">
+    <value>UHF</value>
   </data>
 </root>

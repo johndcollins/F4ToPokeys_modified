@@ -570,4 +570,10 @@
   <data name="DEDuinoAltimeterCaption" xml:space="preserve">
     <value>Altimeter</value>
   </data>
+  <data name="DEDuinoFQICaption" xml:space="preserve">
+    <value>FQI</value>
+  </data>
+  <data name="DEDuinoUHFCaption" xml:space="preserve">
+    <value>UHF</value>
+  </data>
 </root>
