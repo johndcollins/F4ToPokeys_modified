@@ -982,7 +982,7 @@ namespace F4ToPokeys
          */
         {
             BitArray mapping = new BitArray(32, false);
-            byte[] result = new byte[4];
+            byte[] result = new byte[5];
 
             if (!CheckLight(LightBits.AllLampBitsOn) && !CheckLight(LightBits2.AllLampBits2On)) //  check if all the lamp bits on LB1 are up. pretty much will only happen when you check lights.  
             { //if "false" we are not in lightcheck - run logic
@@ -1120,6 +1120,10 @@ namespace F4ToPokeys
 
                     ShepCP.CopyTo(result, 0);
                 }
+                else
+                {
+                    mapping.CopyTo(result, 0);  // standard layout — pack mapping[0..31] into bytes 0-3
+                }
             }
             else
             {
@@ -1256,6 +1260,10 @@ namespace F4ToPokeys
                     ShepCP[39] = mapping[8];
 
                     ShepCP.CopyTo(result, 0);
+                }
+                else
+                {
+                    mapping.CopyTo(result, 0);  // standard layout — pack mapping[0..31] into bytes 0-3
                 }
             }
 
