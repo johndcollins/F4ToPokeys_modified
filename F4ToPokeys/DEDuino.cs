@@ -984,7 +984,7 @@ namespace F4ToPokeys
             BitArray mapping = new BitArray(32, false);
             byte[] result = new byte[5];
 
-            if (!CheckLight(LightBits.AllLampBitsOn) && !CheckLight(LightBits2.AllLampBits2On)) //  check if all the lamp bits on LB1 are up. pretty much will only happen when you check lights.  
+            if (!CheckLight(LightBits.AllLampBitsOn) && !CheckLight(LightBits2.AllLampBits2On) && !CheckLight(LightBits3.AllLampBits3On)) //  check if all the lamp bits on LB1 are up. pretty much will only happen when you check lights.  
             { //if "false" we are not in lightcheck - run logic
                 switch (version)
                 {
@@ -993,7 +993,7 @@ namespace F4ToPokeys
                         /// left row (bottom to top)
                         mapping[31] = CheckLight(LightBits2.AftFuelLow); // AFT FUEL LOW
                         mapping[30] = CheckLight(LightBits2.FwdFuelLow); // FWD FUEL LOW
-                        mapping[29] = false; // ATF NOT ENGAGED
+                        mapping[29] = CheckLight(LightBits3.ATF_Not_Engaged); // ATF NOT ENGAGED
                         mapping[28] = CheckLight(LightBits.CONFIG); // STORES CONFIG
                         mapping[27] = CheckLight(LightBits3.cadc); // CADC
                         mapping[26] = CheckLight(LightBits2.PROBEHEAT); // PROBE HEAT
@@ -1004,7 +1004,7 @@ namespace F4ToPokeys
                         mapping[22] = CheckLight(LightBits2.BUC); //BUC
                         mapping[21] = false; // EEC
                         mapping[20] = CheckLight(LightBits.Overheat); // OVERHEAT
-                        mapping[19] = false; // INLET ICING
+                        mapping[19] = CheckLight(LightBits3.Inlet_Icing); // INLET ICING
                         mapping[18] = CheckLight(LightBits2.FUEL_OIL_HOT); // FUEL OIL HOT
                         mapping[17] = CheckLight(LightBits2.SEC); // SEC
                         mapping[16] = CheckLight(LightBits.EngineFault); // ENGINE FAULT
@@ -1141,7 +1141,7 @@ namespace F4ToPokeys
                         mapping[25] = true;
                         mapping[24] = true;
                         /// mid left row (bottom to top)
-                        mapping[23] = false; //blank
+                        mapping[23] = true; //blank
                         mapping[22] = true;
                         mapping[21] = true;
                         mapping[20] = true;
@@ -1150,17 +1150,17 @@ namespace F4ToPokeys
                         mapping[17] = true;
                         mapping[16] = true;
                         /// mid right row (bottom to top)
-                        mapping[15] = false;  //blank
-                        mapping[14] = false;  //blank
-                        mapping[13] = false; //blank
+                        mapping[15] = true;  //blank
+                        mapping[14] = true;  //blank
+                        mapping[13] = true; //blank
                         mapping[12] = true;
                         mapping[11] = true;
                         mapping[10] = true;
                         mapping[9] = true;
                         mapping[8] = true;
                         /// right row (bottom to top)
-                        mapping[7] = false; //blank
-                        mapping[6] = false; //blank
+                        mapping[7] = true; //blank
+                        mapping[6] = true; //blank
                         mapping[5] = true;
                         mapping[4] = true;
                         mapping[3] = true;
