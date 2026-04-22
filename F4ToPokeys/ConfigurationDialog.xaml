@@ -270,23 +270,26 @@
                           HorizontalScrollBarVisibility="Auto"
                           Background="{DynamicResource BackgroundBrush}">
                 <Grid Margin="{StaticResource PanelPadding}">
-                    <!-- Only one ContentPresenter. When SelectedDevice is a DeviceGroupViewModel
-                         the keyed group-detail template is used; otherwise implicit DataType
-                         dispatch finds the matching device detail template from Views/*.xaml.
-                         Trigger binds via RelativeSource to the Window's DataContext (the VM),
-                         not the ContentPresenter's own DataContext which WPF sets to Content. -->
+                    <!-- DeviceTemplateSelector returns DeviceGroupDetailTemplate for
+                         DeviceGroupViewModel, null otherwise (falls through to implicit
+                         DataType dispatch for PoKeys / Maestro / DEDuino via Views/*.xaml).
+                         Evaluates atomically when Content changes, so no stale-template
+                         binding warnings during group-to-device selection transitions. -->
                     <ContentPresenter Content="{Binding Path=SelectedDevice}">
-                        <ContentPresenter.Style>
-                            <Style TargetType="ContentPresenter">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Path=DataContext.IsGroupSelected, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
-                                                 Value="True">
-                                        <Setter Property="ContentTemplate" Value="{StaticResource DeviceGroupDetailTemplate}" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </ContentPresenter.Style>
+                        <ContentPresenter.ContentTemplateSelector>
+                            <my:DeviceTemplateSelector GroupTemplate="{StaticResource DeviceGroupDetailTemplate}" />
+                        </ContentPresenter.ContentTemplateSelector>
                     </ContentPresenter>
+
+                    <!-- Hidden host used once, right after Loaded, to materialize the
+                         PoKeys detail DataTemplate so its BAML / ControlTemplates / styles
+                         are cached. Without it the first click on a PoKeys leaf takes ~1s;
+                         this shifts that cost to dialog-open time. Cleared after one render. -->
+                    <ContentPresenter x:Name="PrewarmHost"
+                                      Width="0" Height="0"
+                                      HorizontalAlignment="Left" VerticalAlignment="Top"
+                                      Visibility="Hidden"
+                                      IsHitTestVisible="False" />
                 </Grid>
             </ScrollViewer>
         </Grid>

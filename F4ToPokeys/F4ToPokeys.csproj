@@ -116,6 +116,7 @@
     <Compile Include="Configuration\Configuration.cs" />
     <Compile Include="Configuration\ConfigurationViewModel.cs" />
     <Compile Include="Configuration\DeviceGroupViewModel.cs" />
+    <Compile Include="Configuration\DeviceTemplateSelector.cs" />
     <!-- Falcon BMS integration -->
     <Compile Include="Falcon\FalconConnector.cs" />
     <Compile Include="Falcon\FalconLight.cs" />

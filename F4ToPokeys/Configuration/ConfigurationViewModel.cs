@@ -214,14 +214,8 @@ namespace F4ToPokeys
                     return;
                 selectedDevice = value;
                 RaisePropertyChanged(nameof(SelectedDevice));
-                RaisePropertyChanged(nameof(IsGroupSelected));
-                RaisePropertyChanged(nameof(IsDeviceSelected));
             }
         }
-
-        public bool IsGroupSelected => selectedDevice is DeviceGroupViewModel;
-
-        public bool IsDeviceSelected => selectedDevice != null && !(selectedDevice is DeviceGroupViewModel);
         #endregion // SelectedDevice
 
         #region Theme
