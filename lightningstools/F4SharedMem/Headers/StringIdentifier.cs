@@ -72,6 +72,37 @@ namespace F4SharedMem.Headers
         // VERSION 4
         ThrTerrdatadir,
 
+        // VERSION 5
+        VoiceHelpers,            // A comma separated list of tokens that represent flight and agency names used in AI radio comms
+                                 // The format of the string is a single line laid out as follows:
+                                 // 
+                                 //     <player>|<seats>,<tanker>,<awacs>,<departure>,<arrival>,<alternate>
+                                 // 
+                                 // where:
+                                 // 
+                                 //     <player> represents the local player's ownship flight name, "Goblin1" for example
+                                 // 
+                                 //     '|' is a literal pipe symbol character as a separator between the <player> and <seats> tokens
+                                 // 
+                                 //     <seats> is a 4-character token representing the occupancy of the 4 slots in a flight wherein:
+                                 //         'P' is for the local session player
+                                 //         'H' is for any other human player
+                                 //         'A' is for an AI piloted jet
+                                 //         'X' is for a slot in the flight that has no jet
+                                 // 
+                                 //     for example as <seats> token of "HPXX" would represent a multi-player mission 2-ship with the local 
+                                 //     player flying in the #2 slot.
+                                 // 
+                                 //     <tanker> is the callsign of any assigned tanker flight or "None" if there isn't one assigned in the
+                                 //     ATO. For example "Texaco7".
+                                 // 
+                                 //     <awacs> is the callsign of any assign Air Battle Manager or Weapons Director agency (normally AWACS)
+                                 //     assigned to the flight or "None" if there is no such support flight.  Example might be "Chalice9".
+                                 // 
+                                 //     <departure>, <arrival> and <alternate> are respectively the names of the landing sites for the flights
+                                 //     takeoff, planned landing and alternate landing sites.  For example you might see "Osan,Osan,Pyeongtaek"
+                                 //     for a flight that plans a round trip to/from Osan with the other named airbase as the alternate.
+
         // FIXED LAST ENTRY
         StringIdentifier_DIM     // (number of identifiers; add new IDs only *above* this one)
     };

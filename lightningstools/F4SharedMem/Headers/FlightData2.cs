@@ -29,6 +29,9 @@ namespace F4SharedMem.Headers
         // 18: added floodconsole brightness
         // 19: added ECM_M1-5, ECM oper + blinkbit, magnetic deviation, RWR jamming status
         // 20: added radio2_present and radio2_frequency, effective IFF transponder codes
+        // 21: added TACAN ILS.
+        // 22: added desired/configures RTT export FPS
+        // 23: added Gs min/max
 
         public const int RWRINFO_SIZE = 512;
         public const int CALLSIGN_LEN = 12;
@@ -144,15 +147,28 @@ namespace F4SharedMem.Headers
         public JammingStates[] RWRjammingStatus; // (unsigned) char see enum JammingStates for details
 
         // VERSION 20
-        int radio2_preset;       // Radio 2 channel preset (if present).
-        int radio2_frequency;    // Radio 2 channel frequency (if present).
+        public int radio2_preset;       // Radio 2 channel preset (if present).
+        public int radio2_frequency;    // Radio 2 channel frequency (if present).
 
         // IFF transponder currently active (as seen from outside) codes, negative for OFF or n/a
-        sbyte iffTransponderActiveCode1;  // mode 1
-        short iffTransponderActiveCode2;  // mode 2
-        short iffTransponderActiveCode3A; // mode 3A
-        short iffTransponderActiveCodeC;  // mode C
-        short iffTransponderActiveCode4;  // mode 4; assumes the correct codeword
+        public sbyte iffTransponderActiveCode1;  // mode 1
+        public short iffTransponderActiveCode2;  // mode 2
+        public short iffTransponderActiveCode3A; // mode 3A
+        public short iffTransponderActiveCodeC;  // mode C
+        public short iffTransponderActiveCode4;  // mode 4; assumes the correct codeword
+
+        // VERSION 21
+        public int tacan_ils_frequency; // Tacan ILS (110.30 = 11030). Valid interval [108.10, 111.95].
+
+        // VERSION 22
+        public int desired_RTT_FPS;     // The configured RTT export FPS value, g_nRTTExport_FPS
+
+        // SIDE SLIP ANGLE 
+        public float sideSlipdeg; // ADI side Slip 
+
+        // VERSION 23
+        public float gsMax;       // Ownship Max Gs
+        public float gsMin;       // Ownship Min Gs
 
 #if EWMU_AND_EWPI_PATCH_APPLIED
         //VERSION 18?
