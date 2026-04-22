@@ -1,0 +1,153 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:my="clr-namespace:F4ToPokeys"
+                    xmlns:lang="clr-namespace:F4ToPokeys.Translations">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/F4ToPokeys;component/Resources/Converters.xaml" />
+        <ResourceDictionary Source="/F4ToPokeys;component/Themes/CommonTheme.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <DataTemplate DataType="{x:Type my:DEDuino}">
+        <GroupBox Margin="{StaticResource GroupBoxMargin}">
+            <GroupBox.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Name:"
+                               VerticalAlignment="Center"
+                               Margin="0,0,5,0" />
+                    <TextBox Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"
+                             Width="160"
+                             VerticalAlignment="Center" />
+                    <TextBlock Text="{x:Static lang:Main.DEDuinoConfigCaption}"
+                               VerticalAlignment="Center"
+                               Margin="{StaticResource InlineLeftMediumMargin}" />
+                    <TextBlock Text="{x:Static lang:Main.COMPortCaption}"
+                               VerticalAlignment="Center" Margin="{StaticResource InlineLeftMargin}" />
+                    <ComboBox ItemsSource="{Binding Path=COMPortList}"
+                              SelectedItem="{Binding Path=COMPort}"
+                              IsSynchronizedWithCurrentItem="False"
+                              Margin="{StaticResource InlineLeftMargin}"
+                              Width="50"
+                              VerticalAlignment="Center" />
+                    <Image Name="DEDuinoErrorIcon"
+                           Source="{DynamicResource image_error}"
+                           Width="{StaticResource {x:Static SystemParameters.SmallIconWidthKey}}"
+                           ToolTip="{Binding Path=Error}"
+                           Margin="{StaticResource InlineLeftMargin}"
+                           VerticalAlignment="Center" />
+                    <Button Content="{x:Static lang:Main.RemoveButton}"
+                            Command="{Binding Path=RemoveDEDuinoCommand}"
+                            Margin="{StaticResource InlineLeftMediumMargin}"
+                            VerticalAlignment="Center" />
+                </StackPanel>
+            </GroupBox.Header>
+            <GroupBox.Content>
+                <StackPanel Margin="{StaticResource PanelPadding}">
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Content="{x:Static lang:Main.DEDuinoDEDCaption}"
+                            IsChecked="{Binding Path=DED}"
+                            Margin="{StaticResource InlineLeftMargin}"
+                            VerticalAlignment="Center" HorizontalAlignment="Left" />
+                        <CheckBox Content="{x:Static lang:Main.DEDuinoBMS432Caption}"
+                            IsChecked="{Binding Path=BMS432}"
+                            Margin="{StaticResource InlineLeftMargin}"
+                            Visibility="{Binding Path=IsDEDChecked, Converter={StaticResource BooleanToVisibilityConverter}}"
+                            VerticalAlignment="Center" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Content="{x:Static lang:Main.DEDuinoPFLCaption}"
+                            IsChecked="{Binding Path=PFL}"
+                            Margin="{StaticResource InlineLeftMargin}"
+                            VerticalAlignment="Center" HorizontalAlignment="Left" />
+                        <CheckBox Content="{x:Static lang:Main.DEDuinoBMS432Caption}"
+                            IsChecked="{Binding Path=BMS432}"
+                            Margin="{StaticResource InlineLeftMargin}"
+                            Visibility="{Binding Path=IsPFLChecked, Converter={StaticResource BooleanToVisibilityConverter}}"
+                            VerticalAlignment="Center" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Content="{x:Static lang:Main.DEDuinoAltimeterCaption}"
+                            IsChecked="{Binding Path=Altimeter}"
+                            Margin="{StaticResource InlineLeftMargin}"
+                            VerticalAlignment="Center" HorizontalAlignment="Left" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Content="{x:Static lang:Main.DEDuinoFFICaption}"
+                            IsChecked="{Binding Path=FFI}"
+                            Margin="{StaticResource InlineLeftMargin}"
+                            VerticalAlignment="Center" HorizontalAlignment="Left" />
+                        <CheckBox Content="{x:Static lang:Main.DEDuinoFFIPrMinuteCaption}"
+                            IsChecked="{Binding Path=FFI_PR_MINUTE}"
+                            Margin="{StaticResource InlineLeftMargin}"
+                            Visibility="{Binding Path=IsFFIChecked, Converter={StaticResource BooleanToVisibilityConverter}}"
+                            VerticalAlignment="Center" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Content="{x:Static lang:Main.DEDuinoFQICaption}"
+                            IsChecked="{Binding Path=FQI}"
+                            Margin="{StaticResource InlineLeftMargin}"
+                            VerticalAlignment="Center" HorizontalAlignment="Left" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Content="{x:Static lang:Main.DEDuinoCautionPanelCaption}"
+                            IsChecked="{Binding Path=CautionPanel}"
+                            Margin="{StaticResource InlineLeftMargin}"
+                            VerticalAlignment="Center" HorizontalAlignment="Left" />
+                        <ComboBox ItemsSource="{Binding Path=NewOldList}"
+                              SelectedItem="{Binding Path=CPVersion}"
+                              IsSynchronizedWithCurrentItem="True"
+                              Margin="{StaticResource InlineLeftMargin}"
+                              Width="50"
+                              Visibility="{Binding Path=IsCautionPanelChecked, Converter={StaticResource BooleanToVisibilityConverter}}"
+                              VerticalAlignment="Center" />
+                        <CheckBox Content="{x:Static lang:Main.DEDuinoJshepCPCaption}"
+                            IsChecked="{Binding Path=JshepCP}"
+                            Margin="{StaticResource InlineLeftMargin}"
+                            Visibility="{Binding Path=IsCautionPanelChecked, Converter={StaticResource BooleanToVisibilityConverter}}"
+                            VerticalAlignment="Center" HorizontalAlignment="Left" />
+                    </StackPanel>
+                    <CheckBox Content="{x:Static lang:Main.DEDuinoIndexersCaption}"
+                        IsChecked="{Binding Path=Indexers}"
+                        Margin="{StaticResource InlineLeftMargin}"
+                        VerticalAlignment="Center" HorizontalAlignment="Left" />
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Content="{x:Static lang:Main.DEDuinoSpeedBrakesCaption}"
+                            IsChecked="{Binding Path=SpeedBrakes}"
+                            Margin="{StaticResource InlineLeftMargin}"
+                            VerticalAlignment="Center" HorizontalAlignment="Left" />
+                        <CheckBox Content="{x:Static lang:Main.DEDuinoBMS432Caption}"
+                            IsChecked="{Binding Path=BMS432}"
+                            Margin="{StaticResource InlineLeftMargin}"
+                            Visibility="{Binding Path=IsSpeedBrakesChecked, Converter={StaticResource BooleanToVisibilityConverter}}"
+                            VerticalAlignment="Center" />
+                    </StackPanel>
+                    <CheckBox Content="{x:Static lang:Main.DEDuinoCMDSCaption}"
+                        IsChecked="{Binding Path=CMDS}"
+                        Margin="{StaticResource InlineLeftMargin}"
+                        VerticalAlignment="Center" HorizontalAlignment="Left" />
+                    <CheckBox Content="{x:Static lang:Main.DEDuinoUHFCaption}"
+                        IsChecked="{Binding Path=UHF}"
+                        Margin="{StaticResource InlineLeftMargin}"
+                        VerticalAlignment="Center" HorizontalAlignment="Left" />
+                    <CheckBox Content="{x:Static lang:Main.DEDuinoGlareShieldCaption}"
+                        IsChecked="{Binding Path=GlareShield}"
+                        Margin="{StaticResource InlineLeftMargin}"
+                        VerticalAlignment="Center" HorizontalAlignment="Left" />
+                    <CheckBox Content="{x:Static lang:Main.DEDuinoEngineCaption}"
+                        IsChecked="{Binding Path=Engine}"
+                        Margin="{StaticResource InlineLeftMargin}"
+                        VerticalAlignment="Center" HorizontalAlignment="Left" />
+                </StackPanel>
+            </GroupBox.Content>
+        </GroupBox>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding Path=Error}"
+                         Value="{x:Null}">
+                <Setter TargetName="DEDuinoErrorIcon"
+                        Property="Visibility"
+                        Value="Hidden" />
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+</ResourceDictionary>

@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.IO;
@@ -13,6 +14,9 @@ namespace F4ToPokeys
     /// </summary>
     public partial class App : Application
     {
+        private static readonly Uri DarkThemeUri = new Uri("Themes/DarkTheme.xaml", UriKind.Relative);
+        private static readonly Uri LightThemeUri = new Uri("Themes/LightTheme.xaml", UriKind.Relative);
+
         #region Construction/Destruction
 
         //static App()
@@ -32,6 +36,8 @@ namespace F4ToPokeys
                 return;
             }
 
+            // enableWpfTrace();  // uncomment to log binding/resource errors to %LocalAppData%\F4ToPokeys\WpfTrace.txt
+
             try
             {
                 ConfigHolder.Singleton.Load();
@@ -41,10 +47,36 @@ namespace F4ToPokeys
                 MessageBox.Show(exception.Message, Translations.Main.ConfigLoadErrorCaption, MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
+            // Apply saved theme before showing any window so there's no flash on the configured preference.
+            bool dark = ConfigHolder.Singleton.Configuration?.IsDarkTheme ?? true;
+            ApplyTheme(dark);
+
             FalconConnector.Singleton.start();
+
+            MainWindow = new MainWindow();
+            MainWindow.Show();
         }
 
         #endregion // Construction/Destruction
+
+        #region Theme
+
+        public void ApplyTheme(bool dark)
+        {
+            if (Resources == null || Resources.MergedDictionaries.Count == 0)
+                return;
+
+            Uri target = dark ? DarkThemeUri : LightThemeUri;
+
+            ResourceDictionary current = Resources.MergedDictionaries[0];
+            if (current?.Source == target)
+                return;
+
+            ResourceDictionary next = new ResourceDictionary { Source = target };
+            Resources.MergedDictionaries[0] = next;
+        }
+
+        #endregion
 
         #region uniqueInstanceMutex
 
@@ -58,7 +90,47 @@ namespace F4ToPokeys
 
         #endregion // uniqueInstanceMutex
 
-        #region CrashLog
+        #region WpfTrace
+
+        private void enableWpfTrace()
+        {
+            try
+            {
+                Directory.CreateDirectory(ConfigHolder.AppDataPath);
+                string traceFile = Path.Combine(ConfigHolder.AppDataPath, "WpfTrace.txt");
+
+                TextWriterTraceListener listener = new TextWriterTraceListener(traceFile);
+                listener.TraceOutputOptions = TraceOptions.None;
+                Trace.Listeners.Add(listener);
+                Trace.AutoFlush = true;
+
+                Trace.WriteLine(string.Format("=== WPF trace started {0} ===", DateTime.Now));
+
+                // Wire WPF presentation trace sources to the same Trace pipeline so
+                // data-binding / resource / markup errors land in WpfTrace.txt.
+                System.Diagnostics.PresentationTraceSources.Refresh();
+                AttachListener(System.Diagnostics.PresentationTraceSources.DataBindingSource, listener);
+                AttachListener(System.Diagnostics.PresentationTraceSources.ResourceDictionarySource, listener);
+                AttachListener(System.Diagnostics.PresentationTraceSources.MarkupSource, listener);
+                AttachListener(System.Diagnostics.PresentationTraceSources.DependencyPropertySource, listener);
+            }
+            catch
+            {
+                // Never let tracing setup break startup
+            }
+        }
+
+        private static void AttachListener(TraceSource source, TraceListener listener)
+        {
+            if (source == null)
+                return;
+            source.Listeners.Add(listener);
+            source.Switch.Level = SourceLevels.All;
+        }
+
+        #endregion
+
+#region CrashLog
 
         private void Application_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {

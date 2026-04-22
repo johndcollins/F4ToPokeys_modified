@@ -20,8 +20,35 @@ using System.Xml.Serialization;
 
 namespace F4ToPokeys
 {
-    public class DEDuino : BindableObject, IDisposable
+    public class DEDuino : BindableObject, IDevice, IDisposable
     {
+        #region Name (user-editable)
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                if (name == value)
+                    return;
+                name = value;
+                RaisePropertyChanged(nameof(Name));
+                RaisePropertyChanged(nameof(DisplayName));
+            }
+        }
+        private string name;
+        #endregion // Name
+
+        [XmlIgnore]
+        public string DisplayName
+        {
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(name))
+                    return name;
+                return string.IsNullOrWhiteSpace(comPort) ? Translations.Main.DEDuinoConfigCaption : comPort;
+            }
+        }
+
         #region private variables
         private SerialPort serialPort;
         private char serialBuffer;
@@ -201,6 +228,7 @@ namespace F4ToPokeys
 
                 comPort = value;
                 RaisePropertyChanged("COMPort");
+                RaisePropertyChanged(nameof(DisplayName));
 
                 if (serialPort != null)
                 {

@@ -226,6 +226,21 @@ namespace F4ToPokeys
         }
         #endregion
 
+        #region IsDarkTheme
+        private bool isDarkTheme = true;
+        public bool IsDarkTheme
+        {
+            get { return isDarkTheme; }
+            set
+            {
+                if (isDarkTheme == value)
+                    return;
+                isDarkTheme = value;
+                RaisePropertyChanged(nameof(IsDarkTheme));
+            }
+        }
+        #endregion
+
         #region PoKeysList
         public ObservableCollection<PoKeys> PoKeysList
         {

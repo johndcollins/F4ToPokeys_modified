@@ -24,6 +24,13 @@ namespace F4ToPokeys
             DataContext = new ConfigurationViewModel(this);
         }
 
+        private void DeviceTree_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            ConfigurationViewModel vm = DataContext as ConfigurationViewModel;
+            if (vm != null)
+                vm.SelectedDevice = e.NewValue;
+        }
+
         private void Window_Unloaded(object sender, RoutedEventArgs e)
         {
             try

@@ -10,8 +10,35 @@ using Pololu.Usc;
 
 namespace F4ToPokeys
 {
-    public class PololuMaestro : BindableObject, IDisposable
+    public class PololuMaestro : BindableObject, IDevice, IDisposable
     {
+        #region Name (user-editable)
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                if (name == value)
+                    return;
+                name = value;
+                RaisePropertyChanged(nameof(Name));
+                RaisePropertyChanged(nameof(DisplayName));
+            }
+        }
+        private string name;
+        #endregion // Name
+
+        [XmlIgnore]
+        public string DisplayName
+        {
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(name))
+                    return name;
+                return string.IsNullOrWhiteSpace(serialNumber) ? Translations.Main.PololuMaestroConfigCaption : serialNumber;
+            }
+        }
+
         #region Construction
         public PololuMaestro()
         {
@@ -56,6 +83,7 @@ namespace F4ToPokeys
             {
                 serialNumber = value;
                 RaisePropertyChanged("SerialNumber");
+                RaisePropertyChanged(nameof(DisplayName));
 
                 updateStatus();
                 updateServoStatus();
