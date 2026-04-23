@@ -14,6 +14,12 @@
         Foreground="{DynamicResource TextBrush}"
         Unloaded="Window_Unloaded"
         d:DataContext="{d:DesignData Source=Resources/ConfigurationDialogDesignData.xaml}">
+    <Window.InputBindings>
+        <KeyBinding Modifiers="Ctrl" Key="N" Command="{Binding Path=NewCommand}" />
+        <KeyBinding Modifiers="Ctrl" Key="O" Command="{Binding Path=OpenCommand}" />
+        <KeyBinding Modifiers="Ctrl" Key="S" Command="{Binding Path=SaveCommand}" />
+        <KeyBinding Modifiers="Ctrl+Shift" Key="S" Command="{Binding Path=SaveAsCommand}" />
+    </Window.InputBindings>
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -82,6 +88,30 @@
     </Window.Resources>
 
     <DockPanel LastChildFill="True">
+        <!-- Plain stock <Menu> — the minimal, canonical WPF pattern. -->
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_New"
+                          Command="{Binding Path=NewCommand}"
+                          InputGestureText="Ctrl+N" />
+                <MenuItem Header="_Open..."
+                          Command="{Binding Path=OpenCommand}"
+                          InputGestureText="Ctrl+O" />
+                <Separator />
+                <MenuItem Header="_Save"
+                          Command="{Binding Path=SaveCommand}"
+                          InputGestureText="Ctrl+S" />
+                <MenuItem Header="Save _As..."
+                          Command="{Binding Path=SaveAsCommand}"
+                          InputGestureText="Ctrl+Shift+S" />
+                <Separator />
+                <MenuItem Header="Mi_nimize"
+                          Command="{Binding Path=MinimizeCommand}" />
+                <MenuItem Header="_Quit"
+                          Command="{Binding Path=QuitCommand}" />
+            </MenuItem>
+        </Menu>
+
         <!-- Status bar -->
         <Border DockPanel.Dock="Bottom"
                 Background="{DynamicResource PanelBrush}"
@@ -109,16 +139,12 @@
                                Margin="6,0,0,0" />
                 </StackPanel>
                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                    <CheckBox Content="Start minimized"
+                              IsChecked="{Binding Path=StartMinimized}"
+                              VerticalAlignment="Center"
+                              Margin="0,0,10,0" />
                     <Button Content="{Binding Path=ThemeToggleLabel}"
                             Command="{Binding Path=ToggleThemeCommand}"
-                            VerticalAlignment="Center" />
-                    <Button Content="Save"
-                            Command="{Binding Path=SaveCommand}"
-                            Margin="{StaticResource InlineLeftMargin}"
-                            VerticalAlignment="Center" />
-                    <Button Content="Load"
-                            Command="{Binding Path=LoadCommand}"
-                            Margin="{StaticResource InlineLeftMargin}"
                             VerticalAlignment="Center" />
                 </StackPanel>
                 <TextBlock />

@@ -44,43 +44,94 @@ namespace F4ToPokeys
 
         // Store config file under User's AppData/Local path to avoid having to run F4ToPokeys as Administrator
         public static string AppDataPath = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData), "F4ToPokeys");
-        private static string configFileName = Path.Combine(AppDataPath, "F4ToPokeys.xml");
+        public static string DefaultConfigFileName = Path.Combine(AppDataPath, "F4ToPokeys.xml");
 
-        public void Save()
+        // Full path of the currently-open config file. Drives SaveCommand (which writes
+        // to this path) and is remembered across restarts via UserPreferences so the app
+        // reopens the last file on launch.
+        private string currentFilePath = DefaultConfigFileName;
+        public string CurrentFilePath
         {
-            Configuration.FormatVersion = Configuration.CurrentFormatVersion.ToString();
-
-            // Create F4ToPokeys directory under Users AppData/Local path if it doesn't exist.
-            Directory.CreateDirectory(AppDataPath);
-
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(Configuration));
-
-            // Config file now under User's AppData/Local/F4ToPokeys
-            using (Stream file = File.Create(configFileName))
+            get { return currentFilePath; }
+            private set
             {
-                xmlSerializer.Serialize(file, Configuration);
+                if (currentFilePath == value)
+                    return;
+                currentFilePath = value;
+                RaisePropertyChanged(nameof(CurrentFilePath));
             }
         }
 
-        public void Load()
+        public void ResetCurrentFilePathToDefault()
         {
-            if (!File.Exists(configFileName))
-            {
-                TryToUpdateFromFormatV1_0ToV1_1();
+            CurrentFilePath = DefaultConfigFileName;
+        }
 
-                if (!File.Exists(configFileName))
-                    return;
-            }
+        // Save to the currently-open file (quick-save). Equivalent to File > Save.
+        public void Save()
+        {
+            SaveTo(CurrentFilePath);
+        }
+
+        // Save to a specific path; makes that path the current file.
+        public void SaveTo(string path)
+        {
+            if (string.IsNullOrWhiteSpace(path))
+                throw new ArgumentException("path must be non-empty", nameof(path));
+
+            Configuration.FormatVersion = Configuration.CurrentFormatVersion.ToString();
+
+            string directory = Path.GetDirectoryName(path);
+            if (!string.IsNullOrEmpty(directory))
+                Directory.CreateDirectory(directory);
 
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(Configuration));
+            using (Stream file = File.Create(path))
+            {
+                xmlSerializer.Serialize(file, Configuration);
+            }
 
-            // Config file now under User's AppData/Local/F4ToPokeys
-            using (Stream file = File.OpenRead(configFileName))
+            CurrentFilePath = path;
+        }
+
+        // Load the default config file (for app startup).
+        public void Load()
+        {
+            LoadFrom(DefaultConfigFileName);
+        }
+
+        // Load from a specific path; makes that path the current file.
+        public void LoadFrom(string path)
+        {
+            if (string.IsNullOrWhiteSpace(path))
+                throw new ArgumentException("path must be non-empty", nameof(path));
+
+            // Only the default file participates in the v1.0 -> v1.1 legacy migration.
+            if (string.Equals(path, DefaultConfigFileName, StringComparison.OrdinalIgnoreCase)
+                && !File.Exists(path))
+            {
+                TryToUpdateFromFormatV1_0ToV1_1();
+                if (!File.Exists(path))
+                {
+                    // No default config yet — start fresh but still mark this as the current file
+                    // so the next Save writes to DefaultConfigFileName.
+                    CurrentFilePath = path;
+                    return;
+                }
+            }
+
+            if (!File.Exists(path))
+                throw new FileNotFoundException("Configuration file not found.", path);
+
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(Configuration));
+            using (Stream file = File.OpenRead(path))
             {
                 Configuration newConfiguration = (Configuration)xmlSerializer.Deserialize(file);
                 newConfiguration.setOwner();
                 Configuration = newConfiguration;
             }
+
+            CurrentFilePath = path;
         }
 
         private void TryToUpdateFromFormatV1_0ToV1_1()
@@ -167,7 +218,7 @@ namespace F4ToPokeys
                     falconGaugeLabelElement.SetValue(renamedGaugeLabels[oldLabel]);
             }
 
-            oldConfiguration.Save(configFileName);
+            oldConfiguration.Save(DefaultConfigFileName);
         }
 
         #endregion // XML Serialization
@@ -219,15 +270,26 @@ namespace F4ToPokeys
         #endregion
 
         #region ReadFalconDataTimerIntervalMS
+        // [XmlIgnore] — user-local preference; lives in preferences.xml, not in the
+        // portable device-mapping Configuration file.
+        [XmlIgnore]
         public double ReadFalconDataTimerIntervalMS
         {
             get { return FalconConnector.Singleton.ReadFalconDataTimerInterval.TotalMilliseconds; }
-            set { FalconConnector.Singleton.ReadFalconDataTimerInterval = TimeSpan.FromMilliseconds(value); }
+            set
+            {
+                if (FalconConnector.Singleton.ReadFalconDataTimerInterval.TotalMilliseconds == value)
+                    return;
+                FalconConnector.Singleton.ReadFalconDataTimerInterval = TimeSpan.FromMilliseconds(value);
+                RaisePropertyChanged(nameof(ReadFalconDataTimerIntervalMS));
+            }
         }
         #endregion
 
         #region IsDarkTheme
+        // [XmlIgnore] — same reason as above: user preference, not portable config.
         private bool isDarkTheme = true;
+        [XmlIgnore]
         public bool IsDarkTheme
         {
             get { return isDarkTheme; }

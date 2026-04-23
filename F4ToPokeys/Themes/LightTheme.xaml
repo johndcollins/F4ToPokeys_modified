@@ -308,19 +308,90 @@
         <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
     </Style>
 
+    <Style TargetType="Menu">
+        <Setter Property="Background" Value="{DynamicResource PanelBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+    </Style>
+
+    <Style x:Key="{x:Static MenuItem.SeparatorStyleKey}" TargetType="Separator">
+        <Setter Property="Height" Value="1" />
+        <Setter Property="Margin" Value="0,3,0,3" />
+        <Setter Property="Background" Value="{DynamicResource BorderBrush}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Separator">
+                    <Border Background="{TemplateBinding Background}" Height="1" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style TargetType="MenuItem">
         <Setter Property="Background" Value="{DynamicResource PanelBrush}" />
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
-        <Style.Triggers>
-            <Trigger Property="IsHighlighted" Value="True">
-                <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
-                <Setter Property="Foreground" Value="White" />
-            </Trigger>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}" />
-            </Trigger>
-        </Style.Triggers>
+        <Setter Property="Padding" Value="10,4" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="MenuItem">
+                    <Border x:Name="Bd"
+                            Background="{TemplateBinding Background}"
+                            SnapsToDevicePixels="True">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemIGT" />
+                            </Grid.ColumnDefinitions>
+                            <ContentPresenter Grid.Column="0"
+                                              ContentSource="Header"
+                                              RecognizesAccessKey="True"
+                                              Margin="{TemplateBinding Padding}"
+                                              VerticalAlignment="Center"
+                                              TextElement.Foreground="{TemplateBinding Foreground}" />
+                            <TextBlock Grid.Column="1"
+                                       Text="{TemplateBinding InputGestureText}"
+                                       Margin="24,0,10,0"
+                                       VerticalAlignment="Center"
+                                       Foreground="{DynamicResource SecondaryTextBrush}" />
+                            <Popup x:Name="PART_Popup"
+                                   Placement="Right"
+                                   IsOpen="{TemplateBinding IsSubmenuOpen}"
+                                   AllowsTransparency="True"
+                                   Focusable="False"
+                                   PopupAnimation="Fade">
+                                <Border Background="{DynamicResource PanelBrush}"
+                                        BorderBrush="{DynamicResource BorderBrush}"
+                                        BorderThickness="1"
+                                        Padding="2">
+                                    <ScrollViewer CanContentScroll="True"
+                                                  VerticalScrollBarVisibility="Auto"
+                                                  HorizontalScrollBarVisibility="Disabled">
+                                        <StackPanel IsItemsHost="True"
+                                                    KeyboardNavigation.DirectionalNavigation="Cycle"
+                                                    Grid.IsSharedSizeScope="True" />
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Role" Value="TopLevelHeader">
+                            <Setter TargetName="PART_Popup" Property="Placement" Value="Bottom" />
+                        </Trigger>
+                        <Trigger Property="Role" Value="TopLevelItem">
+                            <Setter TargetName="PART_Popup" Property="Placement" Value="Bottom" />
+                        </Trigger>
+                        <Trigger Property="IsHighlighted" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource AccentBrush}" />
+                            <Setter Property="Foreground" Value="White" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <!-- Named brushes for explicit references -->

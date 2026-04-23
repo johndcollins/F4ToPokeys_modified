@@ -52,8 +52,8 @@
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Hardcodet.NotifyIcon.Wpf, Version=1.1.0.0, Culture=neutral, PublicKeyToken=682384a853a08aad, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hardcodet.NotifyIcon.Wpf.1.1.0\lib\net472\Hardcodet.NotifyIcon.Wpf.dll</HintPath>
+    <Reference Include="Hardcodet.NotifyIcon.Wpf, Version=2.0.0.0, Culture=neutral, PublicKeyToken=682384a853a08aad, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hardcodet.NotifyIcon.Wpf.2.0.1\lib\net472\Hardcodet.NotifyIcon.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="PoKeysDevice_DLL, Version=1.1.0.2518, Culture=neutral, PublicKeyToken=b8cc0985acb6f071, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -117,6 +117,7 @@
     <Compile Include="Configuration\ConfigurationViewModel.cs" />
     <Compile Include="Configuration\DeviceGroupViewModel.cs" />
     <Compile Include="Configuration\DeviceTemplateSelector.cs" />
+    <Compile Include="Configuration\UserPreferences.cs" />
     <!-- Falcon BMS integration -->
     <Compile Include="Falcon\FalconConnector.cs" />
     <Compile Include="Falcon\FalconLight.cs" />
@@ -266,8 +267,7 @@
     <ProjectReference Include="..\lightningstools\SimplifiedCommon\SimplifiedCommon.csproj">
       <Project>{DC943441-41CF-4631-9401-D458EB60C2C8}</Project>
       <Name>SimplifiedCommon</Name>
-      <!-- SimplifiedCommon is upstream and only defines AnyCPU configs; override the
-           parent's Platform=x86 when recursing into it so MSBuild finds a valid config. -->
+      <!-- SimplifiedCommon is AnyCPU-only; override when our x86 parent recurses into it. -->
       <SetPlatform>Platform=AnyCPU</SetPlatform>
     </ProjectReference>
   </ItemGroup>

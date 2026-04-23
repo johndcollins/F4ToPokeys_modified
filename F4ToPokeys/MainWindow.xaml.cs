@@ -35,13 +35,30 @@ namespace F4ToPokeys
 
         private void MenuItemConfigure_Click(object sender, RoutedEventArgs e)
         {
+            ShowConfigurationDialog();
+        }
+
+        // Public so App.xaml.cs can call it during startup when the user has unchecked
+        // "Start minimized" and we want the dialog visible as soon as the app launches.
+        public void ShowConfigurationDialog()
+        {
             if (configurationDialog == null)
             {
                 MenuItemQuit.IsEnabled = false;
                 configurationDialog = new ConfigurationDialog();
                 configurationDialog.ShowDialog();
                 configurationDialog = null;
-                MenuItemQuit.IsEnabled = true;
+
+                // If the dialog closed because the user clicked File > Quit, the app
+                // is shutting down and poking UI properties at this point can throw
+                // from inside WPF's style/trigger machinery as resources are torn down.
+                // Check ShutdownMode state via Dispatcher.HasShutdownStarted.
+                if (System.Windows.Application.Current != null
+                    && !Dispatcher.HasShutdownStarted
+                    && MenuItemQuit != null)
+                {
+                    MenuItemQuit.IsEnabled = true;
+                }
             }
             else
             {
@@ -57,6 +74,18 @@ namespace F4ToPokeys
 
         private void MenuItemQuit_Click(object sender, RoutedEventArgs e)
         {
+            // Save first so the tray-Quit path behaves the same as File > Quit in the
+            // dialog: the user's work is preserved regardless of which Quit they use.
+            try
+            {
+                ConfigHolder.Singleton.Save();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, ex.Message, Translations.Main.ConfigSaveErrorCaption, MessageBoxButton.OK, MessageBoxImage.Error);
+                // Still proceed to quit on save failure — user chose Quit.
+            }
+
             ConfigHolder.Singleton.Configuration.Dispose();
 
             if (configurationDialog == null)

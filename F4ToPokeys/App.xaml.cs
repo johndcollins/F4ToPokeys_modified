@@ -38,23 +38,55 @@ namespace F4ToPokeys
 
             // enableWpfTrace();  // uncomment to log binding/resource errors to %LocalAppData%\F4ToPokeys\WpfTrace.txt
 
+            // Load user-local preferences (theme, sampling interval, last-opened path).
+            // These are always stored in preferences.xml, never in the portable Configuration file.
+            UserPreferences prefs = UserPreferences.Load();
+
+            // Apply theme before showing any window so there's no flash on the configured preference.
+            ApplyTheme(prefs.IsDarkTheme);
+
+            // Apply sampling interval (FalconConnector reads this directly).
+            FalconConnector.Singleton.ReadFalconDataTimerInterval =
+                TimeSpan.FromMilliseconds(prefs.ReadFalconDataTimerIntervalMS);
+
+            // Also mirror preferences onto the in-memory Configuration so the UI's bindings read them.
+            if (ConfigHolder.Singleton.Configuration != null)
+                ConfigHolder.Singleton.Configuration.IsDarkTheme = prefs.IsDarkTheme;
+
+            // Load last-opened config file if it still exists, otherwise fall back to default.
+            string target = !string.IsNullOrEmpty(prefs.LastOpenedConfigPath)
+                            && System.IO.File.Exists(prefs.LastOpenedConfigPath)
+                ? prefs.LastOpenedConfigPath
+                : ConfigHolder.DefaultConfigFileName;
+
             try
             {
-                ConfigHolder.Singleton.Load();
+                ConfigHolder.Singleton.LoadFrom(target);
             }
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message, Translations.Main.ConfigLoadErrorCaption, MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
-            // Apply saved theme before showing any window so there's no flash on the configured preference.
-            bool dark = ConfigHolder.Singleton.Configuration?.IsDarkTheme ?? true;
-            ApplyTheme(dark);
+            // Re-apply IsDarkTheme on the newly-loaded Configuration so the VM binds consistently.
+            if (ConfigHolder.Singleton.Configuration != null)
+                ConfigHolder.Singleton.Configuration.IsDarkTheme = prefs.IsDarkTheme;
 
             FalconConnector.Singleton.start();
 
-            MainWindow = new MainWindow();
+            MainWindow mainWindow = new MainWindow();
+            MainWindow = mainWindow;
             MainWindow.Show();
+
+            // If the user's preference is to NOT start minimized, auto-show the config
+            // dialog right after the tray host is up, mimicking a right-click → Configure.
+            if (!prefs.StartMinimized)
+            {
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    mainWindow.ShowConfigurationDialog();
+                }), System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+            }
         }
 
         #endregion // Construction/Destruction
