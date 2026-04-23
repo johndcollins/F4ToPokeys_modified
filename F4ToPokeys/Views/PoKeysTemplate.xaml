@@ -743,6 +743,21 @@
                                         </StackPanel>
                                     </Expander.Header>
                                     <StackPanel Margin="{StaticResource ExpanderContentMargin}">
+                                        <!-- Manual test: type a stepper position, click Go to send it to the hardware. -->
+                                        <StackPanel Orientation="Horizontal"
+                                                    Margin="0,0,0,8">
+                                            <TextBlock Text="Test position:"
+                                                       VerticalAlignment="Center" />
+                                            <TextBox Text="{Binding Path=TestStepperPosition, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}"
+                                                     Margin="{StaticResource InlineLeftMargin}"
+                                                     Width="100"
+                                                     VerticalAlignment="Center" />
+                                            <Button Content="Go"
+                                                    Command="{Binding Path=SetStepperPositionCommand}"
+                                                    ToolTip="Send the test position to the stepper"
+                                                    Margin="{StaticResource InlineLeftMargin}"
+                                                    VerticalAlignment="Center" />
+                                        </StackPanel>
                                         <StackPanel Orientation="Horizontal"
                                                     Grid.IsSharedSizeScope="True">
                                             <ListView HorizontalAlignment="Left"
