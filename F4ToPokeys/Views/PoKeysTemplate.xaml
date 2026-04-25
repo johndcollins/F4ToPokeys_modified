@@ -1,0 +1,1156 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:my="clr-namespace:F4ToPokeys"
+                    xmlns:lang="clr-namespace:F4ToPokeys.Translations">
+
+    <!-- StaticResource lookups inside a DataTemplate resolve against the template's
+         lexical scope (this dictionary and anything it merges). Merge the shared
+         converter dictionary so {StaticResource BooleanToVisibilityConverter} etc. work. -->
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/F4ToPokeys;component/Resources/Converters.xaml" />
+        <ResourceDictionary Source="/F4ToPokeys;component/Themes/CommonTheme.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- Group header template for the sorted+grouped FalconLightCollectionView. Local
+         to this file because only PoKeys sub-templates consume it. -->
+    <DataTemplate x:Key="FalconLightGroupTemplate"
+                  DataType="{x:Type CollectionViewGroup}">
+        <TextBlock Text="{Binding Path=Name}"
+                   Margin="0,5,0,0"
+                   Padding="3"
+                   Background="{DynamicResource GroupHeaderBrush}"
+                   Foreground="{DynamicResource TextBrush}" />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type my:PoKeys}">
+        <GroupBox Margin="{StaticResource GroupBoxMargin}">
+            <GroupBox.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Name:"
+                               VerticalAlignment="Center"
+                               Margin="0,0,5,0" />
+                    <TextBox Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"
+                             Width="160"
+                             VerticalAlignment="Center" />
+                    <TextBlock Text="{x:Static lang:Main.PoKeysConfigCaption}"
+                               VerticalAlignment="Center"
+                               Margin="{StaticResource InlineLeftMediumMargin}" />
+                    <ComboBox ItemsSource="{Binding Path=AvailablePokeysList}"
+                              SelectedItem="{Binding Path=SelectedPokeys}"
+                              DisplayMemberPath="PokeysId"
+                              IsSynchronizedWithCurrentItem="False"
+                              Margin="{StaticResource InlineLeftMargin}"
+                              Width="300"
+                              VerticalAlignment="Center" />
+                    <Image Name="PoKeysErrorIcon"
+                           Source="{DynamicResource image_error}"
+                           Width="{StaticResource {x:Static SystemParameters.SmallIconWidthKey}}"
+                           ToolTip="{Binding Path=Error}"
+                           Margin="{StaticResource InlineLeftMargin}"
+                           VerticalAlignment="Center" />
+                    <Button Content="{x:Static lang:Main.RemoveButton}"
+                            Command="{Binding Path=RemovePoKeysCommand}"
+                            Margin="{StaticResource InlineLeftMediumMargin}"
+                            VerticalAlignment="Center" />
+                </StackPanel>
+            </GroupBox.Header>
+            <GroupBox.Content>
+                <TabControl>
+                    <TabItem>
+                        <TabItem.Header>
+                            <TextBlock>
+                                <Run Text="Digital " />
+                                <Run Text="(" /><Run Text="{Binding Path=DigitalOutputList.Count, Mode=OneWay}" /><Run Text=")" />
+                            </TextBlock>
+                        </TabItem.Header>
+                        <StackPanel Margin="0,5,0,0" TextElement.Foreground="{DynamicResource TextBrush}">
+                            <ItemsControl ItemsSource="{Binding Path=DigitalOutputList}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal"
+                                            Margin="{StaticResource TinyMargin}">
+                                    <TextBox Text="{Binding Path=Label, UpdateSourceTrigger=PropertyChanged}"
+                                             Width="120"
+                                             VerticalAlignment="Center" />
+                                    <ComboBox ItemsSource="{x:Static my:DigitalOutput.PinIdList}"
+                                              SelectedItem="{Binding Path=PinId}"
+                                              Margin="{StaticResource InlineLeftMargin}"
+                                              Width="50"
+                                              VerticalAlignment="Center" />
+                                    <Image Name="PinErrorIcon"
+                                           Source="{DynamicResource image_error}"
+                                           Width="{StaticResource {x:Static SystemParameters.SmallIconWidthKey}}"
+                                           ToolTip="{Binding Path=Error}"
+                                           Margin="{StaticResource InlineLeftMargin}"
+                                           VerticalAlignment="Center" />
+                                    <Image Name="PinOutputStateIcon"
+                                           Source="{DynamicResource image_light_off}"
+                                           Width="{StaticResource {x:Static SystemParameters.SmallIconWidthKey}}"
+                                           Margin="{StaticResource InlineLeftMediumMargin}"
+                                           VerticalAlignment="Center" />
+                                    <Button Content="{x:Static lang:Main.FalconLightConsumerConfigOnButton}"
+                                            Command="{Binding Path=SetOutputStateToOnCommand}"
+                                            Margin="{StaticResource InlineLeftMargin}"
+                                            VerticalAlignment="Center" />
+                                    <Button Content="{x:Static lang:Main.FalconLightConsumerConfigOffButton}"
+                                            Command="{Binding Path=SetOutputStateToOffCommand}"
+                                            Margin="{StaticResource InlineLeftMargin}"
+                                            VerticalAlignment="Center" />
+                                    <ComboBox ItemsSource="{Binding Path=DataContext.FalconLightCollectionView, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                                              SelectedItem="{Binding Path=FalconLight}"
+                                              Margin="{StaticResource InlineLeftMediumMargin}"
+                                              Width="200"
+                                              DisplayMemberPath="Label"
+                                              VerticalAlignment="Center"
+                                              IsSynchronizedWithCurrentItem="False">
+                                        <ComboBox.GroupStyle>
+                                            <GroupStyle HeaderTemplate="{StaticResource FalconLightGroupTemplate}" />
+                                        </ComboBox.GroupStyle>
+                                    </ComboBox>
+                                    <Button Content="{x:Static lang:Main.RemoveButton}"
+                                            Command="{Binding Path=RemoveDigitalOutputCommand}"
+                                            Margin="{StaticResource InlineLeftMediumMargin}"
+                                            VerticalAlignment="Center" />
+                                </StackPanel>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding Path=Error}"
+                                                 Value="{x:Null}">
+                                        <Setter TargetName="PinErrorIcon"
+                                                Property="Visibility"
+                                                Value="Hidden" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Path=OutputState}"
+                                                 Value="true">
+                                        <Setter TargetName="PinOutputStateIcon"
+                                                Property="Source"
+                                                Value="{DynamicResource image_light_on}" />
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <Button Content="{x:Static lang:Main.AddDigitalOutputButton}"
+                                    HorizontalAlignment="Left"
+                                    Margin="{StaticResource StackedTopMargin}"
+                                    Command="{Binding Path=AddDigitalOutputCommand}" />
+                        </StackPanel>
+                    </TabItem>
+                    <TabItem>
+                        <TabItem.Header>
+                            <TextBlock>
+                                <Run Text="Memory Slots " />
+                                <Run Text="(" /><Run Text="{Binding Path=MemorySlotOutputList.Count, Mode=OneWay}" /><Run Text=")" />
+                            </TextBlock>
+                        </TabItem.Header>
+                        <StackPanel Margin="0,5,0,0" TextElement.Foreground="{DynamicResource TextBrush}">
+                            <ItemsControl ItemsSource="{Binding Path=MemorySlotOutputList}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal"
+                                            Margin="{StaticResource TinyMargin}">
+                                    <TextBlock Text="{Binding Path=Slot.Label}"
+                                               VerticalAlignment="Center" Margin="{StaticResource InlineLeftMargin}" Width="170" />
+                                    <TextBlock Text="{x:Static lang:Main.MemorySlotOutputSlotIdCaption}"
+                                               VerticalAlignment="Center" Margin="{StaticResource InlineLeftMargin}" />
+                                    <TextBlock Text="{Binding Path=SlotId}" HorizontalAlignment="Left"
+                                               VerticalAlignment="Center" Margin="{StaticResource InlineLeftMargin}" Width="55" />
+                                    <TextBlock Text="{x:Static lang:Main.MemorySlotOutputShiftBitsCaption}"
+                                               VerticalAlignment="Center" Margin="{StaticResource InlineLeftMargin}" Width="55" />
+                                    <TextBlock Text="{Binding Path=Slot.DisplayShiftBits}" HorizontalAlignment="Left"
+                                               VerticalAlignment="Center" Margin="{StaticResource InlineLeftMargin}" Width="75" />
+                                    <TextBlock Text="{x:Static lang:Main.MemorySlotOutputFormatCaption}"
+                                               VerticalAlignment="Center" Margin="{StaticResource InlineLeftMargin}" Width="55" />
+                                    <TextBlock Text="{Binding Path=Slot.Format}" HorizontalAlignment="Left"
+                                               VerticalAlignment="Center" Margin="{StaticResource InlineLeftMargin}" Width="75" />
+                                    <TextBlock Text="{x:Static lang:Main.MemorySlotOutputValueCaption}"
+                                               VerticalAlignment="Center" Margin="{StaticResource InlineLeftMargin}" Width="55" />
+                                    <TextBlock Text="{Binding Path=FalconValue, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left"
+                                               VerticalAlignment="Center" Margin="{StaticResource InlineLeftMargin}" Width="75" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <Button Content="{x:Static lang:Main.EnableMemorySlotOutputButton}"
+                                    HorizontalAlignment="Left"
+                                    Margin="{StaticResource StackedTopMargin}"
+                                    Command="{Binding Path=EnableMemorySlotOutputCommand}"
+                                    Visibility="{Binding Path=AllowEnableMemorySlotOutput, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                            <Button Content="{x:Static lang:Main.DisableMemorySlotOutputButton}"
+                                    Command="{Binding Path=DisableMemorySlotOutputCommand}"
+                                    HorizontalAlignment="Left"
+                                    Margin="{StaticResource StackedTopMargin}"
+                                    Visibility="{Binding Path=AllowDisableMemorySlotOutput, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        </StackPanel>
+                    </TabItem>
+                    <TabItem>
+                        <TabItem.Header>
+                            <TextBlock>
+                                <Run Text="Matrix LED " />
+                                <Run Text="(" /><Run Text="{Binding Path=MatrixLedOutputList.Count, Mode=OneWay}" /><Run Text=")" />
+                            </TextBlock>
+                        </TabItem.Header>
+                        <StackPanel Margin="0,5,0,0" TextElement.Foreground="{DynamicResource TextBrush}">
+                            <ItemsControl ItemsSource="{Binding Path=MatrixLedOutputList}"
+                                          Margin="{StaticResource StackedTopMargin}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal"
+                                            Margin="{StaticResource TinyMargin}">
+                                    <TextBox Text="{Binding Path=Label, UpdateSourceTrigger=PropertyChanged}"
+                                             Width="120"
+                                             VerticalAlignment="Center" />
+                                    <ComboBox ItemsSource="{x:Static my:MatrixLed.AvailableMatrixLedList}"
+                                              SelectedItem="{Binding Path=MatrixLed}"
+                                              my:SelectorHelper.SelectIndexInDesignMode="0"
+                                              Margin="{StaticResource InlineLeftMargin}"
+                                              Width="80"
+                                              VerticalAlignment="Center"
+                                              DisplayMemberPath="Name" />
+                                    <TextBlock Text="{x:Static lang:Main.MatrixLedOutputConfigRow}"
+                                               Margin="{StaticResource InlineLeftMargin}"
+                                               VerticalAlignment="Center" />
+                                    <ComboBox ItemsSource="{x:Static my:MatrixLed.AvailableIndexList}"
+                                              SelectedItem="{Binding Path=Row}"
+                                              Margin="{StaticResource InlineLeftMargin}"
+                                              Width="40"
+                                              VerticalAlignment="Center" />
+                                    <TextBlock Text="{x:Static lang:Main.MatrixLedOutputConfigColumn}"
+                                               Margin="{StaticResource InlineLeftMargin}"
+                                               VerticalAlignment="Center" />
+                                    <ComboBox ItemsSource="{x:Static my:MatrixLed.AvailableIndexList}"
+                                              SelectedItem="{Binding Path=Column}"
+                                              Margin="{StaticResource InlineLeftMargin}"
+                                              Width="40"
+                                              VerticalAlignment="Center" />
+                                    <Image Name="MatrixLedErrorIcon"
+                                           Source="{DynamicResource image_error}"
+                                           Width="{StaticResource {x:Static SystemParameters.SmallIconWidthKey}}"
+                                           ToolTip="{Binding Path=Error}"
+                                           Margin="{StaticResource InlineLeftMargin}"
+                                           VerticalAlignment="Center" />
+                                    <Image Name="MatrixLedOutputStateIcon"
+                                           Source="{DynamicResource image_light_off}"
+                                           Width="{StaticResource {x:Static SystemParameters.SmallIconWidthKey}}"
+                                           Margin="{StaticResource InlineLeftMediumMargin}"
+                                           VerticalAlignment="Center" />
+                                    <Button Content="{x:Static lang:Main.FalconLightConsumerConfigOnButton}"
+                                            Command="{Binding Path=SetOutputStateToOnCommand}"
+                                            Margin="{StaticResource InlineLeftMargin}"
+                                            VerticalAlignment="Center" />
+                                    <Button Content="{x:Static lang:Main.FalconLightConsumerConfigOffButton}"
+                                            Command="{Binding Path=SetOutputStateToOffCommand}"
+                                            Margin="{StaticResource InlineLeftMargin}"
+                                            VerticalAlignment="Center" />
+                                    <ComboBox ItemsSource="{Binding Path=DataContext.FalconLightCollectionView, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                                              SelectedItem="{Binding Path=FalconLight}"
+                                              Margin="{StaticResource InlineLeftMediumMargin}"
+                                              Width="200"
+                                              DisplayMemberPath="Label"
+                                              VerticalAlignment="Center"
+                                              IsSynchronizedWithCurrentItem="False">
+                                        <ComboBox.GroupStyle>
+                                            <GroupStyle HeaderTemplate="{StaticResource FalconLightGroupTemplate}" />
+                                        </ComboBox.GroupStyle>
+                                    </ComboBox>
+                                    <Button Content="{x:Static lang:Main.RemoveButton}"
+                                            Command="{Binding Path=RemoveMatrixLedOutputCommand}"
+                                            Margin="{StaticResource InlineLeftMediumMargin}"
+                                            VerticalAlignment="Center" />
+                                </StackPanel>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding Path=Error}"
+                                                 Value="{x:Null}">
+                                        <Setter TargetName="MatrixLedErrorIcon"
+                                                Property="Visibility"
+                                                Value="Hidden" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Path=OutputState}"
+                                                 Value="true">
+                                        <Setter TargetName="MatrixLedOutputStateIcon"
+                                                Property="Source"
+                                                Value="{DynamicResource image_light_on}" />
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                            <Button Content="{x:Static lang:Main.AddMatrixLedOutputButton}"
+                                    HorizontalAlignment="Left"
+                                    Margin="{StaticResource StackedTopMargin}"
+                                    Command="{Binding Path=AddMatrixLedOutputCommand}" />
+                        </StackPanel>
+                    </TabItem>
+                    <TabItem>
+                        <TabItem.Header>
+                            <TextBlock>
+                                <Run Text="PoExtBus " />
+                                <Run Text="(" /><Run Text="{Binding Path=PoExtBusOutputList.Count, Mode=OneWay}" /><Run Text=")" />
+                            </TextBlock>
+                        </TabItem.Header>
+                        <StackPanel Margin="0,5,0,0" TextElement.Foreground="{DynamicResource TextBrush}">
+                            <ItemsControl ItemsSource="{Binding Path=PoExtBusOutputList}"
+                                          Margin="{StaticResource StackedTopMargin}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal"
+                                            Margin="{StaticResource TinyMargin}">
+                                    <TextBox Text="{Binding Path=Label, UpdateSourceTrigger=PropertyChanged}"
+                                             Width="120"
+                                             VerticalAlignment="Center" />
+                                    <ComboBox ItemsSource="{x:Static my:PoExtBus.AvailablePinIdList}"
+                                              SelectedItem="{Binding Path=PinId}"
+                                              Margin="{StaticResource InlineLeftMargin}"
+                                              Width="40"
+                                              VerticalAlignment="Center" />
+                                    <TextBlock Text="{x:Static lang:Main.PoExtBusOutputConfigDevice}"
+                                               Margin="{StaticResource InlineLeftMargin}"
+                                               VerticalAlignment="Center" />
+                                    <ComboBox ItemsSource="{x:Static my:PoExtBus.AvailableDeviceIdList}"
+                                              SelectedItem="{Binding Path=DeviceId}"
+                                              Margin="{StaticResource InlineLeftMargin}"
+                                              Width="40"
+                                              VerticalAlignment="Center" />
+                                    <Image Name="PoExtBusErrorIcon"
+                                           Source="{DynamicResource image_error}"
+                                           Width="{StaticResource {x:Static SystemParameters.SmallIconWidthKey}}"
+                                           ToolTip="{Binding Path=Error}"
+                                           Margin="{StaticResource InlineLeftMargin}"
+                                           VerticalAlignment="Center" />
+                                    <Image Name="PoExtBusOutputStateIcon"
+                                           Source="{DynamicResource image_light_off}"
+                                           Width="{StaticResource {x:Static SystemParameters.SmallIconWidthKey}}"
+                                           Margin="{StaticResource InlineLeftMediumMargin}"
+                                           VerticalAlignment="Center" />
+                                    <Button Content="{x:Static lang:Main.FalconLightConsumerConfigOnButton}"
+                                            Command="{Binding Path=SetOutputStateToOnCommand}"
+                                            Margin="{StaticResource InlineLeftMargin}"
+                                            VerticalAlignment="Center" />
+                                    <Button Content="{x:Static lang:Main.FalconLightConsumerConfigOffButton}"
+                                            Command="{Binding Path=SetOutputStateToOffCommand}"
+                                            Margin="{StaticResource InlineLeftMargin}"
+                                            VerticalAlignment="Center" />
+                                    <ComboBox ItemsSource="{Binding Path=DataContext.FalconLightCollectionView, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                                              SelectedItem="{Binding Path=FalconLight}"
+                                              Margin="{StaticResource InlineLeftMediumMargin}"
+                                              Width="200"
+                                              DisplayMemberPath="Label"
+                                              VerticalAlignment="Center"
+                                              IsSynchronizedWithCurrentItem="False">
+                                        <ComboBox.GroupStyle>
+                                            <GroupStyle HeaderTemplate="{StaticResource FalconLightGroupTemplate}" />
+                                        </ComboBox.GroupStyle>
+                                    </ComboBox>
+                                    <Button Content="{x:Static lang:Main.RemoveButton}"
+                                            Command="{Binding Path=RemovePoExtBusOutputCommand}"
+                                            Margin="{StaticResource InlineLeftMediumMargin}"
+                                            VerticalAlignment="Center" />
+                                </StackPanel>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding Path=Error}"
+                                                 Value="{x:Null}">
+                                        <Setter TargetName="PoExtBusErrorIcon"
+                                                Property="Visibility"
+                                                Value="Hidden" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Path=OutputState}"
+                                                 Value="true">
+                                        <Setter TargetName="PoExtBusOutputStateIcon"
+                                                Property="Source"
+                                                Value="{DynamicResource image_light_on}" />
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                            <Button Content="{x:Static lang:Main.AddPoExtBusOutputButton}"
+                                    HorizontalAlignment="Left"
+                                    Margin="{StaticResource StackedTopMargin}"
+                                    Command="{Binding Path=AddPoExtBusOutputCommand}" />
+                        </StackPanel>
+                    </TabItem>
+                    <TabItem>
+                        <TabItem.Header>
+                            <TextBlock>
+                                <Run Text="7-Segment " />
+                                <Run Text="(" /><Run Text="{Binding Path=SevenSegmentDisplayList.Count, Mode=OneWay}" /><Run Text=")" />
+                            </TextBlock>
+                        </TabItem.Header>
+                        <StackPanel Margin="0,5,0,0" TextElement.Foreground="{DynamicResource TextBrush}">
+                            <ItemsControl ItemsSource="{Binding Path=SevenSegmentDisplayList}"
+                                          Margin="{StaticResource StackedTopMargin}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Expander Margin="{StaticResource TinyMargin}">
+                                    <Expander.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{x:Static lang:Main.SevenSegmentDisplayConfigCaption}"
+                                                       VerticalAlignment="Center" />
+                                            <ComboBox ItemsSource="{x:Static my:MatrixLed.AvailableMatrixLedList}"
+                                                      SelectedItem="{Binding Path=MatrixLed}"
+                                                      my:SelectorHelper.SelectIndexInDesignMode="0"
+                                                      Margin="{StaticResource InlineLeftMargin}"
+                                                      Width="80"
+                                                      VerticalAlignment="Center"
+                                                      DisplayMemberPath="Name" />
+                                            <Image Name="SevenSegmentErrorIcon"
+                                                   Source="{DynamicResource image_error}"
+                                                   Width="{StaticResource {x:Static SystemParameters.SmallIconWidthKey}}"
+                                                   ToolTip="{Binding Path=Error}"
+                                                   Margin="{StaticResource InlineLeftMargin}"
+                                                   VerticalAlignment="Center" />
+                                            <ItemsControl ItemsSource="{Binding Path=SevenSegmentDigits}"
+                                                          Margin="{StaticResource InlineLeftMargin}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel>
+                                                            <my:SevenSegmentDigitControl Digit="{Binding}"
+                                                                                         Background="{DynamicResource SevenSegmentBackgroundBrush}"
+                                                                                         Margin="2,0,0,0"
+                                                                                         Padding="3,3,1,3"
+                                                                                         Width="24"
+                                                                                         SnapsToDevicePixels="True"
+                                                                                         FillOn="{DynamicResource SevenSegmentOnBrush}"
+                                                                                         FillOff="{DynamicResource SevenSegmentOffBrush}" />
+                                                            <TextBlock Text="{Binding Path=Index}"
+                                                                       HorizontalAlignment="Center"
+                                                                       FontSize="{StaticResource TinyFontSize}" />
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <DockPanel LastChildFill="False" />
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemContainerStyle>
+                                                    <Style>
+                                                        <Setter Property="DockPanel.Dock"
+                                                                Value="Right" />
+                                                    </Style>
+                                                </ItemsControl.ItemContainerStyle>
+                                            </ItemsControl>
+                                            <ComboBox ItemsSource="{Binding Path=DataContext.FalconGaugeCollectionView, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                                                      SelectedItem="{Binding Path=FalconGauge}"
+                                                      Margin="{StaticResource InlineLeftMediumMargin}"
+                                                      Width="200"
+                                                      DisplayMemberPath="Label"
+                                                      VerticalAlignment="Center"
+                                                      IsSynchronizedWithCurrentItem="False" />
+                                            <TextBox Text="{Binding Path=FalconValue, UpdateSourceTrigger=PropertyChanged}"
+                                                     Margin="{StaticResource InlineLeftMargin}"
+                                                     Width="75"
+                                                     VerticalAlignment="Center" />
+                                            <Button Content="{x:Static lang:Main.RemoveButton}"
+                                                    Command="{Binding Path=RemoveSevenSegmentDisplayCommand}"
+                                                    Margin="{StaticResource InlineLeftMediumMargin}"
+                                                    VerticalAlignment="Center" />
+                                        </StackPanel>
+                                    </Expander.Header>
+                                    <StackPanel Margin="{StaticResource ExpanderContentMargin}">
+                                        <StackPanel Orientation="Horizontal"
+                                                    Grid.IsSharedSizeScope="True">
+                                            <ItemsControl ItemsSource="{Binding Path=FalconGaugeDigits}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Grid Margin="1,0,1,0"
+                                                              Width="32">
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition SharedSizeGroup="DigitRow" />
+                                                                <RowDefinition Height="5" />
+                                                                <RowDefinition SharedSizeGroup="DigitIndexRow" />
+                                                            </Grid.RowDefinitions>
+                                                            <Grid Background="{DynamicResource GaugeDigitBackgroundBrush}">
+                                                                <StackPanel Orientation="Horizontal"
+                                                                            HorizontalAlignment="Center"
+                                                                            TextBlock.FontSize="{StaticResource LargeFontSize}">
+                                                                    <TextBlock Text="{Binding Path=Value}" Foreground="Black" />
+                                                                    <TextBlock Text="."
+                                                                               Foreground="Black"
+                                                                               Visibility="{Binding Path=DecimalPoint, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                                </StackPanel>
+                                                            </Grid>
+                                                            <ComboBox ItemsSource="{x:Static my:FalconGaugeDigit.AvailableIndexList}"
+                                                                      SelectedItem="{Binding Path=SevenSegmentDigitIndex, Converter={StaticResource SevenSegmentDigitIndexConverter}}"
+                                                                      Margin="1,0"
+                                                                      FontSize="{StaticResource SmallFontSize}"
+                                                                      Grid.Row="2">
+                                                            </ComboBox>
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <DockPanel LastChildFill="False" />
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemContainerStyle>
+                                                    <Style>
+                                                        <Setter Property="DockPanel.Dock"
+                                                                Value="Right" />
+                                                    </Style>
+                                                </ItemsControl.ItemContainerStyle>
+                                            </ItemsControl>
+                                            <Grid Margin="{StaticResource InlineLeftMediumMargin}">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition SharedSizeGroup="DigitRow" />
+                                                    <RowDefinition Height="5" />
+                                                    <RowDefinition SharedSizeGroup="DigitIndexRow" />
+                                                </Grid.RowDefinitions>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <StackPanel>
+                                                        <Button Content="{x:Static lang:Main.IncrementTotalSizeButton}"
+                                                                Command="{Binding Path=FalconGaugeFormat.IncrementTotalSizeCommand}" />
+                                                        <Button Content="{x:Static lang:Main.DecrementTotalSizeButton}"
+                                                                Command="{Binding Path=FalconGaugeFormat.DecrementTotalSizeCommand}"
+                                                                Margin="0,3,0,0" />
+                                                    </StackPanel>
+                                                    <StackPanel Margin="{StaticResource InlineLeftMediumMargin}">
+                                                        <Grid>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition />
+                                                                <RowDefinition Height="5" />
+                                                                <RowDefinition />
+                                                            </Grid.RowDefinitions>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition />
+                                                                <ColumnDefinition />
+                                                                <ColumnDefinition />
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBlock Text="{x:Static lang:Main.IntegralPartMinSizeCaption}"
+                                                                       VerticalAlignment="Center"
+                                                                       Grid.Row="0"
+                                                                       Grid.Column="0" />
+                                                            <TextBox Text="{Binding Path=FalconGaugeFormat.IntegralPartMinSize, UpdateSourceTrigger=PropertyChanged}"
+                                                                     Margin="{StaticResource InlineLeftMargin}"
+                                                                     Width="50"
+                                                                     VerticalAlignment="Center"
+                                                                     Grid.Row="0"
+                                                                     Grid.Column="1" />
+                                                            <TextBlock Text="{x:Static lang:Main.FractionalPartSizeCaption}"
+                                                                       Grid.Row="2"
+                                                                       Grid.Column="0"
+                                                                       VerticalAlignment="Center" />
+                                                            <TextBox Text="{Binding Path=FalconGaugeFormat.FractionalPartSize, UpdateSourceTrigger=PropertyChanged}"
+                                                                     Margin="{StaticResource InlineLeftMargin}"
+                                                                     Width="50"
+                                                                     VerticalAlignment="Center"
+                                                                     Grid.Row="2"
+                                                                     Grid.Column="1" />
+                                                            <CheckBox Content="{x:Static lang:Main.PadFractionalPartWithZeroCaption}"
+                                                                      IsChecked="{Binding Path=FalconGaugeFormat.PadFractionalPartWithZero}"
+                                                                      Margin="{StaticResource InlineLeftMargin}"
+                                                                      VerticalAlignment="Center"
+                                                                      Grid.Row="2"
+                                                                      Grid.Column="2" />
+                                                        </Grid>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                                <Grid Grid.Row="2"
+                                                      Visibility="{Binding Path=MatrixLedConfig, Converter={StaticResource NullToHiddenConverter}}">
+                                                    <TextBlock Text="{x:Static lang:Main.SevenSegmentDigitRowCaption}"
+                                                               VerticalAlignment="Center"
+                                                               Visibility="{Binding Path=MatrixLedConfig.DigitOnRow, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                    <TextBlock Text="{x:Static lang:Main.SevenSegmentDigitColumnCaption}"
+                                                               VerticalAlignment="Center"
+                                                               Visibility="{Binding Path=MatrixLedConfig.DigitOnColumn, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                </Grid>
+                                            </Grid>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal"
+                                                    Margin="{StaticResource StackedTopMargin}"
+                                                    Visibility="{Binding Path=MatrixLedConfig, Converter={StaticResource NullToHiddenConverter}}">
+                                            <my:SevenSegmentDigitControl Width="64"
+                                                                         ShowLabel="True"
+                                                                         FillOff="{DynamicResource SevenSegmentOnBrush}"
+                                                                         Stroke="{DynamicResource SevenSegmentStrokeBrush}" />
+                                            <DockPanel Margin="{StaticResource InlineLeftMediumMargin}"
+                                                       LastChildFill="False">
+                                                <CheckBox Content="{x:Static lang:Main.SevenSegmentInvertRowColumnOption}"
+                                                          IsChecked="{Binding Path=MatrixLedConfig.DigitOnRow}"
+                                                          DockPanel.Dock="Top" />
+                                                <Grid DockPanel.Dock="Bottom">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition />
+                                                        <RowDefinition />
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="36" />
+                                                        <ColumnDefinition Width="36" />
+                                                        <ColumnDefinition Width="36" />
+                                                        <ColumnDefinition Width="36" />
+                                                        <ColumnDefinition Width="36" />
+                                                        <ColumnDefinition Width="36" />
+                                                        <ColumnDefinition Width="36" />
+                                                        <ColumnDefinition Width="36" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Text="A"
+                                                               Grid.Column="0"
+                                                               Style="{DynamicResource SegmentIndexTextBlockStyle}" />
+                                                    <ComboBox SelectedItem="{Binding Path=MatrixLedConfig.SegmentIndexA}"
+                                                              ItemsSource="{x:Static my:MatrixLed.AvailableIndexList}"
+                                                              Grid.Column="0"
+                                                              Style="{DynamicResource SegmentIndexComboBoxStyle}" />
+                                                    <TextBlock Text="B"
+                                                               Grid.Column="1"
+                                                               Style="{DynamicResource SegmentIndexTextBlockStyle}" />
+                                                    <ComboBox SelectedItem="{Binding Path=MatrixLedConfig.SegmentIndexB}"
+                                                              ItemsSource="{x:Static my:MatrixLed.AvailableIndexList}"
+                                                              Grid.Column="1"
+                                                              Style="{DynamicResource SegmentIndexComboBoxStyle}" />
+                                                    <TextBlock Text="C"
+                                                               Grid.Column="2"
+                                                               Style="{DynamicResource SegmentIndexTextBlockStyle}" />
+                                                    <ComboBox SelectedItem="{Binding Path=MatrixLedConfig.SegmentIndexC}"
+                                                              ItemsSource="{x:Static my:MatrixLed.AvailableIndexList}"
+                                                              Grid.Column="2"
+                                                              Style="{DynamicResource SegmentIndexComboBoxStyle}" />
+                                                    <TextBlock Text="D"
+                                                               Grid.Column="3"
+                                                               Style="{DynamicResource SegmentIndexTextBlockStyle}" />
+                                                    <ComboBox SelectedItem="{Binding Path=MatrixLedConfig.SegmentIndexD}"
+                                                              ItemsSource="{x:Static my:MatrixLed.AvailableIndexList}"
+                                                              Grid.Column="3"
+                                                              Style="{DynamicResource SegmentIndexComboBoxStyle}" />
+                                                    <TextBlock Text="E"
+                                                               Grid.Column="4"
+                                                               Style="{DynamicResource SegmentIndexTextBlockStyle}" />
+                                                    <ComboBox SelectedItem="{Binding Path=MatrixLedConfig.SegmentIndexE}"
+                                                              ItemsSource="{x:Static my:MatrixLed.AvailableIndexList}"
+                                                              Grid.Column="4"
+                                                              Style="{DynamicResource SegmentIndexComboBoxStyle}" />
+                                                    <TextBlock Text="F"
+                                                               Grid.Column="5"
+                                                               Style="{DynamicResource SegmentIndexTextBlockStyle}" />
+                                                    <ComboBox SelectedItem="{Binding Path=MatrixLedConfig.SegmentIndexF}"
+                                                              ItemsSource="{x:Static my:MatrixLed.AvailableIndexList}"
+                                                              Grid.Column="5"
+                                                              Style="{DynamicResource SegmentIndexComboBoxStyle}" />
+                                                    <TextBlock Text="G"
+                                                               Grid.Column="6"
+                                                               Style="{DynamicResource SegmentIndexTextBlockStyle}" />
+                                                    <ComboBox SelectedItem="{Binding Path=MatrixLedConfig.SegmentIndexG}"
+                                                              ItemsSource="{x:Static my:MatrixLed.AvailableIndexList}"
+                                                              Grid.Column="6"
+                                                              Style="{DynamicResource SegmentIndexComboBoxStyle}" />
+                                                    <TextBlock Text="DP"
+                                                               Grid.Column="7"
+                                                               Style="{DynamicResource SegmentIndexTextBlockStyle}" />
+                                                    <ComboBox SelectedItem="{Binding Path=MatrixLedConfig.SegmentIndexDP}"
+                                                              ItemsSource="{x:Static my:MatrixLed.AvailableIndexList}"
+                                                              Grid.Column="7"
+                                                              Style="{DynamicResource SegmentIndexComboBoxStyle}" />
+                                                </Grid>
+                                                <StackPanel DockPanel.Dock="Bottom">
+                                                    <TextBlock Text="{x:Static lang:Main.SevenSegmentSegmentRowCaption}"
+                                                               Visibility="{Binding Path=MatrixLedConfig.DigitOnColumn, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                    <TextBlock Text="{x:Static lang:Main.SevenSegmentSegmentColumnCaption}"
+                                                               Visibility="{Binding Path=MatrixLedConfig.DigitOnRow, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                </StackPanel>
+                                            </DockPanel>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Expander>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding Path=Error}"
+                                                 Value="{x:Null}">
+                                        <Setter TargetName="SevenSegmentErrorIcon"
+                                                Property="Visibility"
+                                                Value="Hidden" />
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                            <Button Content="{x:Static lang:Main.AddSevenSegmentDisplayButton}"
+                                    HorizontalAlignment="Left"
+                                    Margin="{StaticResource StackedTopMargin}"
+                                    Command="{Binding Path=AddSevenSegmentDisplayCommand}" />
+                        </StackPanel>
+                    </TabItem>
+                    <TabItem>
+                        <TabItem.Header>
+                            <TextBlock>
+                                <Run Text="Stepper " />
+                                <Run Text="(" /><Run Text="{Binding Path=PoVID6066.StepperList.Count, Mode=OneWay}" /><Run Text=")" />
+                            </TextBlock>
+                        </TabItem.Header>
+                        <StackPanel Margin="0,5,0,0" TextElement.Foreground="{DynamicResource TextBrush}">
+                            <ItemsControl ItemsSource="{Binding Path=PoVID6066.StepperList}"
+                                          Margin="{StaticResource StackedTopMargin}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Expander Margin="{StaticResource TinyMargin}">
+                                    <Expander.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{x:Static lang:Main.StepperConfigCaption}"
+                                                       VerticalAlignment="Center" />
+                                            <ComboBox ItemsSource="{Binding Path=StepperIdList}"
+                                                      SelectedItem="{Binding Path=StepperId}"
+                                                      Margin="{StaticResource InlineLeftMargin}"
+                                                      Width="50"
+                                                      VerticalAlignment="Center" />
+                                            <Image Name="StepperIdErrorIcon"
+                                                   Source="{DynamicResource image_error}"
+                                                   Width="{StaticResource {x:Static SystemParameters.SmallIconWidthKey}}"
+                                                   ToolTip="{Binding Path=StepperIdError}"
+                                                   Margin="{StaticResource InlineLeftMargin}"
+                                                   VerticalAlignment="Center" />
+                                            <ComboBox ItemsSource="{Binding Path=DataContext.FalconGaugeCollectionView, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                                                      SelectedItem="{Binding Path=FalconGauge}"
+                                                      Margin="{StaticResource InlineLeftMediumMargin}"
+                                                      Width="200"
+                                                      DisplayMemberPath="Label"
+                                                      VerticalAlignment="Center"
+                                                      IsSynchronizedWithCurrentItem="False" />
+                                            <TextBlock Text="{x:Static lang:Main.FalconValueCaption}"
+                                                       Margin="{StaticResource InlineLeftMediumMargin}"
+                                                       VerticalAlignment="Center" />
+                                            <TextBox Text="{Binding Path=FalconValue, UpdateSourceTrigger=PropertyChanged}"
+                                                     Margin="{StaticResource InlineLeftMediumMargin}"
+                                                     Width="75"
+                                                     IsReadOnly="True"
+                                                     IsEnabled="False"
+                                                     VerticalAlignment="Center" />
+                                            <TextBlock Text="{x:Static lang:Main.StepperValueCaption}"
+                                                       Margin="{StaticResource InlineLeftMediumMargin}"
+                                                       VerticalAlignment="Center" />
+                                            <TextBox Text="{Binding Path=StepperPosition, UpdateSourceTrigger=PropertyChanged}"
+                                                     Margin="{StaticResource InlineLeftMediumMargin}"
+                                                     Width="75"
+                                                     IsReadOnly="True"
+                                                     IsEnabled="False"
+                                                     VerticalAlignment="Center" />
+                                            <TextBox Text="{Binding Path=PoVID6066.HomingTimeoutMilliseconds, UpdateSourceTrigger=PropertyChanged}"
+                                                     Margin="{StaticResource InlineLeftMediumMargin}"
+                                                     Width="75"
+                                                     IsReadOnly="True"
+                                                     IsEnabled="False"
+                                                     VerticalAlignment="Center" />
+                                            <Image Name="StepperErrorIcon"
+                                                   Source="{DynamicResource image_error}"
+                                                   Width="{StaticResource {x:Static SystemParameters.SmallIconWidthKey}}"
+                                                   ToolTip="{Binding Path=Error}"
+                                                   Margin="{StaticResource InlineLeftMargin}"
+                                                   VerticalAlignment="Center" />
+                                            <Button Content="{x:Static lang:Main.HomeStepperButton}"
+                                                    Command="{Binding Path=HomeStepperCommand}"
+                                                    Margin="{StaticResource InlineLeftMediumMargin}"
+                                                    VerticalAlignment="Center" />
+                                            <Button Content="{x:Static lang:Main.RemoveButton}"
+                                                    Command="{Binding Path=RemoveStepperCommand}"
+                                                    Margin="{StaticResource InlineLeftMediumMargin}"
+                                                    VerticalAlignment="Center" />
+                                        </StackPanel>
+                                    </Expander.Header>
+                                    <StackPanel Margin="{StaticResource ExpanderContentMargin}">
+                                        <!-- Manual test: type a stepper position, click Go to send it to the hardware. -->
+                                        <StackPanel Orientation="Horizontal"
+                                                    Margin="0,0,0,8">
+                                            <TextBlock Text="Test position:"
+                                                       VerticalAlignment="Center" />
+                                            <TextBox Text="{Binding Path=TestStepperPosition, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}"
+                                                     Margin="{StaticResource InlineLeftMargin}"
+                                                     Width="100"
+                                                     VerticalAlignment="Center" />
+                                            <Button Content="Go"
+                                                    Command="{Binding Path=SetStepperPositionCommand}"
+                                                    ToolTip="Send the test position to the stepper"
+                                                    Margin="{StaticResource InlineLeftMargin}"
+                                                    VerticalAlignment="Center" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal"
+                                                    Grid.IsSharedSizeScope="True">
+                                            <ListView HorizontalAlignment="Left"
+                                                  ItemsSource="{Binding Path=Points}">
+                                                <ListView.View>
+                                                    <GridView>
+                                                        <GridView.Columns>
+                                                            <GridViewColumn Header="{x:Static lang:Main.StepperPointFalconValue}">
+                                                                <GridViewColumn.CellTemplate>
+                                                                    <DataTemplate>
+                                                                        <TextBox Text="{Binding Path=FalconValue, UpdateSourceTrigger=PropertyChanged}"
+                                                                             Width="75" />
+                                                                    </DataTemplate>
+                                                                </GridViewColumn.CellTemplate>
+                                                            </GridViewColumn>
+                                                            <GridViewColumn Header="{x:Static lang:Main.StepperPointStepperValue}">
+                                                                <GridViewColumn.CellTemplate>
+                                                                    <DataTemplate>
+                                                                        <TextBox Text="{Binding Path=StepperValue, UpdateSourceTrigger=PropertyChanged}"
+                                                                             Width="75" />
+                                                                    </DataTemplate>
+                                                                </GridViewColumn.CellTemplate>
+                                                            </GridViewColumn>
+                                                            <GridViewColumn>
+                                                                <GridViewColumn.CellTemplate>
+                                                                    <DataTemplate>
+                                                                        <Button Content="{x:Static lang:Main.RemoveButton}"
+                                                                            Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ListView, AncestorLevel=1}, Path=DataContext.RemoveAdditionalPointCommand}"
+                                                                            CommandParameter="{Binding}" />
+                                                                    </DataTemplate>
+                                                                </GridViewColumn.CellTemplate>
+                                                            </GridViewColumn>
+                                                        </GridView.Columns>
+                                                    </GridView>
+                                                </ListView.View>
+                                            </ListView>
+                                            <Button Content="{x:Static lang:Main.AddStepperPointButton}"
+                                                VerticalAlignment="Center"
+                                                Margin="{StaticResource InlineLeftMediumMargin}"
+                                                Command="{Binding Path=AddAdditionalPointCommand}" />
+                                            <Grid Margin="{StaticResource InlineLeftLargeMargin}">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <Grid Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                                    <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                                            BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+                                                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="{StaticResource PanelPadding}">
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition />
+                                                                <RowDefinition />
+                                                                <RowDefinition />
+                                                                <RowDefinition />
+                                                            </Grid.RowDefinitions>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="*" />
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBlock Text="{x:Static lang:Main.StepperMotionParamCaption}"
+                                                                Margin="5,0,0,5"
+                                                                VerticalAlignment="Center" />
+                                                            <CheckBox Content="{x:Static lang:Main.StepperContinuousCaption}"
+                                                                IsChecked="{Binding Path=ContinuousRotation}"
+                                                                Margin="5,0,0,2"
+                                                                VerticalAlignment="Center"
+                                                                HorizontalAlignment="Left"
+                                                                Grid.Row="1"
+                                                                Grid.ColumnSpan="2" />
+                                                            <TextBlock Text="{x:Static lang:Main.StepperFullTurnValue}"
+                                                                Margin="5,0,0,2"
+                                                                VerticalAlignment="Center"
+                                                                Grid.Row="2"
+                                                                Visibility="{Binding Path=ContinuousRotation, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                            <TextBox Text="{Binding Path=FullTurnValue, UpdateSourceTrigger=PropertyChanged}"
+                                                                 Margin="5,0,0,2"
+                                                                 Width="75"
+                                                                 VerticalAlignment="Center"
+                                                                 HorizontalAlignment="Left"
+                                                                 Grid.Column="1"
+                                                                 Grid.Row="2"
+                                                                 Visibility="{Binding Path=ContinuousRotation, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                            <CheckBox Content="{x:Static lang:Main.StepperInverted}"
+                                                                IsChecked="{Binding Path=Inverted}"
+                                                                Margin="5,0,0,2"
+                                                                VerticalAlignment="Center" HorizontalAlignment="Left" Grid.ColumnSpan="2"
+                                                                Grid.Row="3" />
+                                                        </Grid>
+                                                    </Border>
+                                                </Grid>
+
+                                                <TextBlock Text=" "
+                                                                Margin="{StaticResource InlineLeftMargin}"
+                                                                VerticalAlignment="Center"
+                                                                Grid.Row="1" Grid.ColumnSpan="2" />
+
+                                                <Grid Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                                    <Border  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                                             BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+                                                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="{StaticResource PanelPadding}">
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition />
+                                                                <RowDefinition />
+                                                                <RowDefinition />
+                                                                <RowDefinition />
+                                                                <RowDefinition />
+                                                                <RowDefinition />
+                                                                <RowDefinition />
+                                                                <RowDefinition />
+                                                                <RowDefinition />
+                                                                <RowDefinition />
+                                                            </Grid.RowDefinitions>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="*" />
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBlock Text="{x:Static lang:Main.StepperHomingCaption}"
+                                                                Margin="5,0,0,5"
+                                                                VerticalAlignment="Center" />
+                                                            <CheckBox Content="{x:Static lang:Main.StepperHomeInvertedCaption}"
+                                                                IsChecked="{Binding Path=HomeInverted}"
+                                                                Margin="5,0,0,2"
+                                                                VerticalAlignment="Center" HorizontalAlignment="Left" Grid.ColumnSpan="2"
+                                                                Grid.Row="1" />
+                                                            <CheckBox Content="{x:Static lang:Main.StepperHasHomeSwitchCaption}"
+                                                                IsChecked="{Binding Path=HasHomeSwitch}"
+                                                                Margin="5,0,0,2"
+                                                                VerticalAlignment="Center" HorizontalAlignment="Left" Grid.ColumnSpan="2"
+                                                                Grid.Row="2" />
+                                                            <TextBlock Text="{x:Static lang:Main.StepperPinHomingSwitchCaption}"
+                                                                VerticalAlignment="Center"
+                                                                Margin="5,0,0,2"
+                                                                Grid.Row="3"
+                                                                Visibility="{Binding Path=HasHomeSwitch, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                            <ComboBox ItemsSource="{Binding Path=HomePinSwitchList}"
+                                                                SelectedItem="{Binding Path=PinHomeSwitch}"
+                                                                Margin="5,0,0,2"
+                                                                Width="50"
+                                                                HorizontalAlignment="Left"
+                                                                VerticalAlignment="Center"
+                                                                Grid.Row="3" Grid.Column="1"
+                                                                Visibility="{Binding Path=HasHomeSwitch, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                            <CheckBox Content="{x:Static lang:Main.StepperHomePinInvertedCaption}"
+                                                                IsChecked="{Binding Path=HomePinInverted}"
+                                                                Margin="5,0,0,2"
+                                                                VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="2"
+                                                                Grid.Row="3" />
+                                                            <TextBlock Text="{x:Static lang:Main.StepperHomingSpeedCaption}"
+                                                                VerticalAlignment="Center"
+                                                                Margin="5,0,0,2"
+                                                                Grid.Row="4" />
+                                                            <TextBox Text="{Binding Path=HomingSpeed, UpdateSourceTrigger=PropertyChanged}"
+                                                                Margin="5,0,0,2"
+                                                                Width="75"
+                                                                VerticalAlignment="Center"
+                                                                Grid.Row="4" Grid.Column="1" />
+                                                            <TextBlock Text="{x:Static lang:Main.StepperPctOfFullCaption}"
+                                                                Margin="5,0,0,2"
+                                                                VerticalAlignment="Center"
+                                                                Grid.Row="4" Grid.Column="2" />
+                                                            <TextBlock Text="{x:Static lang:Main.StepperHomingTimeoutCaption}"
+                                                                VerticalAlignment="Center"
+                                                                Margin="5,0,0,2"
+                                                                Grid.Row="5" />
+                                                            <TextBox Text="{Binding Path=PoVID6066.HomingTimeoutMilliseconds, UpdateSourceTrigger=PropertyChanged}"
+                                                                Margin="5,0,0,2"
+                                                                Width="75"
+                                                                VerticalAlignment="Center"
+                                                                Grid.Row="5" Grid.Column="1" />
+                                                            <TextBlock Text="{x:Static lang:Main.StepperForwardHomingStepsCaption}"
+                                                                VerticalAlignment="Center"
+                                                                Margin="5,0,0,2"
+                                                                Grid.Row="6" />
+                                                            <TextBox Text="{Binding Path=ForwardHomingSteps, UpdateSourceTrigger=PropertyChanged}"
+                                                                Margin="5,0,0,2"
+                                                                Width="75"
+                                                                VerticalAlignment="Center"
+                                                                Grid.Row="6" Grid.Column="1" />
+                                                            <TextBlock Text="{x:Static lang:Main.StepperHomingMaxAccelerationCaption}"
+                                                                VerticalAlignment="Center"
+                                                                Margin="5,0,0,2"
+                                                                Grid.Row="7" />
+                                                            <TextBox Text="{Binding Path=HomingMaxAcceleration, UpdateSourceTrigger=PropertyChanged}"
+                                                                Margin="5,0,0,2"
+                                                                Width="75"
+                                                                VerticalAlignment="Center"
+                                                                Grid.Row="7" Grid.Column="1" />
+                                                            <TextBlock Text="{x:Static lang:Main.StepperPulsesPerSec2Caption}"
+                                                                Margin="5,0,0,2"
+                                                                VerticalAlignment="Center"
+                                                                Grid.Row="7" Grid.Column="2" />
+                                                            <TextBlock Text="{x:Static lang:Main.StepperHomingMaxDeccelerationCaption}"
+                                                                VerticalAlignment="Center"
+                                                                Margin="5,0,0,2"
+                                                                Grid.Row="8" />
+                                                            <TextBox Text="{Binding Path=HomingMaxDecceleration, UpdateSourceTrigger=PropertyChanged}"
+                                                                Margin="5,0,0,2"
+                                                                Width="75"
+                                                                VerticalAlignment="Center"
+                                                                Grid.Row="8" Grid.Column="1" />
+                                                            <TextBlock Text="{x:Static lang:Main.StepperPulsesPerSec2Caption}"
+                                                                Margin="5,0,0,2"
+                                                                VerticalAlignment="Center"
+                                                                Grid.Row="8" Grid.Column="2" />
+                                                            <TextBlock Text="{x:Static lang:Main.StepperHomingReturnSpeedCaption}"
+                                                                VerticalAlignment="Center" Margin="5,0,0,0"
+                                                                Grid.Row="9" />
+                                                            <TextBox Text="{Binding Path=HomingReturnSpeed, UpdateSourceTrigger=PropertyChanged}"
+                                                                Margin="5,0,0,2"
+                                                                Width="75"
+                                                                VerticalAlignment="Center"
+                                                                Grid.Row="9" Grid.Column="1" />
+                                                            <TextBlock Text="{x:Static lang:Main.StepperPctOfHomingCation}"
+                                                                Margin="5,0,0,2"
+                                                                VerticalAlignment="Center"
+                                                                Grid.Row="9" Grid.Column="2" />
+                                                        </Grid>
+                                                    </Border>
+                                                </Grid>
+
+                                                <TextBlock Text=" "
+                                                                Margin="{StaticResource InlineLeftMargin}"
+                                                                VerticalAlignment="Center"
+                                                                Grid.Row="3" Grid.ColumnSpan="2" />
+
+                                                <Grid Grid.Row="4" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                                    <Border  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                                             BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+                                                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="{StaticResource PanelPadding}">
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition />
+                                                                <RowDefinition />
+                                                                <RowDefinition />
+                                                                <RowDefinition />
+                                                            </Grid.RowDefinitions>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="*" />
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBlock Text="{x:Static lang:Main.StepperSpeedCaption}"
+                                                                Margin="5,0,0,5"
+                                                                VerticalAlignment="Center" />
+                                                            <TextBlock Text="{x:Static lang:Main.StepperMaxSpeedCaption}"
+                                                                VerticalAlignment="Center" Margin="5,0,0,0"
+                                                                Grid.Row="1" />
+                                                            <TextBox Text="{Binding Path=MaxSpeed, UpdateSourceTrigger=PropertyChanged}"
+                                                                Margin="5,0,0,2"
+                                                                Width="75"
+                                                                VerticalAlignment="Center"
+                                                                Grid.Row="1" Grid.Column="1" />
+                                                            <TextBlock Text="{x:Static lang:Main.StepperPulsesPerSecCaption}"
+                                                                Margin="5,0,0,2"
+                                                                VerticalAlignment="Center"
+                                                                Grid.Row="1" Grid.Column="2" />
+                                                            <TextBlock Text="{x:Static lang:Main.StepperMaxAccelerationCaption}"
+                                                                VerticalAlignment="Center"
+                                                                Margin="5,0,0,2"
+                                                                Grid.Row="2" />
+                                                            <TextBox Text="{Binding Path=MaxAcceleration, UpdateSourceTrigger=PropertyChanged}"
+                                                                Margin="5,0,0,2"
+                                                                Width="75"
+                                                                VerticalAlignment="Center"
+                                                                Grid.Row="2" Grid.Column="1" />
+                                                            <TextBlock Text="{x:Static lang:Main.StepperPulsesPerSec2Caption}"
+                                                                Margin="5,0,0,2"
+                                                                VerticalAlignment="Center"
+                                                                Grid.Row="2" Grid.Column="2" />
+                                                            <TextBlock Text="{x:Static lang:Main.StepperMaxDeccelerationCaption}"
+                                                                VerticalAlignment="Center"
+                                                                Margin="5,0,0,2"
+                                                                Grid.Row="3" />
+                                                            <TextBox Text="{Binding Path=MaxDecceleration, UpdateSourceTrigger=PropertyChanged}"
+                                                                Margin="5,0,0,2"
+                                                                Width="75"
+                                                                VerticalAlignment="Center"
+                                                                Grid.Row="3" Grid.Column="1" />
+                                                            <TextBlock Text="{x:Static lang:Main.StepperPulsesPerSec2Caption}"
+                                                                Margin="5,0,0,2"
+                                                                VerticalAlignment="Center"
+                                                                Grid.Row="3" Grid.Column="2" />
+                                                        </Grid>
+                                                    </Border>
+                                                </Grid>
+
+                                                <TextBlock Text=" "
+                                                                Margin="{StaticResource InlineLeftMargin}"
+                                                                VerticalAlignment="Center"
+                                                                Grid.Row="5" Grid.ColumnSpan="2" />
+
+                                                <Grid Grid.Row="6" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                                    <Border  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                                             BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+                                                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="{StaticResource PanelPadding}">
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition />
+                                                                <RowDefinition />
+                                                                <RowDefinition />
+                                                                <RowDefinition />
+                                                            </Grid.RowDefinitions>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="*" />
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBlock Text="{x:Static lang:Main.StepperLimitsCaption}"
+                                                                Margin="5,0,0,5"
+                                                                VerticalAlignment="Center" />
+                                                            <CheckBox Content="{x:Static lang:Main.StepperSoftLimitEnabledCaption}"
+                                                                IsChecked="{Binding Path=SoftLimitEnabled}"
+                                                                Margin="{StaticResource InlineLeftMargin}"
+                                                                VerticalAlignment="Center" HorizontalAlignment="Left" Grid.ColumnSpan="2"
+                                                                Grid.Row="1" />
+                                                            <TextBlock Text="{x:Static lang:Main.StepperSoftLimitMinimumCaption}"
+                                                                VerticalAlignment="Center" Margin="{StaticResource InlineLeftMargin}"
+                                                                Grid.Row="2"
+                                                                Visibility="{Binding Path=SoftLimitEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                            <TextBox Text="{Binding Path=SoftLimitMinimum, UpdateSourceTrigger=PropertyChanged}"
+                                                                Margin="{StaticResource InlineLeftMargin}"
+                                                                Width="75"
+                                                                VerticalAlignment="Center"
+                                                                Grid.Row="2" Grid.Column="1"
+                                                                Visibility="{Binding Path=SoftLimitEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                            <TextBlock Text="{x:Static lang:Main.StepperSoftLimitMaximumCaption}"
+                                                                VerticalAlignment="Center" Margin="{StaticResource InlineLeftMargin}"
+                                                                Grid.Row="3"
+                                                                Visibility="{Binding Path=SoftLimitEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                            <TextBox Text="{Binding Path=SoftLimitMaximum, UpdateSourceTrigger=PropertyChanged}"
+                                                                Margin="{StaticResource InlineLeftMargin}"
+                                                                Width="75"
+                                                                VerticalAlignment="Center"
+                                                                Grid.Row="3" Grid.Column="1"
+                                                                Visibility="{Binding Path=SoftLimitEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                        </Grid>
+                                                    </Border>
+                                                </Grid>
+                                            </Grid>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Expander>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding Path=StepperIdError}"
+                                                 Value="{x:Null}">
+                                        <Setter TargetName="StepperIdErrorIcon"
+                                                Property="Visibility"
+                                                Value="Hidden" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Path=Error}"
+                                                 Value="{x:Null}">
+                                        <Setter TargetName="StepperErrorIcon"
+                                                Property="Visibility"
+                                                Value="Hidden" />
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                            <Button Content="{x:Static lang:Main.AddStepperButton}"
+                                    HorizontalAlignment="Left"
+                                    Margin="{StaticResource StackedTopMargin}"
+                                    Command="{Binding Path=PoVID6066.AddStepperCommand}"
+                                    Visibility="{Binding Path=PoVID6066.StepperSlotsAvailable, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        </StackPanel>
+                    </TabItem>
+                </TabControl>
+            </GroupBox.Content>
+        </GroupBox>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding Path=Error}"
+                         Value="{x:Null}">
+                <Setter TargetName="PoKeysErrorIcon"
+                        Property="Visibility"
+                        Value="Hidden" />
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+</ResourceDictionary>

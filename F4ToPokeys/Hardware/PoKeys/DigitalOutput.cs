@@ -25,6 +25,21 @@ namespace F4ToPokeys
         }
         #endregion // Construction/Destruction
 
+        #region Label
+        public string Label
+        {
+            get { return label; }
+            set
+            {
+                if (label == value)
+                    return;
+                label = value;
+                RaisePropertyChanged(nameof(Label));
+            }
+        }
+        private string label;
+        #endregion // Label
+
         #region PinIdList
         [XmlIgnore]
         public static List<byte> PinIdList

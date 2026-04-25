@@ -1,0 +1,12 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:my="clr-namespace:F4ToPokeys">
+
+    <!-- Stateless converters shared across Views templates. Merged by both App.xaml
+         (so they're reachable from ad-hoc XAML) and by each Views/*Template.xaml
+         (so StaticResource lookups inside those DataTemplates resolve locally). -->
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    <my:NullToVisibilityConverter x:Key="NullToHiddenConverter" NullVisibility="Collapsed" />
+    <my:SevenSegmentDigitIndexConverter x:Key="SevenSegmentDigitIndexConverter" />
+
+</ResourceDictionary>

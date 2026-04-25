@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <DrawingImage x:Key="image_erreur">
+    <DrawingImage x:Key="image_error">
         <DrawingImage.Drawing>
 			<DrawingGroup>
 				<DrawingGroup.Children>

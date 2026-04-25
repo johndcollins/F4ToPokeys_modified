@@ -10,7 +10,7 @@
     <Grid>
         <taskbar:TaskbarIcon Name="TaskbarIcon"
                              ToolTipText="{x:Static lang:Main.ApplicationTitle}"
-                             IconSource="F4ToPokeys.ico">
+                             IconSource="Resources/F4ToPokeys.ico">
             <taskbar:TaskbarIcon.ContextMenu>
                 <ContextMenu>
                     <MenuItem Name="MenuItemConfigure"

@@ -9,8 +9,35 @@ using System.Xml.Serialization;
 
 namespace F4ToPokeys
 {
-    public class PoKeys : BindableObject, IDisposable
+    public class PoKeys : BindableObject, IDevice, IDisposable
     {
+        #region Name (user-editable)
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                if (name == value)
+                    return;
+                name = value;
+                RaisePropertyChanged(nameof(Name));
+                RaisePropertyChanged(nameof(DisplayName));
+            }
+        }
+        private string name;
+        #endregion // Name
+
+        [XmlIgnore]
+        public string DisplayName
+        {
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(name))
+                    return name;
+                return selectedPokeys?.PokeysId ?? Translations.Main.PoKeysConfigCaption;
+            }
+        }
+
         #region Construction/Destruction
 
         public PoKeys()
@@ -90,6 +117,7 @@ namespace F4ToPokeys
 
                 selectedPokeys = value;
                 RaisePropertyChanged(nameof(SelectedPokeys));
+                RaisePropertyChanged(nameof(DisplayName));
 
                 Connect();
 
@@ -221,7 +249,7 @@ namespace F4ToPokeys
 
         private void executeAddDigitalOutput(object o)
         {
-            DigitalOutput digitalOutput = new DigitalOutput();
+            DigitalOutput digitalOutput = new DigitalOutput { Label = Translations.Main.DigitalOutputConfigCaption };
             digitalOutput.setOwner(this);
             DigitalOutputList.Add(digitalOutput);
         }
@@ -405,7 +433,7 @@ namespace F4ToPokeys
 
         private void executeAddMatrixLedOutput(object o)
         {
-            MatrixLedOutput matrixLedOutput = new MatrixLedOutput();
+            MatrixLedOutput matrixLedOutput = new MatrixLedOutput { Label = Translations.Main.MatrixLedOutputConfigCaption };
             matrixLedOutput.setOwner(this);
             MatrixLedOutputList.Add(matrixLedOutput);
         }
@@ -430,7 +458,7 @@ namespace F4ToPokeys
 
         private void executeAddPoExtBusOutput(object o)
         {
-            PoExtBusOutput poExtBusOutput = new PoExtBusOutput();
+            PoExtBusOutput poExtBusOutput = new PoExtBusOutput { Label = Translations.Main.PoExtBusOutputConfigCaption };
             poExtBusOutput.setOwner(this);
             PoExtBusOutputList.Add(poExtBusOutput);
         }
@@ -550,13 +578,25 @@ namespace F4ToPokeys
             updateStatus();
 
             foreach (DigitalOutput digitalOutput in DigitalOutputList)
+            {
+                if (string.IsNullOrWhiteSpace(digitalOutput.Label))
+                    digitalOutput.Label = Translations.Main.DigitalOutputConfigCaption;
                 digitalOutput.setOwner(this);
+            }
 
             foreach (MatrixLedOutput matrixLedOutput in MatrixLedOutputList)
+            {
+                if (string.IsNullOrWhiteSpace(matrixLedOutput.Label))
+                    matrixLedOutput.Label = Translations.Main.MatrixLedOutputConfigCaption;
                 matrixLedOutput.setOwner(this);
+            }
 
             foreach (PoExtBusOutput poExtBusOutput in PoExtBusOutputList)
+            {
+                if (string.IsNullOrWhiteSpace(poExtBusOutput.Label))
+                    poExtBusOutput.Label = Translations.Main.PoExtBusOutputConfigCaption;
                 poExtBusOutput.setOwner(this);
+            }
 
             foreach (SevenSegmentDisplay sevenSegmentDisplay in SevenSegmentDisplayList)
                 sevenSegmentDisplay.setOwner(this);

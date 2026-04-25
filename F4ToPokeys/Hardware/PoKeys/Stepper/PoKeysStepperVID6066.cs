@@ -38,6 +38,9 @@ namespace F4ToPokeys
             //if (StepperList.Count > 0)
                 //DisablePulseEngine();
 
+            FalconConnector.Singleton.FalconStarted -= OnFalconFlyingStarted;
+            FalconConnector.Singleton.FalconStopped -= OnFalconFlyingStopped;
+
             foreach (PoKeysStepper stepper in StepperList)
                 stepper.Dispose();
         }

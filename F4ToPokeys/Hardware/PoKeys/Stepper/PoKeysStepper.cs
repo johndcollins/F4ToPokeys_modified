@@ -23,6 +23,7 @@ namespace F4ToPokeys
             AddAdditionalPointCommand = new RelayCommand(executeAddAdditionalPoint);
             RemoveAdditionalPointCommand = new RelayCommand(executeRemoveAdditionalPoint, canExecuteRemoveAdditionalPoint);
             HomeStepperCommand = new RelayCommand(executeHomeStepper);
+            SetStepperPositionCommand = new RelayCommand(executeSetStepperPosition, canExecuteSetStepperPosition);
 
             HomePinSwitchList = new List<int>();
             for (int i = 0; i < 54; i++)
@@ -385,6 +386,42 @@ namespace F4ToPokeys
                 return;
 
             owner.StartHomingSingle(this);
+        }
+        #endregion
+
+        #region TestStepperPosition (manual testing input)
+        [XmlIgnore]
+        public int? TestStepperPosition
+        {
+            get { return testStepperPosition; }
+            set
+            {
+                if (testStepperPosition == value)
+                    return;
+                testStepperPosition = value;
+                RaisePropertyChanged(nameof(TestStepperPosition));
+            }
+        }
+        private int? testStepperPosition = 0;
+        #endregion
+
+        #region SetStepperPositionCommand
+        [XmlIgnore]
+        public RelayCommand SetStepperPositionCommand { get; private set; }
+
+        private bool canExecuteSetStepperPosition(object o)
+        {
+            return testStepperPosition.HasValue
+                   && owner != null
+                   && StepperId.HasValue
+                   && string.IsNullOrEmpty(StepperIdError);
+        }
+
+        private void executeSetStepperPosition(object o)
+        {
+            if (!testStepperPosition.HasValue)
+                return;
+            StepperPosition = testStepperPosition.Value;
         }
         #endregion
 

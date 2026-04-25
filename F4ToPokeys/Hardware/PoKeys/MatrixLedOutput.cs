@@ -16,6 +16,21 @@ namespace F4ToPokeys
         }
         #endregion
 
+        #region Label
+        public string Label
+        {
+            get { return label; }
+            set
+            {
+                if (label == value)
+                    return;
+                label = value;
+                RaisePropertyChanged(nameof(Label));
+            }
+        }
+        private string label;
+        #endregion // Label
+
         #region MatrixLed
         [XmlIgnore]
         public MatrixLed MatrixLed
