@@ -64,7 +64,17 @@
                             </TextBlock>
                         </TabItem.Header>
                         <StackPanel Margin="0,5,0,0" TextElement.Foreground="{DynamicResource TextBrush}">
-                            <ItemsControl ItemsSource="{Binding Path=DigitalOutputList}">
+                            <StackPanel Orientation="Horizontal" Margin="{StaticResource StackedTopMargin}">
+                                <Button Content="All On"
+                                        ToolTip="Set every Digital output to ON for testing"
+                                        Command="{Binding Path=AllDigitalOutputOnCommand}" />
+                                <Button Content="All Off"
+                                        ToolTip="Set every Digital output to OFF for testing"
+                                        Margin="{StaticResource InlineLeftMargin}"
+                                        Command="{Binding Path=AllDigitalOutputOffCommand}" />
+                            </StackPanel>
+                            <ItemsControl ItemsSource="{Binding Path=DigitalOutputList}"
+                                          Margin="{StaticResource StackedTopMargin}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal"
@@ -190,6 +200,15 @@
                             </TextBlock>
                         </TabItem.Header>
                         <StackPanel Margin="0,5,0,0" TextElement.Foreground="{DynamicResource TextBrush}">
+                            <StackPanel Orientation="Horizontal" Margin="{StaticResource StackedTopMargin}">
+                                <Button Content="All On"
+                                        ToolTip="Set every Matrix LED output to ON for testing"
+                                        Command="{Binding Path=AllMatrixLedOnCommand}" />
+                                <Button Content="All Off"
+                                        ToolTip="Set every Matrix LED output to OFF for testing"
+                                        Margin="{StaticResource InlineLeftMargin}"
+                                        Command="{Binding Path=AllMatrixLedOffCommand}" />
+                            </StackPanel>
                             <ItemsControl ItemsSource="{Binding Path=MatrixLedOutputList}"
                                           Margin="{StaticResource StackedTopMargin}">
                         <ItemsControl.ItemTemplate>
@@ -288,6 +307,15 @@
                             </TextBlock>
                         </TabItem.Header>
                         <StackPanel Margin="0,5,0,0" TextElement.Foreground="{DynamicResource TextBrush}">
+                            <StackPanel Orientation="Horizontal" Margin="{StaticResource StackedTopMargin}">
+                                <Button Content="All On"
+                                        ToolTip="Set every PoExtBus output to ON for testing"
+                                        Command="{Binding Path=AllPoExtBusOnCommand}" />
+                                <Button Content="All Off"
+                                        ToolTip="Set every PoExtBus output to OFF for testing"
+                                        Margin="{StaticResource InlineLeftMargin}"
+                                        Command="{Binding Path=AllPoExtBusOffCommand}" />
+                            </StackPanel>
                             <ItemsControl ItemsSource="{Binding Path=PoExtBusOutputList}"
                                           Margin="{StaticResource StackedTopMargin}">
                         <ItemsControl.ItemTemplate>

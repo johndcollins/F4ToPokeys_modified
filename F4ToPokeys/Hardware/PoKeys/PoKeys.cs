@@ -48,7 +48,21 @@ namespace F4ToPokeys
             DisableMemorySlotOutputCommand = new RelayCommand(executeDisableMemorySlotOutput);
             AddMatrixLedOutputCommand = new RelayCommand(executeAddMatrixLedOutput);
             AddPoExtBusOutputCommand = new RelayCommand(executeAddPoExtBusOutput);
+            AllPoExtBusOnCommand = new RelayCommand(executeAllPoExtBusOn, canExecuteAllPoExtBus);
+            AllPoExtBusOffCommand = new RelayCommand(executeAllPoExtBusOff, canExecuteAllPoExtBus);
+            AllMatrixLedOnCommand = new RelayCommand(executeAllMatrixLedOn, canExecuteAllMatrixLed);
+            AllMatrixLedOffCommand = new RelayCommand(executeAllMatrixLedOff, canExecuteAllMatrixLed);
+            AllDigitalOutputOnCommand = new RelayCommand(executeAllDigitalOutputOn, canExecuteAllDigitalOutput);
+            AllDigitalOutputOffCommand = new RelayCommand(executeAllDigitalOutputOff, canExecuteAllDigitalOutput);
             AddSevenSegmentDisplayCommand = new RelayCommand(executeAddSevenSegmentDisplay);
+
+            // RelayCommand routes CanExecute through CommandManager.RequerySuggested,
+            // which doesn't fire on raw collection changes. Nudge it whenever a list
+            // gains/loses items so All On/All Off buttons enable on first add and
+            // disable when the last item is removed without needing UI focus events.
+            PoExtBusOutputList.CollectionChanged += (s, e) => System.Windows.Input.CommandManager.InvalidateRequerySuggested();
+            MatrixLedOutputList.CollectionChanged += (s, e) => System.Windows.Input.CommandManager.InvalidateRequerySuggested();
+            DigitalOutputList.CollectionChanged += (s, e) => System.Windows.Input.CommandManager.InvalidateRequerySuggested();
         }
 
         public void Dispose()
@@ -255,6 +269,31 @@ namespace F4ToPokeys
         }
         #endregion // AddDigitalOutputCommand
 
+        #region AllDigitalOutputOn / Off (testing helper: drive every Digital output high/low at once)
+        [XmlIgnore]
+        public RelayCommand AllDigitalOutputOnCommand { get; private set; }
+
+        [XmlIgnore]
+        public RelayCommand AllDigitalOutputOffCommand { get; private set; }
+
+        private bool canExecuteAllDigitalOutput(object o)
+        {
+            return DigitalOutputList.Count > 0;
+        }
+
+        private void executeAllDigitalOutputOn(object o)
+        {
+            foreach (DigitalOutput output in DigitalOutputList)
+                output.OutputState = true;
+        }
+
+        private void executeAllDigitalOutputOff(object o)
+        {
+            foreach (DigitalOutput output in DigitalOutputList)
+                output.OutputState = false;
+        }
+        #endregion
+
         //
         // Adding Pokeys Shared Memory Slot Support
         //
@@ -439,6 +478,31 @@ namespace F4ToPokeys
         }
         #endregion
 
+        #region AllMatrixLedOn / Off (testing helper: drive every Matrix LED output high/low at once)
+        [XmlIgnore]
+        public RelayCommand AllMatrixLedOnCommand { get; private set; }
+
+        [XmlIgnore]
+        public RelayCommand AllMatrixLedOffCommand { get; private set; }
+
+        private bool canExecuteAllMatrixLed(object o)
+        {
+            return MatrixLedOutputList.Count > 0;
+        }
+
+        private void executeAllMatrixLedOn(object o)
+        {
+            foreach (MatrixLedOutput output in MatrixLedOutputList)
+                output.OutputState = true;
+        }
+
+        private void executeAllMatrixLedOff(object o)
+        {
+            foreach (MatrixLedOutput output in MatrixLedOutputList)
+                output.OutputState = false;
+        }
+        #endregion
+
         #region PoExtBusOutputList
         public ObservableCollection<PoExtBusOutput> PoExtBusOutputList
         {
@@ -461,6 +525,31 @@ namespace F4ToPokeys
             PoExtBusOutput poExtBusOutput = new PoExtBusOutput { Label = Translations.Main.PoExtBusOutputConfigCaption };
             poExtBusOutput.setOwner(this);
             PoExtBusOutputList.Add(poExtBusOutput);
+        }
+        #endregion
+
+        #region AllPoExtBusOn / Off (testing helper: drive every configured PoExtBus output high/low at once)
+        [XmlIgnore]
+        public RelayCommand AllPoExtBusOnCommand { get; private set; }
+
+        [XmlIgnore]
+        public RelayCommand AllPoExtBusOffCommand { get; private set; }
+
+        private bool canExecuteAllPoExtBus(object o)
+        {
+            return PoExtBusOutputList.Count > 0;
+        }
+
+        private void executeAllPoExtBusOn(object o)
+        {
+            foreach (PoExtBusOutput output in PoExtBusOutputList)
+                output.OutputState = true;
+        }
+
+        private void executeAllPoExtBusOff(object o)
+        {
+            foreach (PoExtBusOutput output in PoExtBusOutputList)
+                output.OutputState = false;
         }
         #endregion
 
