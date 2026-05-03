@@ -149,7 +149,10 @@
                                         BorderBrush="{DynamicResource BorderBrush}"
                                         BorderThickness="1" />
                                 <ScrollViewer Margin="1"
-                                              SnapsToDevicePixels="True">
+                                              SnapsToDevicePixels="True"
+                                              VerticalScrollBarVisibility="Auto"
+                                              HorizontalScrollBarVisibility="Disabled"
+                                              CanContentScroll="False">
                                     <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained" />
                                 </ScrollViewer>
                             </Grid>
