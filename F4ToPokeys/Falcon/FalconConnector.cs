@@ -247,6 +247,7 @@ namespace F4ToPokeys
         const string auxCommPanel = "AUXCOMM";     // Beau
         const string ecm = "ECM";
         const string others = "Others";
+        const string alr93 = "ALR93";
 
         //
         // Eric's Enhancements
@@ -357,6 +358,9 @@ namespace F4ToPokeys
             addToLightList(new FalconLightBit3(cautionlightPanel, "ELEC SYS", LightBits3.Elec_Fault));
             addToLightList(new FalconLightBit3(others, "LEF FAULT", LightBits3.Lef_Fault));
 
+            addToLightList(new FalconLightBit2(alr93, "NORMAL", LightBits2.AuxSrch));
+            addToLightList(new FalconTrainingLightALR93(alr93, "TRAINING", LightBits2.AuxSrch));
+
             //
             // Added missing LightBits - Beau
             //
@@ -430,6 +434,7 @@ namespace F4ToPokeys
             addToLightList(new FalconDataBits(ecm, "ECM 3 Fault", flightdata => ((flightdata.ecmBits[2] == (int)EcmBits.ECM_UNPRESSED_ALL_LIT) || (flightdata.ecmBits[2] == (int)EcmBits.ECM_PRESSED_ALL_LIT) || (flightdata.ecmBits[2] == (int)EcmBits.ECM_PRESSED_FAIL))));
             addToLightList(new FalconDataBits(ecm, "ECM 4 Fault", flightdata => ((flightdata.ecmBits[3] == (int)EcmBits.ECM_UNPRESSED_ALL_LIT) || (flightdata.ecmBits[3] == (int)EcmBits.ECM_PRESSED_ALL_LIT) || (flightdata.ecmBits[3] == (int)EcmBits.ECM_PRESSED_FAIL))));
             addToLightList(new FalconDataBits(ecm, "ECM 5 Fault", flightdata => ((flightdata.ecmBits[4] == (int)EcmBits.ECM_UNPRESSED_ALL_LIT) || (flightdata.ecmBits[4] == (int)EcmBits.ECM_PRESSED_ALL_LIT) || (flightdata.ecmBits[4] == (int)EcmBits.ECM_PRESSED_FAIL))));
+
 
             //
             // End new Lightbits

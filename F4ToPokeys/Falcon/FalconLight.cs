@@ -1392,4 +1392,29 @@ namespace F4ToPokeys
         #endregion // getNonNullValue
     }
     #endregion  //FalconFLCSFLCC
+
+    #region FalconTrainingLightALR93
+    public class FalconTrainingLightALR93: FalconLightBit
+    {
+        #region Construction/Destruction
+
+        public FalconTrainingLightALR93(string group, string label, LightBits2 bit)
+            : base(group, label, (int)bit)
+        {
+        }
+
+        #endregion // Construction/Destruction
+
+        #region getNonNullValue
+        protected override bool getNonNullValue(FlightData flightData)
+        {
+            if (flightData == null)
+                return false;
+            else
+                return (flightData.lightBits2 & bit) == 0;
+        }
+        #endregion // getNonNullValue
+    }
+    #endregion  //FalconTrainingLightALR93
+
 }
