@@ -248,6 +248,7 @@ namespace F4ToPokeys
         const string ecm = "ECM";
         const string others = "Others";
         const string alr93 = "ALR93";
+        const string allLights = "All Lights";
 
         //
         // Eric's Enhancements
@@ -444,6 +445,11 @@ namespace F4ToPokeys
             addToLightList(new FalconLightBit3(flightControlPanel, "FLCS BIT FAIL", LightBits3.FlcsBitFail));
             addToLightList(new FalconLightBit3(rightEyebrow, "DBU ON", LightBits3.DbuWarn));
             addToLightList(new FalconLightBit3(cautionlightPanel, "C ADC", LightBits3.cadc));
+
+            addToLightList(new FalconConditionalLight(allLights, "All Lights On", flightdata => (flightdata.lightBits & (uint)LightBits.AllLampBitsOn) != 0 && (flightdata.lightBits2 & (uint)LightBits2.AllLampBits2On) != 0 && (flightdata.lightBits3 & (uint)LightBits3.AllLampBits3On) != 0));
+            addToLightList(new FalconLightBit1(allLights, "All 1 Light Bits On", LightBits.AllLampBitsOn));
+            addToLightList(new FalconLightBit2(allLights, "All 2 Light Bits On", LightBits2.AllLampBits2On));
+            addToLightList(new FalconLightBit3(allLights, "All 3 Light Bits On", LightBits3.AllLampBits3On));
 
             //
             // Real Mag Switch Enhancements - Eric

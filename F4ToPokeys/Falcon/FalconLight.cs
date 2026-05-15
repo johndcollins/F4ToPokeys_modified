@@ -1408,13 +1408,52 @@ namespace F4ToPokeys
         #region getNonNullValue
         protected override bool getNonNullValue(FlightData flightData)
         {
-            if (flightData == null)
-                return false;
-            else
-                return (flightData.lightBits2 & bit) == 0;
+            return (flightData.lightBits2 & bit) == 0;
         }
         #endregion // getNonNullValue
     }
     #endregion  //FalconTrainingLightALR93
 
+    #region FalconConditionalLight 
+
+    public class FalconConditionalLight : FalconLight
+    {
+
+        #region Construction/Destruction
+
+        public FalconConditionalLight(string group, string label, Func<FlightData, bool> getFlightDataValue)
+            : base(group, label)
+        {
+            this.getFlightDataValue = getFlightDataValue;
+        }
+
+        #endregion // Construction/Destruction
+
+        #region getFlightDataValue
+        private readonly Func<FlightData, bool> getFlightDataValue;
+        #endregion
+
+        #region OnFlightDataChanged
+        protected override void OnFlightDataChanged(object sender, FlightDataChangedEventArgs e)
+        {
+            bool? oldValue = getValue(e.oldFlightData);
+            bool? newValue = getValue(e.newFlightData);
+            if (oldValue != null && newValue != null)
+            {
+                raiseFalconLightChanged(oldValue, newValue);
+            }
+        }
+        #endregion
+
+        #region getValue
+        private bool? getValue(FlightData flightData)
+        {
+            if (flightData == null)
+                return null;
+            else
+                return getFlightDataValue(flightData);
+        }
+        #endregion
+    }
+    #endregion // FalconTWPOpenLight
 }
