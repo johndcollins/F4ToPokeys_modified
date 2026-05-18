@@ -1197,6 +1197,8 @@ namespace F4ToPokeys
 
         private bool newAuxPwrOn = false;
         private bool oldAuxPwrOn = false;
+        private bool newAllOn = false;
+        private bool oldAllOn = false;
 
         public FalconTWPOpenLight(string group, string label, Func<FlightData, bool> getFlightDataValue)
             : base(group, label)
@@ -1219,6 +1221,14 @@ namespace F4ToPokeys
             {
                 newAuxPwrOn = ((e.newFlightData.lightBits2 & (int)LightBits2.AuxPwr) != 0);
                 oldAuxPwrOn = ((e.oldFlightData.lightBits2 & (int)LightBits2.AuxPwr) != 0);
+                newAllOn = (e.newFlightData.lightBits2 & (uint)LightBits2.AllLampBits2On) == (uint)LightBits2.AllLampBits2On;
+                oldAllOn = (e.oldFlightData.lightBits2 & (uint)LightBits2.AllLampBits2On) == (uint)LightBits2.AllLampBits2On;
+
+                if (newAllOn || oldAllOn)
+                {
+                    raiseFalconLightChanged(oldAllOn, newAllOn);
+                    return;
+                }
 
                 if (newAuxPwrOn)   // Only Flip-Flop OPEN Light if RWR is On.
                 {
@@ -1408,7 +1418,28 @@ namespace F4ToPokeys
         #region getNonNullValue
         protected override bool getNonNullValue(FlightData flightData)
         {
-            return (flightData.lightBits2 & bit) == 0;
+            return ((((flightData.lightBits2 & bit) == 0) && flightData.IntellivibeData.In3D) || ((flightData.lightBits2 & (uint)LightBits2.AllLampBits2On) == (uint)LightBits2.AllLampBits2On));
+        }
+        #endregion // getNonNullValue
+    }
+    #endregion  //FalconTrainingLightALR93
+
+    #region FalconTrainingLightALR93
+    public class FalconNormalLightALR93 : FalconLightBit
+    {
+        #region Construction/Destruction
+
+        public FalconNormalLightALR93(string group, string label, LightBits2 bit)
+            : base(group, label, (int)bit)
+        {
+        }
+
+        #endregion // Construction/Destruction
+
+        #region getNonNullValue
+        protected override bool getNonNullValue(FlightData flightData)
+        {
+            return ((((flightData.lightBits2 & bit) != 0) && flightData.IntellivibeData.In3D)  || ((flightData.lightBits2 & (uint)LightBits2.AllLampBits2On) == (uint)LightBits2.AllLampBits2On));
         }
         #endregion // getNonNullValue
     }

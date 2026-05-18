@@ -359,7 +359,7 @@ namespace F4ToPokeys
             addToLightList(new FalconLightBit3(cautionlightPanel, "ELEC SYS", LightBits3.Elec_Fault));
             addToLightList(new FalconLightBit3(others, "LEF FAULT", LightBits3.Lef_Fault));
 
-            addToLightList(new FalconLightBit2(alr93, "NORMAL", LightBits2.AuxSrch));
+            addToLightList(new FalconNormalLightALR93(alr93, "NORMAL", LightBits2.AuxSrch));
             addToLightList(new FalconTrainingLightALR93(alr93, "TRAINING", LightBits2.AuxSrch));
 
             //
