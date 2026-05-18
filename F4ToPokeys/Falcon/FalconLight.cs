@@ -1418,7 +1418,13 @@ namespace F4ToPokeys
         #region getNonNullValue
         protected override bool getNonNullValue(FlightData flightData)
         {
-            return ((((flightData.lightBits2 & bit) == 0) && flightData.IntellivibeData.In3D) || ((flightData.lightBits2 & (uint)LightBits2.AllLampBits2On) == (uint)LightBits2.AllLampBits2On));
+            bool in3D = flightData.IntellivibeData.In3D;
+            bool auxPwrOn = (flightData.lightBits2 & (int)LightBits2.AuxPwr) != 0;
+            bool allLightsOn = ((flightData.lightBits2 & (uint)LightBits2.AllLampBits2On) == (uint)LightBits2.AllLampBits2On);
+            if (!auxPwrOn)
+                return false;
+
+            return ((((flightData.lightBits2 & bit) == 0) && in3D) || allLightsOn);
         }
         #endregion // getNonNullValue
     }
@@ -1439,7 +1445,14 @@ namespace F4ToPokeys
         #region getNonNullValue
         protected override bool getNonNullValue(FlightData flightData)
         {
-            return ((((flightData.lightBits2 & bit) != 0) && flightData.IntellivibeData.In3D)  || ((flightData.lightBits2 & (uint)LightBits2.AllLampBits2On) == (uint)LightBits2.AllLampBits2On));
+            bool in3D = flightData.IntellivibeData.In3D;
+            bool auxPwrOn = (flightData.lightBits2 & (int)LightBits2.AuxPwr) != 0;
+            bool allLightsOn = ((flightData.lightBits2 & (uint)LightBits2.AllLampBits2On) == (uint)LightBits2.AllLampBits2On);
+            if (!auxPwrOn)
+                return false;
+
+            return ((((flightData.lightBits2 & bit) != 0) && in3D)  || allLightsOn);
+
         }
         #endregion // getNonNullValue
     }
