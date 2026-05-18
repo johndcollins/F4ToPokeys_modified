@@ -762,6 +762,119 @@ namespace F4ToPokeys
     }
     #endregion // FalconBlinkingLamp
 
+    #region FalconBlinkingLamp
+    //
+    // Original code by Eric. Modified by Beau
+    //  - Provides functionality for Lights that can both be on steady or blink depending on F4Shared Memory BlinkBits.
+    //
+
+    public class FalconJFSBlinkingLamp : FalconLight
+    {
+        // The lamp can be in one of four modes, derived from a snapshot of three inputs:
+        //   LightBits2.JFSOn    — base "JFS lit" bit
+        //   BlinkBits.JFSOn_Slow — request slow blink
+        //   BlinkBits.JFSOn_Fast — request fast blink
+        // Mode transitions are computed on every FlightDataChanged tick, so a switch
+        // from solid → slow → fast → off in any order is handled deterministically.
+        private enum Mode { Off, Solid, SlowBlink, FastBlink }
+
+        private Mode currentMode = Mode.Off;
+        private bool lampLit = false;          // What we last told subscribers (true = lamp visibly on)
+
+        private readonly DispatcherTimer slowTimer;
+        private readonly DispatcherTimer fastTimer;
+
+        #region Construction/Destruction
+
+        public FalconJFSBlinkingLamp(string group, string label, double slowRateMs, double fastRateMs)
+            : base(group, label)
+        {
+            slowTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(slowRateMs) };
+            slowTimer.Tick += (s, e) => toggleLamp();
+
+            fastTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(fastRateMs) };
+            fastTimer.Tick += (s, e) => toggleLamp();
+        }
+
+        #endregion // Construction/Destruction
+
+        #region OnFlightDataChanged
+        protected override void OnFlightDataChanged(object sender, FlightDataChangedEventArgs e)
+        {
+            Mode newMode = computeMode(e.newFlightData);
+            if (newMode == currentMode)
+                return;
+
+            // Stop whichever timer was running (if any).
+            slowTimer.Stop();
+            fastTimer.Stop();
+            currentMode = newMode;
+
+            switch (newMode)
+            {
+                case Mode.Off:
+                    setLamp(false);
+                    break;
+
+                case Mode.Solid:
+                    setLamp(true);
+                    break;
+
+                case Mode.SlowBlink:
+                    // Begin blink cycle on the "lit" half so the change is immediately visible.
+                    setLamp(true);
+                    slowTimer.Start();
+                    break;
+
+                case Mode.FastBlink:
+                    setLamp(true);
+                    fastTimer.Start();
+                    break;
+            }
+        }
+
+        private static Mode computeMode(FlightData flightData)
+        {
+            if (flightData == null)
+                return Mode.Off;
+
+            bool lightOn = (flightData.lightBits2 & (int)LightBits2.JFSOn) != 0;
+            if (!lightOn)
+                return Mode.Off;
+
+            // Fast wins over slow if both are somehow asserted simultaneously.
+            bool fast = (flightData.blinkBits & (int)BlinkBits.JFSOn_Fast) != 0;
+            if (fast)
+                return Mode.FastBlink;
+
+            bool slow = (flightData.blinkBits & (int)BlinkBits.JFSOn_Slow) != 0;
+            if (slow)
+                return Mode.SlowBlink;
+
+            return Mode.Solid;
+        }
+        #endregion
+
+        #region Lamp output
+
+        private void setLamp(bool lit)
+        {
+            if (lampLit == lit)
+                return;
+            bool oldLit = lampLit;
+            lampLit = lit;
+            raiseFalconLightChanged(oldLit, lit);
+        }
+
+        private void toggleLamp()
+        {
+            setLamp(!lampLit);
+        }
+
+        #endregion
+    }
+    #endregion // FalconBlinkingLamp
+
     #region FalconRPMOver65Percent
     //
     // Detects when Engine RPM is over 65 percent.

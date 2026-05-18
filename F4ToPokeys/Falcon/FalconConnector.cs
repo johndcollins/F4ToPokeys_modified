@@ -337,6 +337,7 @@ namespace F4ToPokeys
             addToLightList(new FalconLightBit2(cautionlightPanel, "AFT FUEL LOW", LightBits2.AftFuelLow));
             addToLightList(new FalconLightBit2(epuPanel, "EPU ON", LightBits2.EPUOn));
             addToLightList(new FalconLightBit2(enginePanel, "JFS RUN", LightBits2.JFSOn));
+            addToLightList(new FalconJFSBlinkingLamp(enginePanel, "JFS RUN (BLINKING)", 750, 500));
             addToLightList(new FalconLightBit2(cautionlightPanel, "SEC", LightBits2.SEC));
             addToLightList(new FalconLightBit2(cautionlightPanel, "OXY LOW (Caution)", LightBits2.OXY_LOW));
             addToLightList(new FalconLightBit2(cautionlightPanel, "SEAT ARM", LightBits2.SEAT_ARM));
